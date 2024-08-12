@@ -1,24 +1,56 @@
-use yew::prelude::*;
+use yew::{function_component, html, Html};
+use yew_router::{BrowserRouter, Routable, Switch};
 
-#[function_component]
-fn App() -> Html {
-    let counter = use_state(|| 0);
-    let onclick = {
-        let counter = counter.clone();
-        move |_| {
-            let value = *counter + 1;
-            counter.set(value);
-        }
-    };
+mod components;
+use components::home::Home;
 
-    html! {
-        <div>
-            <button {onclick} class="text-3xl text-red-400 hover:text-yellow-400">{ "+1" }</button>
-            <p class="text-sm">{ *counter }</p>
-        </div>
-    }
+#[derive(PartialEq, Clone, Routable)]
+enum Route {
+    #[at("/")]
+    Home,
+    #[at("/hello")]
+    Hello,
+    #[at("/world")]
+    World,
 }
 
 fn main() {
     yew::Renderer::<App>::new().render();
+}
+
+#[function_component(App)]
+fn app() -> Html {
+    html!(
+        <>
+            <BrowserRouter>
+                <Switch<Route> render = {switch} />
+            </BrowserRouter>
+        </>
+    )
+}
+
+#[function_component(Hello)]
+fn hello() -> Html {
+    html!(
+        <>
+            <h1>{"Hello"}</h1>
+        </>
+    )
+}
+
+#[function_component(World)]
+fn world() -> Html {
+    html!(
+        <>
+            <h1>{"World"}</h1>
+        </>
+    )
+}
+
+fn switch(routes: Route) -> Html {
+    match routes {
+        Route::Home => html!(<Home />),
+        Route::Hello => html!(<Hello />),
+        Route::World => html!(<World />),
+    }
 }

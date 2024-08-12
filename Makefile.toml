@@ -1,5 +1,0 @@
-[tasks.start]
-script = [
-  "./tailwindcss -i styles/input.css -o styles/output.css",
-  "trunk serve --open"
-]
