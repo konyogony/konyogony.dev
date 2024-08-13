@@ -1,9 +1,11 @@
 [package]
-name = "tailwind-yew"
+name = "kony-web"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-yew = { git = "https://github.com/yewstack/yew/", features = ["csr"] }
+yew = "0.21"
 web-sys = "0.3"
-yew-router = { git = "https://github.com/yewstack/yew.git" }
+yew-router = "0.18"
+yew_icons = {version = "0.8", features = ["BootstrapDiscord", "BootstrapGithub"]}
+wasm-bindgen = "0.2.87"

@@ -1,7 +1,9 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::components::{discord::Discord, home::Home, layout::Layout, notfound::NotFound};
+use crate::components::{
+    discord::Discord, home::Home, layout::Layout, notesapp::NotesApp, notfound::NotFound,
+};
 
 #[derive(PartialEq, Clone, Routable)]
 pub enum Route {
@@ -9,6 +11,8 @@ pub enum Route {
     Home,
     #[at("/discord-bot")]
     Discord,
+    #[at("/notes-app")]
+    NotesApp,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -29,6 +33,7 @@ pub fn switch(routes: Route) -> Html {
     match routes {
         Route::Home => html!(<Layout><Home /></Layout>),
         Route::Discord => html!(<Layout><Discord /></Layout>),
+        Route::NotesApp => html!(<Layout><NotesApp /></Layout>),
         Route::NotFound => html!(<Layout><NotFound /></Layout>),
     }
 }
