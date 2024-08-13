@@ -1,3 +1,4 @@
+pub mod about;
 pub mod discord;
 pub mod home;
 pub mod layout;

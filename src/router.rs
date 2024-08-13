@@ -2,7 +2,8 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::components::{
-    discord::Discord, home::Home, layout::Layout, notesapp::NotesApp, notfound::NotFound,
+    about::About, discord::Discord, home::Home, layout::Layout, notesapp::NotesApp,
+    notfound::NotFound,
 };
 
 #[derive(PartialEq, Clone, Routable)]
@@ -13,6 +14,8 @@ pub enum Route {
     Discord,
     #[at("/notes-app")]
     NotesApp,
+    #[at("/about")]
+    About,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -23,7 +26,9 @@ pub fn app() -> Html {
     html!(
         <>
             <BrowserRouter>
-                <Switch<Route> render = {switch} />
+                <Layout>
+                    <Switch<Route> render = {switch} />
+                </Layout>
             </BrowserRouter>
         </>
     )
@@ -31,9 +36,10 @@ pub fn app() -> Html {
 
 pub fn switch(routes: Route) -> Html {
     match routes {
-        Route::Home => html!(<Layout><Home /></Layout>),
-        Route::Discord => html!(<Layout><Discord /></Layout>),
-        Route::NotesApp => html!(<Layout><NotesApp /></Layout>),
-        Route::NotFound => html!(<Layout><NotFound /></Layout>),
+        Route::Home => html!(<Home />),
+        Route::Discord => html!(<Discord />),
+        Route::NotesApp => html!(<NotesApp />),
+        Route::About => html!(<About />),
+        Route::NotFound => html!(<NotFound />),
     }
 }

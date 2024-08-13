@@ -1,15 +1,13 @@
 use wasm_bindgen::{prelude::*, JsCast};
 use web_sys::{Event, HtmlElement, Node};
-use yew::{function_component, html, use_effect, use_state, Callback, Html, MouseEvent};
+use yew::{classes, function_component, html, use_effect, use_state, Callback, Html, MouseEvent};
 use yew_icons::{Icon, IconId};
-use yew_router::hooks::{use_navigator, use_route};
 
-use crate::{router::Route, utils::openlink::open_link};
+use crate::components::navbar::nav_items::{DiscordNav, HomeNav, NotesNav, TitleHome};
+use crate::utils::openlink::open_link;
 
 #[function_component(Navbar)]
 pub fn navbar() -> Html {
-    let current_route = use_route::<Route>();
-    let navigator = use_navigator().unwrap();
     let is_open = use_state(|| false);
 
     let onclick: Callback<MouseEvent> = {
@@ -27,7 +25,6 @@ pub fn navbar() -> Html {
 
                 if let Some(dropdown) = document.query_selector(".dropdown-menu").unwrap() {
                     let dropdown: Node = dropdown.dyn_into().unwrap();
-
                     if !dropdown.contains(Some(&target)) {
                         is_open.set(false);
                     }
@@ -49,64 +46,30 @@ pub fn navbar() -> Html {
         });
     }
 
-    let title_home = {
-        let navigator = navigator.clone();
-        let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::Home));
-        html! {
-            <button {onclick} class="flex text-[22px] tracking-tighter font-bold flex-row gap-1 items-center">
-                {"konyogony.dev"}
-            </button>
-        }
-    };
-
-    let home_nav = {
-        let navigator = navigator.clone();
-        let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::Home));
-        let class = if matches!(current_route, Some(Route::Home)) {
-            "text-blue-600"
-        } else {
-            "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
-        };
-        html! { <button {onclick} class={class}>{"Home"}</button> }
-    };
-
-    let discord_nav = {
-        let navigator = navigator.clone();
-        let onclick: Callback<MouseEvent> =
-            Callback::from(move |_| navigator.push(&Route::Discord));
-        let class = if matches!(current_route, Some(Route::Discord)) {
-            "text-blue-600"
-        } else {
-            "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
-        };
-        html! { <button {onclick} class={class.to_owned() + " text-center w-full h-full"}>{"Discord"}</button> }
-    };
-
-    let notes_nav = {
-        let navigator = navigator.clone();
-        let onclick: Callback<MouseEvent> =
-            Callback::from(move |_| navigator.push(&Route::NotesApp));
-        let class = if matches!(current_route, Some(Route::NotesApp)) {
-            "text-blue-600"
-        } else {
-            "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
-        };
-        html! { <button {onclick} class={class.to_owned() + " text-center w-full h-full"}>{"Notes"}</button> }
+    let close_dropdown: Callback<MouseEvent> = {
+        let is_open = is_open.clone();
+        Callback::from(move |e: MouseEvent| {
+            e.stop_propagation();
+            is_open.set(false);
+        })
     };
 
     html! {
         <div class="w-full bg-gray-500/15 flex z-40 flex-row items-center px-[24rem] py-4 gap-1 backdrop-blur-lg border-b border-white/5 sticky top-0">
-            {title_home}
+            <TitleHome />
             <div class="ml-auto flex flex-row gap-8 items-center text-base font-semibold">
-                {home_nav}
+                <HomeNav />
                 <div class="relative dropdown-menu">
-                    <button {onclick}>{"Projects"}</button>
+                    <button {onclick} class="cursor-pointer hover:text-blue-500/80 transition-all duration-150 flex flex-row gap-1 items-center">
+                        <span>{"Projects"}</span>
+                        <Icon icon_id={IconId::FeatherChevronDown} class={classes!("size-4", "transition-transform", "duration-150", if *is_open { "rotate-180" } else { "rotate-0" })} />
+                    </button>
                     {
                         if *is_open {
                             html! {
-                                <div class="absolute z-20 left-1/2 -translate-x-1/2 mt-2 gap-2 min-w-24 bg-gray-500/15 p-2 rounded-md backdrop-blur-xl grid grid-cols-1 border border-white/5">
-                                    {discord_nav}
-                                    {notes_nav}
+                                <div class="absolute z-20 left-1/2 -translate-x-1/2 mt-2 gap-2 min-w-24 bg-gray-700/75 p-2 rounded-md backdrop-blur-xl grid grid-cols-1 border border-white/5">
+                                    <div onclick={close_dropdown.clone()}><DiscordNav /></div>
+                                    <div onclick={close_dropdown.clone()}><NotesNav /></div>
                                 </div>
                             }
                         } else {

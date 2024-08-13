@@ -1,4 +1,4 @@
-use crate::components::navbar::Navbar;
+use crate::components::navbar::navbar::Navbar;
 use yew::{function_component, html, Html, Properties};
 
 #[derive(Properties, Clone, PartialEq)]
