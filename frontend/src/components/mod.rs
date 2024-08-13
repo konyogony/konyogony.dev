@@ -6,3 +6,4 @@ pub mod login;
 pub mod navbar;
 pub mod notesapp;
 pub mod notfound;
+pub mod statusa;

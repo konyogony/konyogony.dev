@@ -1,8 +1,10 @@
 mod router;
-use router::App;
+
+use router::MyApplication;
+mod auth_context;
 mod components;
 mod utils;
 
 fn main() {
-    yew::Renderer::<App>::new().render();
+    yew::Renderer::<MyApplication>::new().render();
 }
