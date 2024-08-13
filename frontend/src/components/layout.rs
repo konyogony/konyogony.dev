@@ -10,10 +10,10 @@ pub struct LayoutProps {
 pub fn layout(props: &LayoutProps) -> Html {
     let LayoutProps { children } = props;
 
-    html! {
+    html! (
         <div class="h-screen w-full flex flex-col gap-0 m-0">
             <Navbar />
             {children.clone()}
         </div>
-    }
+    )
 }

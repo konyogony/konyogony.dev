@@ -54,7 +54,9 @@ pub fn navbar() -> Html {
         })
     };
 
-    html! {
+    // class="flex h-fit w-fit items-center rounded-lg border border-white/5 px-5 py-1.5 text-base font-normal bg-gray-600 hover:bg-gray-500"
+
+    html!(
         <div class="w-full bg-gray-500/15 flex z-40 flex-row items-center px-[24rem] py-4 gap-1 backdrop-blur-lg border-b border-white/5 sticky top-0">
             <TitleHome />
             <div class="ml-auto flex flex-row gap-8 items-center text-base font-semibold">
@@ -82,5 +84,5 @@ pub fn navbar() -> Html {
                 <Icon icon_id={IconId::BootstrapGithub} onclick={Callback::from(|_: MouseEvent| {open_link("https://github.com/kony-ogony")})} class="cursor-pointer hover:text-blue-500/80 transition-all duration-150"/>
             </div>
         </div>
-    }
+    )
 }
