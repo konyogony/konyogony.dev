@@ -1,7 +1,7 @@
 use yew::{function_component, html, Callback, Html, MouseEvent};
 use yew_router::hooks::use_navigator;
 
-use crate::Route;
+use crate::router::Route;
 
 #[function_component(NotFound)]
 pub fn notfound() -> Html {
