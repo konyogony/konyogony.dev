@@ -10,13 +10,11 @@ use crate::utils::openlink::open_link;
 pub fn navbar() -> Html {
     let is_open = use_state(|| false);
 
-    // Toggle the dropdown menu
     let toggle_dropdown: Callback<MouseEvent> = {
         let is_open = is_open.clone();
         Callback::from(move |_| is_open.set(!*is_open))
     };
 
-    // Handle clicks outside of the dropdown to close it
     {
         let is_open = is_open.clone();
         use_effect(move || {
@@ -43,7 +41,6 @@ pub fn navbar() -> Html {
                 .add_event_listener_with_callback("click", on_click.as_ref().unchecked_ref())
                 .expect("Failed to add event listener");
 
-            // Cleanup function to remove event listener
             move || {
                 window
                     .remove_event_listener_with_callback("click", on_click.as_ref().unchecked_ref())
@@ -52,7 +49,6 @@ pub fn navbar() -> Html {
         });
     }
 
-    // Close dropdown menu when an item is clicked
     let close_dropdown: Callback<MouseEvent> = {
         let is_open = is_open.clone();
         Callback::from(move |e: MouseEvent| {
