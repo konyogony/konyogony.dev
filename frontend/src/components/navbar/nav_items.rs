@@ -19,9 +19,9 @@ pub fn home_nav() -> Html {
     let navigator = use_navigator().unwrap();
     let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::Home));
     let class = if matches!(current_route, Some(Route::Home)) {
-        "text-blue-600"
+        "text-blue-700"
     } else {
-        "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
+        "text-gray-200 hover:text-blue-600 transition-all duration-150"
     };
     html! ( <button {onclick} class={class}>{"Home"}</button> )
 }
@@ -32,9 +32,9 @@ pub fn about_nav() -> Html {
     let navigator = use_navigator().unwrap();
     let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::Home));
     let class = if matches!(current_route, Some(Route::Home)) {
-        "text-blue-600"
+        "text-blue-700"
     } else {
-        "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
+        "text-gray-200 hover:text-blue-600 transition-all duration-150"
     };
     html! ( <button {onclick} class={class}>{"Home"}</button> )
 }
@@ -45,9 +45,9 @@ pub fn discord_nav() -> Html {
     let navigator = use_navigator().unwrap();
     let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::Discord));
     let class = if matches!(current_route, Some(Route::Discord)) {
-        "text-blue-600"
+        "text-blue-700"
     } else {
-        "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
+        "text-gray-200 hover:text-blue-600 transition-all duration-150"
     };
     html! ( <button {onclick} class={class.to_owned() + " text-center w-full h-full"}>{"Discord"}</button> )
 }
@@ -58,9 +58,9 @@ pub fn notes_nav() -> Html {
     let navigator = use_navigator().unwrap();
     let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::NotesApp));
     let class = if matches!(current_route, Some(Route::NotesApp)) {
-        "text-blue-600"
+        "text-blue-700"
     } else {
-        "text-gray-200 hover:text-blue-500/80 transition-all duration-150"
+        "text-gray-200 hover:text-blue-600 transition-all duration-150"
     };
     html! ( <button {onclick} class={class.to_owned() + " text-center w-full h-full"}>{"Notes"}</button> )
 }

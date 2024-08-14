@@ -1,1 +1,2 @@
-surreal start -u root -p root
+surreal start -u root -p root &
+cargo run
