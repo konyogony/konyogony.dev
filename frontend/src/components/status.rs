@@ -12,9 +12,18 @@ pub fn home() -> Html {
     } else {
         "Logged Out"
     };
+
+    let access_token = auth_context
+        .context
+        .access_token
+        .as_ref()
+        .map(|token| token.to_string())
+        .unwrap_or("No token".to_string());
+
     html!(
         <div class="h-full w-full bg-gray-700 flex flex-col justify-center items-center">
             <h1>{ status }</h1>
+            <h2>{ access_token }</h2>
             <Link<Route> to={Route::Login}>{ "login page" }</Link<Route>>
         </div>
     )

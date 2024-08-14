@@ -1,14 +1,23 @@
 use gloo::net::http::Request;
 use serde_json::Value;
+use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::spawn_local;
+use web_sys::window;
 use yew::prelude::*;
+
+#[wasm_bindgen(module = "/js/cookies.js")]
+extern "C" {
+    fn setCookie(name: &str, value: &str, days: i32);
+    fn getCookie(name: &str) -> JsValue;
+    fn eraseCookie(name: &str);
+}
 
 #[derive(Clone, PartialEq)]
 pub struct AuthContext {
     pub is_authenticated: UseStateHandle<bool>,
     pub login: Callback<MouseEvent>,
     pub logout: Callback<MouseEvent>,
-    pub access_token: UseStateHandle<Option<String>>,
+    pub access_token: UseStateHandle<Option<String>>, // Ensure this is Option<String>
 }
 
 #[derive(Clone, PartialEq)]
@@ -21,7 +30,7 @@ impl AuthContextProvider {
         is_authenticated: UseStateHandle<bool>,
         login: Callback<MouseEvent>,
         logout: Callback<MouseEvent>,
-        access_token: UseStateHandle<Option<String>>,
+        access_token: UseStateHandle<Option<String>>, // Ensure this is Option<String>
     ) -> Self {
         Self {
             context: AuthContext {
@@ -34,85 +43,130 @@ impl AuthContextProvider {
     }
 }
 
+#[derive(Properties, PartialEq)]
+pub struct Props {
+    pub children: Html,
+}
+
 #[function_component(AuthContextProviderComponent)]
 pub fn auth_provider(props: &Props) -> Html {
-    let is_authenticated = use_state(|| false);
-    let access_token = use_state(|| None);
+    let is_authenticated = use_state(|| {
+        let cookie_value = getCookie("is_authenticated");
+        cookie_value
+            .as_string()
+            .unwrap_or_else(|| "false".to_string())
+            == "true"
+    });
 
-    let login = {
-        Callback::from(move |_event: MouseEvent| {
+    let access_token = use_state(|| {
+        let cookie_value = getCookie("access_token");
+        cookie_value.as_string().map_or(None, |v| Some(v))
+    });
+
+    let login: Callback<MouseEvent> = {
+        Callback::from(move |_| {
             let client_id = "Ov23ctbBV9xqBs2EruxY";
-            let redirect_uri = "http://localhost:5000/oauth/github";
             let auth_url = format!(
-                "https://github.com/login/oauth/authorize?client_id={}&redirect_uri={}",
-                client_id, redirect_uri
+                "https://github.com/login/oauth/authorize?client_id={}",
+                client_id
             );
-            if let Err(e) = web_sys::window().unwrap().location().set_href(&auth_url) {
+            if let Err(e) = window().unwrap().location().set_href(&auth_url) {
                 web_sys::console::error_1(&format!("Failed to redirect: {:?}", e).into());
             }
         })
     };
 
-    let logout = {
+    let logout: Callback<MouseEvent> = {
         let is_authenticated = is_authenticated.clone();
         let access_token = access_token.clone();
-        Callback::from(move |_event: MouseEvent| {
+        Callback::from(move |_| {
             is_authenticated.set(false);
             access_token.set(None);
+            eraseCookie("is_authenticated");
+            eraseCookie("access_token");
         })
     };
 
-    // Handle the OAuth2 callback
     {
         let is_authenticated = is_authenticated.clone();
         let access_token = access_token.clone();
-        let url = web_sys::window().unwrap().location().href().unwrap();
-        if url.contains("code=") {
-            let code = url.split("code=").nth(1).unwrap_or("");
-            let token_url = format!("http://localhost:5000/oauth/github?code={}", code);
+        let has_processed = use_state(|| false);
 
-            let fetch_token = async move {
-                match Request::get(&token_url).send().await {
-                    Ok(response) => {
-                        if response.status() == 200 {
-                            match response.json::<Value>().await {
-                                Ok(response_json) => {
-                                    if let Some(token) = response_json.get("access_token") {
-                                        access_token.set(Some(token.as_str().unwrap().to_string()));
-                                        is_authenticated.set(true);
-                                        web_sys::window()
-                                            .unwrap()
-                                            .location()
-                                            .set_href("/")
-                                            .unwrap();
-                                    } else {
-                                        log::error!("Access token not found in response");
-                                    }
-                                }
-                                Err(e) => log::error!("Failed to parse JSON response: {:?}", e),
+        use_effect(move || {
+            let path = window().unwrap().location().pathname().unwrap();
+
+            if path == "/oauth/github" && !*has_processed {
+                let url = window().unwrap().location().href().unwrap();
+                if url.contains("?code=") {
+                    let code = url.split("?code=").nth(1).unwrap_or("");
+                    let token_url = format!("http://127.0.0.1:5001/getAccessToken/?code={}", code);
+                    let fetch_token = {
+                        let access_token = access_token.clone();
+                        let is_authenticated = is_authenticated.clone();
+                        async move {
+                            if let Some(token) = fetch_access_token(&token_url).await {
+                                access_token.set(Some(token.clone()));
+                                is_authenticated.set(true);
+                                setCookie("is_authenticated", "true", 7);
+                                setCookie("access_token", &token, 7);
+                                redirect_to("/");
                             }
-                        } else {
-                            log::error!("Failed to fetch token, status: {}", response.status());
                         }
-                    }
-                    Err(e) => log::error!("Failed to fetch token: {:?}", e),
+                    };
+                    spawn_local(fetch_token);
+                    has_processed.set(true);
                 }
-            };
-            spawn_local(fetch_token);
-        }
+            }
+            || ()
+        });
     }
 
-    let auth_context = AuthContextProvider::new(is_authenticated, login, logout, access_token);
-
     html!(
-        <ContextProvider<AuthContextProvider> context={auth_context}>
-            { for props.children.iter() }
+        <ContextProvider<AuthContextProvider> context={AuthContextProvider::new(is_authenticated, login, logout, access_token)}>
+            { props.children.clone() }
         </ContextProvider<AuthContextProvider>>
     )
 }
 
-#[derive(Properties, PartialEq)]
-pub struct Props {
-    #[prop_or_default]
-    pub children: Children,
+async fn fetch_access_token(url: &str) -> Option<String> {
+    match Request::get(url).send().await {
+        Ok(response) => {
+            if response.status() != 200 {
+                log_error(format!(
+                    "Failed to fetch token, status: {}",
+                    response.status()
+                ));
+                return None;
+            }
+            match response.json::<Value>().await {
+                Ok(response_json) => {
+                    if let Some(token) = response_json.get("access_token").and_then(|v| v.as_str())
+                    {
+                        Some(token.to_string())
+                    } else {
+                        log_error("Access token not found in response".to_string());
+                        None
+                    }
+                }
+                Err(e) => {
+                    log_error(format!("Failed to parse JSON response: {:?}", e));
+                    None
+                }
+            }
+        }
+        Err(e) => {
+            log_error(format!("Failed to fetch token: {:?}", e));
+            None
+        }
+    }
+}
+
+fn log_error(message: String) {
+    log::error!("{}", message);
+}
+
+fn redirect_to(url: &str) {
+    if let Err(e) = window().unwrap().location().set_href(url) {
+        log_error(format!("Failed to redirect: {:?}", e));
+    }
 }

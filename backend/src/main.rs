@@ -1,4 +1,4 @@
-use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -9,6 +9,11 @@ struct OAuthRequest {
     code: String,
 }
 
+#[derive(Deserialize)]
+struct UserDataRequest {
+    access_token: String,
+}
+
 #[derive(Serialize, Deserialize)]
 struct AccessTokenResponse {
     access_token: String,
@@ -16,7 +21,37 @@ struct AccessTokenResponse {
     scope: Option<String>,
 }
 
-#[post("/oauth/github")]
+#[derive(Serialize, Deserialize)]
+struct UserDataResponese {}
+
+#[post("/getUserData")]
+async fn get_user_data(data: web::Query<UserDataRequest>) -> impl Responder {
+    let client = Client::new();
+
+    let access_token = &data.access_token;
+
+    let response = client
+        .get("https://api.github.com/user")
+        .header("Accept", "application/json")
+        .header("Authorization", format!("Bearer {}", access_token))
+        .send()
+        .await;
+
+    match response {
+        Ok(response) => {
+            if let Ok(data) = response.json::<UserDataResponese>().await {
+                HttpResponse::Ok().json(data)
+            } else {
+                HttpResponse::BadRequest().body("Failed to parse user dta response")
+            }
+        }
+        Err(e) => {
+            HttpResponse::InternalServerError().body(format!("Failed to fetch user data: {:?}", e))
+        }
+    }
+}
+
+#[get("/getAccessToken/")]
 async fn github_oauth(oauth_request: web::Query<OAuthRequest>) -> impl Responder {
     let client = Client::new();
     let github_client_id = env::var("GITHUB_CLIENT_ID").expect("GITHUB_CLIENT_ID not set");
@@ -57,7 +92,7 @@ use env_logger;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-    env_logger::init(); // Initialize the logger
+    env_logger::init();
 
     HttpServer::new(|| {
         App::new()

@@ -1,7 +1,7 @@
 use crate::auth_context::{AuthContextProvider, AuthContextProviderComponent};
 use crate::components::{
     about::About, discord::Discord, home::Home, layout::Layout, login::Login, notesapp::NotesApp,
-    notfound::NotFound, statusa::Status,
+    notfound::NotFound, status::Status,
 };
 use yew::prelude::*;
 use yew_router::prelude::*;
