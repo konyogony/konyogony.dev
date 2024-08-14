@@ -1,8 +1,8 @@
 use crate::auth_context::{AuthContextProvider, AuthContextProviderComponent};
 use crate::components::{
     about::About, discord::Discord, home::Home, layout::Layout, login::Login,
-    login_fail::LoginFail, login_success::LoginSuccess, notesapp::NotesApp, notfound::NotFound,
-    wait::Wait,
+    login_fail::LoginFail, login_success::LoginSuccess, logout::Logout, notesapp::NotesApp,
+    notfound::NotFound, wait::Wait,
 };
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -21,6 +21,8 @@ pub enum Route {
     About,
     #[at("/login")]
     Login,
+    #[at("/logout")]
+    Logout,
     #[at("/login/success")]
     LoginSuccess,
     #[at("/login/fail")]
@@ -49,11 +51,30 @@ fn switch(routes: Route) -> Html {
         Route::Discord => html!(<ProtectedRoute component={html!(<Discord />)} />),
         Route::NotesApp => html!(<ProtectedRoute component={html!(<NotesApp />)} />),
         Route::About => html!(<About />),
+        Route::Logout => html!(<Logout />),
         Route::Wait => html!(<Wait />),
-        Route::Login => html!(<Login />),
+        Route::Login => {
+            html!(<AuthDependantRoute authenticated_component={html!(<Redirect<Route> to={Route::Logout}/>)} not_authenticated_component={html!(<Login />)}/>)
+        }
         Route::LoginSuccess => html!(<LoginSuccess />),
         Route::LoginFail => html!(<LoginFail />),
         Route::NotFound => html!(<NotFound />),
+    }
+}
+
+#[derive(Properties, PartialEq)]
+struct AuthDependantProps {
+    authenticated_component: Html,
+    not_authenticated_component: Html,
+}
+
+#[function_component(AuthDependantRoute)]
+fn auth_dependant(props: &AuthDependantProps) -> Html {
+    let auth_context = use_context::<AuthContextProvider>().unwrap();
+    if *auth_context.context.is_authenticated {
+        props.authenticated_component.clone()
+    } else {
+        props.not_authenticated_component.clone()
     }
 }
 

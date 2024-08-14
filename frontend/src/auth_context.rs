@@ -1,6 +1,7 @@
 use gloo::net::http::Request;
 use serde_json::Value;
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::window;
 use yew::prelude::*;
@@ -81,10 +82,30 @@ pub fn auth_provider(props: &Props) -> Html {
         let is_authenticated = is_authenticated.clone();
         let access_token = access_token.clone();
         Callback::from(move |_| {
+            // Update state and cookies
             is_authenticated.set(false);
             access_token.set(None);
             eraseCookie("is_authenticated");
             eraseCookie("access_token");
+
+            // Create a closure for the redirect
+            let closure = Closure::wrap(Box::new(move || {
+                redirect_to("/");
+            }) as Box<dyn FnMut()>);
+
+            // Get the window object
+            let window = web_sys::window().unwrap();
+
+            // Set the timeout with the closure to delay redirect
+            window
+                .set_timeout_with_callback_and_timeout_and_arguments_0(
+                    closure.as_ref().unchecked_ref(),
+                    0,
+                )
+                .unwrap();
+
+            // Forget the closure to prevent it from being dropped
+            closure.forget();
         })
     };
 
@@ -163,8 +184,8 @@ async fn fetch_access_token(url: &str) -> Option<String> {
 }
 
 fn log_error(message: String) {
-    log::error!("{}", message);
     redirect_to("/login/fail");
+    log::error!("{}", message);
 }
 
 fn redirect_to(url: &str) {

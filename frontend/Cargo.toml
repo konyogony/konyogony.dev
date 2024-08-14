@@ -12,7 +12,7 @@ reqwasm = "0.5.0"
 const_format = "0.2.25"
 lazy_static = "1.4.0"
 gloo-console = "0.3"
-yew_icons = { version = "0.8", features = ["BootstrapDiscord", "BootstrapGithub", "FeatherChevronDown"] }
+yew_icons = { version = "0.8", features = ["BootstrapDiscord", "BootstrapGithub", "FeatherChevronDown", "LucideLogOut"] }
 gloo-utils = "0.2"
 yew-router = "0.18"
 web-sys = { version = "0.3.58", features = ["HtmlDocument"] }

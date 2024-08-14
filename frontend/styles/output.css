@@ -1042,6 +1042,10 @@ select{
   transition-duration: 150ms;
 }
 
+.duration-300{
+  transition-duration: 300ms;
+}
+
 html{
   scroll-behavior: smooth;
   --tw-bg-opacity: 1;
@@ -1054,6 +1058,11 @@ html{
 .hover\:bg-gray-500:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(48 54 61 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-red-600:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 .hover\:text-blue-500\/80:hover{

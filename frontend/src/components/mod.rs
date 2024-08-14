@@ -5,6 +5,7 @@ pub mod layout;
 pub mod login;
 pub mod login_fail;
 pub mod login_success;
+pub mod logout;
 pub mod navbar;
 pub mod notesapp;
 pub mod notfound;
