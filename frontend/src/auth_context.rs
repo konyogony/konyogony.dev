@@ -17,7 +17,7 @@ pub struct AuthContext {
     pub is_authenticated: UseStateHandle<bool>,
     pub login: Callback<MouseEvent>,
     pub logout: Callback<MouseEvent>,
-    pub access_token: UseStateHandle<Option<String>>, // Ensure this is Option<String>
+    pub access_token: UseStateHandle<Option<String>>,
 }
 
 #[derive(Clone, PartialEq)]
@@ -30,7 +30,7 @@ impl AuthContextProvider {
         is_authenticated: UseStateHandle<bool>,
         login: Callback<MouseEvent>,
         logout: Callback<MouseEvent>,
-        access_token: UseStateHandle<Option<String>>, // Ensure this is Option<String>
+        access_token: UseStateHandle<Option<String>>,
     ) -> Self {
         Self {
             context: AuthContext {
@@ -71,6 +71,7 @@ pub fn auth_provider(props: &Props) -> Html {
                 client_id
             );
             if let Err(e) = window().unwrap().location().set_href(&auth_url) {
+                redirect_to("/login/fail");
                 web_sys::console::error_1(&format!("Failed to redirect: {:?}", e).into());
             }
         })
@@ -109,7 +110,7 @@ pub fn auth_provider(props: &Props) -> Html {
                                 is_authenticated.set(true);
                                 setCookie("is_authenticated", "true", 7);
                                 setCookie("access_token", &token, 7);
-                                redirect_to("/");
+                                redirect_to("/login/success");
                             }
                         }
                     };
@@ -163,6 +164,7 @@ async fn fetch_access_token(url: &str) -> Option<String> {
 
 fn log_error(message: String) {
     log::error!("{}", message);
+    redirect_to("/login/fail");
 }
 
 fn redirect_to(url: &str) {

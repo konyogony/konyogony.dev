@@ -31,7 +31,7 @@ async fn get_user_data(data: web::Query<UserDataRequest>) -> impl Responder {
     let access_token = &data.access_token;
 
     let response = client
-        .get("https://api.github.com/user")
+        .get("https://api.github.com/user/")
         .header("Accept", "application/json")
         .header("Authorization", format!("Bearer {}", access_token))
         .send()
