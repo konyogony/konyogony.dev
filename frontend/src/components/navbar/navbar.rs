@@ -73,21 +73,20 @@ pub fn navbar() -> Html {
     // };
 
     let bg = if *scroll_pos > 0.0 {
-        "bg-gray-500/15 border-white/5"
+        "bg-gray-500/15 border-white/5 backdrop-blur-lg shadow-xl"
     } else {
-        "bg-transparent border-transparent"
+        "bg-transparent border-transparent shadow-none"
     };
 
     html!(
-        <div class={format!("w-full flex z-40 flex-row items-center px-[25%] py-5 gap-1 backdrop-blur-lg border-b sticky top-0 left-0 right-0 {}", bg)}>
+        <div class={format!("w-full flex z-40 flex-row transition-all duration-700 transform-gpu items-center px-[15%] py-4 gap-1 border-b fixed top-0 left-0 right-0 {}", bg)}>
             <TitleHome />
-            <div class="ml-auto flex flex-row gap-8 items-center text-base font-semibold">
+            <div class="ml-auto flex flex-row gap-4 items-center text-sm font-semibold">
                 <HomeNav />
                 <div class="w-[1.5px] rounded-md h-5 bg-white/5" />
                 <DiscordNav />
                 <NotesNav />
                 // I removed the dropdown
-
                 // <div class="relative dropdown-menu">
                 //     <button onclick={toggle_dropdown} class="cursor-pointer hover:text-blue-500/80 transition-all duration-150 flex flex-row gap-1 items-center">
                 //         <span>{"Projects"}</span>
@@ -115,17 +114,19 @@ pub fn navbar() -> Html {
                 //     }
                 // </div>
                 <div class="w-[1.5px] rounded-md h-5 bg-white/5" />
-                <div class="flex flex-row gap-8 items-center">
-                    <Icon
-                        icon_id={IconId::BootstrapDiscord}
-                        onclick={Callback::from(|_: MouseEvent| { open_link("https://discord.com/users/564472732071493633") })}
-                        class="cursor-pointer hover:text-blue-500/80 transition-all duration-150"
-                    />
-                    <Icon
-                        icon_id={IconId::BootstrapGithub}
-                        onclick={Callback::from(|_: MouseEvent| { open_link("https://github.com/kony-ogony") })}
-                        class="cursor-pointer hover:text-blue-500/80 transition-all duration-150"
-                    />
+                <div class="flex flex-row gap-4 items-center">
+                    <a class="p-2 group rounded-full hover:bg-gray-600/80 transition-all duration-150" href={"https://discord.com/users/564472732071493633"}>
+                        <Icon
+                            icon_id={IconId::BootstrapDiscord}
+                            class="cursor-pointer transition-all duration-150"
+                        />
+                    </a>
+                    <a class="p-2 group rounded-full hover:bg-gray-600/80 transition-all duration-150" href={"https://discord.com/users/564472732071493633"}>
+                        <Icon
+                            icon_id={IconId::BootstrapGithub}
+                            class="cursor-pointer transition-all duration-150"
+                        />
+                    </a>
                 </div>
             </div>
         </div>

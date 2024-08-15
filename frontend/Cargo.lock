@@ -734,7 +734,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "kony-web"
+name = "konyogony_dev"
 version = "0.1.0"
 dependencies = [
  "const_format",

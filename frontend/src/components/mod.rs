@@ -1,5 +1,6 @@
 pub mod about;
 pub mod discord;
+pub mod footer;
 pub mod home;
 pub mod layout;
 pub mod login;

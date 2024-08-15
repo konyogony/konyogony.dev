@@ -6,3 +6,52 @@
 html {
   @apply scroll-smooth font-[Inter] text-gray-200 bg-gray-700;
 }
+
+::-webkit-scrollbar {
+  @apply w-2 bg-[#242424];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-xl bg-[#333333] hover:bg-[#4e4e4e];
+}
+
+/* 
+@keyframes blurred {
+  0% {
+    filter: blur(28px); 
+    transform: scale(1.2);
+  }
+  25% {
+    filter: blur(30px); 
+    transform: scale(1.5); 
+  }
+  75% {
+    filter: blur(34px); 
+    transform: scale(1.4); 
+  }
+  100% {
+    filter: blur(28px); 
+    transform: scale(1.2);
+  }
+}
+
+.blur-animation {
+  animation: blurred 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+} */
+
+
+@keyframes shrink {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.92); 
+  }
+  100% {
+    transform: scale(1); 
+  }
+}
+
+.shrink-animation {
+  animation: shrink 0.3s ease-in-out;
+}
