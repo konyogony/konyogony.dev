@@ -1,17 +1,18 @@
+use actix_cors::Cors;
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
+use env_logger;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::env;
+use user::UserRepository;
+
+mod db;
+mod user;
 
 #[derive(Deserialize)]
 struct OAuthRequest {
     code: String,
-}
-
-#[derive(Deserialize)]
-struct UserDataRequest {
-    access_token: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -21,32 +22,93 @@ struct AccessTokenResponse {
     scope: Option<String>,
 }
 
-#[derive(Serialize, Deserialize)]
-struct UserDataResponese {}
+#[derive(Deserialize)]
+struct UserDataRequest {
+    access_token: String,
+}
 
-#[post("/getUserData")]
-async fn get_user_data(data: web::Query<UserDataRequest>) -> impl Responder {
+#[post("/delete/{id}")]
+async fn delete_user(id: web::Path<u64>, user_repo: web::Data<UserRepository>) -> impl Responder {
+    let id = id.into_inner();
+    let res = user_repo.delete(id).await;
+    match res {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to delete user: {}", e)),
+    }
+}
+
+#[post("/getAll")]
+async fn get_all_users(user_repo: web::Data<UserRepository>) -> impl Responder {
+    let res = user_repo.get_all().await;
+    match res {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get users: {}", e)),
+    }
+}
+
+async fn update_user(
+    id: web::Path<u64>,
+    user: web::Json<user::User>,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let id = id.into_inner();
+    let res = user_repo.update_user(id, user.into_inner()).await;
+    match res {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to update user: {}", e)),
+    }
+}
+
+async fn create_user(
+    user: web::Json<user::User>,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let res = user_repo.create(user.into_inner()).await;
+    match res {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to create user: {}", e)),
+    }
+}
+
+#[post("/getById/{id}")]
+async fn get_user_by_id(
+    id: web::Path<u64>,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let id = id.into_inner();
+    let res = user_repo.get_by_id(id).await;
+    match res {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
+    }
+}
+
+async fn get_user_data(data: web::Data<UserDataRequest>) -> impl Responder {
     let client = Client::new();
-
     let access_token = &data.access_token;
 
     let response = client
-        .get("https://api.github.com/user/")
-        .header("Accept", "application/json")
+        .get("https://api.github.com/user")
         .header("Authorization", format!("Bearer {}", access_token))
+        .header("User-Agent", "Actix-Web")
         .send()
         .await;
 
     match response {
         Ok(response) => {
-            if let Ok(data) = response.json::<UserDataResponese>().await {
-                HttpResponse::Ok().json(data)
+            if response.status().is_success() {
+                match response.json::<serde_json::Value>().await {
+                    Ok(json_data) => HttpResponse::Ok().json(json_data),
+                    Err(_) => HttpResponse::InternalServerError()
+                        .body("Failed to parse user data response"),
+                }
             } else {
-                HttpResponse::BadRequest().body("Failed to parse user dta response")
+                HttpResponse::BadRequest()
+                    .body(format!("GitHub API returned error: {}", response.status()))
             }
         }
         Err(e) => {
-            HttpResponse::InternalServerError().body(format!("Failed to fetch user data: {:?}", e))
+            HttpResponse::InternalServerError().body(format!("Failed to fetch user data: {}", e))
         }
     }
 }
@@ -86,16 +148,17 @@ async fn github_oauth(oauth_request: web::Query<OAuthRequest>) -> impl Responder
     }
 }
 
-use actix_cors::Cors;
-use env_logger;
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
     env_logger::init();
 
-    HttpServer::new(|| {
+    // Initialize UserRepository
+    let user_repo = web::Data::new(UserRepository::new().await);
+
+    HttpServer::new(move || {
         App::new()
+            .app_data(user_repo.clone())
             .wrap(
                 Cors::default()
                     .allowed_origin("http://localhost:5000") // Later change this to 'konyogony.dev'
@@ -104,6 +167,9 @@ async fn main() -> std::io::Result<()> {
                     .max_age(3600),
             )
             .service(github_oauth)
+            .service(get_user_by_id)
+            .service(get_all_users)
+            .service(delete_user)
     })
     .bind("127.0.0.1:5001")?
     .run()

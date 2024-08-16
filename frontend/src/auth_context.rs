@@ -29,6 +29,7 @@ pub struct AuthContext {
     pub login: Callback<MouseEvent>,
     pub logout: Callback<MouseEvent>,
     pub access_token: UseStateHandle<Option<String>>,
+    pub get_user_data: Callback<MouseEvent>,
 }
 
 // Define the authentication context provider struct.
@@ -46,6 +47,7 @@ impl AuthContextProvider {
         login: Callback<MouseEvent>,
         logout: Callback<MouseEvent>,
         access_token: UseStateHandle<Option<String>>,
+        get_user_data: Callback<MouseEvent>,
     ) -> Self {
         Self {
             context: AuthContext {
@@ -53,6 +55,7 @@ impl AuthContextProvider {
                 login,
                 logout,
                 access_token,
+                get_user_data,
             },
         }
     }
@@ -125,6 +128,8 @@ pub fn auth_provider(props: &Props) -> Html {
         })
     };
 
+    let get_user_data: Callback<MouseEvent> = { Callback::from(move |_| {}) };
+
     // Set up an effect that checks if the user has been redirected to the OAuth callback URL.
     // If so, fetch the access token from the server and update the authentication status and access token.
     // If not, do nothing.
@@ -162,7 +167,7 @@ pub fn auth_provider(props: &Props) -> Html {
 
     // Return the authentication context provider component, wrapping its children with the context.
     html!(
-        <ContextProvider<AuthContextProvider> context={AuthContextProvider::new(is_authenticated, login, logout, access_token)}>
+        <ContextProvider<AuthContextProvider> context={AuthContextProvider::new(is_authenticated, login, logout, access_token, get_user_data)}>
             { props.children.clone() }
         </ContextProvider<AuthContextProvider>>
     )
