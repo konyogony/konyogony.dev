@@ -2,7 +2,7 @@ use crate::auth_context::{AuthContextProvider, AuthContextProviderComponent};
 use crate::components::{
     about::About, discord::Discord, home::Home, layout::Layout, login::Login,
     login_fail::LoginFail, login_success::LoginSuccess, logout::Logout, notesapp::NotesApp,
-    notfound::NotFound, wait::Wait,
+    notfound::NotFound, privacy_policy::PrivacyPolicy, tos::TOS, wait::Wait,
 };
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -27,6 +27,12 @@ pub enum Route {
     LoginSuccess,
     #[at("/login/fail")]
     LoginFail,
+    #[at("/termsofservice")]
+    TOS,
+    #[at("/privacypolicy")]
+    PrivacyPolicy,
+    // #[at("/admin")]
+    // Admin,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -53,6 +59,8 @@ fn switch(routes: Route) -> Html {
         Route::About => html!(<About />),
         Route::Logout => html!(<Logout />),
         Route::Wait => html!(<Wait />),
+        Route::TOS => html!(<TOS />),
+        Route::PrivacyPolicy => html!(<PrivacyPolicy />),
         Route::Login => {
             html!(<AuthDependantRoute authenticated_component={html!(<Redirect<Route> to={Route::Logout}/>)} not_authenticated_component={html!(<Login />)}/>)
         }

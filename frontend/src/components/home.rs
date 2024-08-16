@@ -1,6 +1,6 @@
 use crate::components::footer::Footer;
-use crate::{auth_context::AuthContextProvider, router::Route};
-use yew::{function_component, html, use_context, Callback, Html, MouseEvent};
+use crate::router::Route;
+use yew::{function_component, html, Callback, Html, MouseEvent};
 use yew_icons::{Icon, IconId};
 use yew_router::prelude::*;
 
@@ -13,9 +13,8 @@ pub fn home() -> Html {
     let onclick: Callback<MouseEvent> = Callback::from(move |_| navigator.push(&Route::About));
 
     html!(
-        <div class="h-full w-full bg-gradient-to-bl from-[#181a20] to-[#2b303b] flex flex-col items-center">
-            <div class="w-full h-[45%] flex flex-shrink-0 flex-row px-[15%] gap-2 border-b border-white/5 relative">
-                // <div class="absolute rounded-full size-[12rem] blur-2xl inset-0 bg-indigo-800 blur-animation" />
+        <div class="h-full w-full bg-gradient-to-bl from-[#121419] to-[#2b303b] flex flex-col items-center">
+            <div class="w-full h-1/2 flex flex-shrink-0 flex-row px-[15%] gap-2 border-b border-white/5 relative">
                 <div class="flex flex-col w-1/2 h-full gap-2 flex-shrink-0 justify-center">
                     <span class="relative w-fit text-6xl font-bold z-20 px-1 py-0.5">
                         <span class="z-10">{"Hey there!"}</span>

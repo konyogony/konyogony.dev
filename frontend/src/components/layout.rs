@@ -1,4 +1,3 @@
-use crate::components::footer::Footer;
 use crate::components::navbar::navbar::Navbar;
 use yew::{function_component, html, Html, Properties};
 

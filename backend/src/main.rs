@@ -98,7 +98,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(
                 Cors::default()
-                    .allowed_origin("http://localhost:5000")
+                    .allowed_origin("http://localhost:5000") // Later change this to 'konyogony.dev'
                     .allowed_methods(vec!["GET", "POST"])
                     .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
                     .max_age(3600),
