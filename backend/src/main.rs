@@ -120,6 +120,10 @@ async fn login(
                 .and_then(Value::as_str)
                 .unwrap_or_default()
                 .to_string(),
+            last_active: SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_secs(),
             url: user_data
                 .get("url")
                 .and_then(Value::as_str)
@@ -215,13 +219,13 @@ struct Claims {
 }
 
 fn generate_jwt(user_id: u64) -> Result<String, jsonwebtoken::errors::Error> {
-    let days: u64 = 14;
+    let hours: u64 = 12;
     let key = env::var("ENCRYPTION_KEY").expect("ENCRYPTION_KEY not set");
     let expiration = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("Time went backwards")
         .as_secs()
-        + days * 24 * 60 * 60; // 2 Weeks
+        + hours * 60 * 60; // 12 Hours
 
     let claims = Claims {
         sub: user_id,
