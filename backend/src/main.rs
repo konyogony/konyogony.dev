@@ -1,6 +1,6 @@
 use actix_cors::Cors;
 use actix_web::cookie::{Cookie, SameSite};
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
 use env_logger;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
@@ -192,7 +192,7 @@ async fn login(
             Ok(session_token) => {
                 let cookie = Cookie::build("session_token", session_token)
                     .http_only(true)
-                    .secure(true)
+                    .secure(false)
                     .same_site(SameSite::Strict)
                     .path("/")
                     .finish();
@@ -285,6 +285,7 @@ async fn main() -> std::io::Result<()> {
                     .allowed_origin("http://localhost:5000") // Later change this to 'konyogony.dev'
                     .allowed_methods(vec!["GET", "POST"])
                     .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
+                    .supports_credentials()
                     .max_age(3600),
             )
             .service(login)

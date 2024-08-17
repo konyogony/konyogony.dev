@@ -9,22 +9,29 @@ pub async fn fetch_jwt(code: &str) -> Result<String, String> {
         .await
         .map_err(|e| format!("Failed to send request: {}", e))?;
 
-    if response.status().is_success() {
-        let cookies = response.headers().get("Set-Cookie");
-        if let Some(cookies) = cookies {
-            let cookies = cookies.to_str().unwrap();
-            let cookies: Vec<&str> = cookies.split("; ").collect();
-            for cookie in cookies {
-                let (key, value) = cookie.split_once("=").unwrap();
-                if key == "session_token" {
-                    return Ok(value.to_string());
-                }
-            }
-            Err("Session token not found in cookies".to_string())
-        } else {
-            Err("No cookies found in response".to_string())
-        }
-    } else {
-        Err(format!("Login request failed: {}", response.status()))
+    if !response.status().is_success() {
+        return Err(format!("Login request failed: {}", response.status()));
     }
+
+    let cookies_header = response
+        .headers()
+        .get("Set-Cookie")
+        .and_then(|header| header.to_str().ok())
+        .ok_or_else(|| "No cookies found in response".to_string())?;
+
+    let session_token = cookies_header
+        .split("; ")
+        .find_map(|cookie| {
+            let mut parts = cookie.splitn(2, '=');
+            let key = parts.next()?;
+            let value = parts.next()?;
+            if key == "session_token" {
+                Some(value.to_string())
+            } else {
+                None
+            }
+        })
+        .ok_or_else(|| "Session token not found in cookies".to_string())?;
+
+    Ok(session_token)
 }

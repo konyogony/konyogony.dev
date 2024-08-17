@@ -88,13 +88,13 @@ pub fn auth_provider(props: &Props) -> Html {
         })
     };
     let session_token_clone = session_token.clone();
+
     use_effect(move || {
         let session_token_clone = session_token_clone.clone(); // Clone handle for use in async block
         let path = window().unwrap().location().pathname().unwrap();
         if path == "/oauth/github" {
             let url = window().unwrap().location().href().unwrap();
             if url.contains("?code=") {
-                let code = url.split("?code=").nth(1).unwrap_or("");
                 spawn_local(async move {
                     let url = url.clone();
                     let session_token = fetch_jwt(url.split("?code=").nth(1).unwrap_or("")).await;
