@@ -1,4 +1,3 @@
-mod api_calls;
 mod router;
 use router::MyApplication;
 mod auth_context;

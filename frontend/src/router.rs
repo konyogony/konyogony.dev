@@ -25,14 +25,12 @@ pub enum Route {
     Logout,
     #[at("/login/success")]
     LoginSuccess,
-    #[at("/login/fail")]
+    #[at("/login/error")]
     LoginFail,
     #[at("/termsofservice")]
     TOS,
     #[at("/privacypolicy")]
     PrivacyPolicy,
-    // #[at("/admin")]
-    // Admin,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -79,7 +77,7 @@ struct AuthDependantProps {
 #[function_component(AuthDependantRoute)]
 fn auth_dependant(props: &AuthDependantProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
-    if *auth_context.context.is_authenticated {
+    if auth_context.context.session_token.is_some() {
         props.authenticated_component.clone()
     } else {
         props.not_authenticated_component.clone()
@@ -94,7 +92,7 @@ struct ProtectedRouteProps {
 #[function_component(ProtectedRoute)]
 fn protected_route(props: &ProtectedRouteProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
-    if *auth_context.context.is_authenticated {
+    if auth_context.context.session_token.is_some() {
         props.component.clone()
     } else {
         html!(<Redirect<Route> to={Route::Login}/>)

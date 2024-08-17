@@ -1,3 +1,4 @@
+use actix_web::{post, web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use surrealdb::{engine::remote::ws::Client, Surreal};
 
@@ -5,74 +6,43 @@ use crate::db::init;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
-    login: String,
-    id: u64,
-    node_id: String,
-    avatar_url: String,
-    gravatar_id: Option<String>,
-    url: String,
-    html_url: String,
-    followers_url: String,
-    following_url: String,
-    gists_url: String,
-    starred_url: String,
-    subscriptions_url: String,
-    organizations_url: String,
-    repos_url: String,
-    events_url: String,
-    received_events_url: String,
-    #[serde(rename = "type")]
-    type_: String,
-    site_admin: bool,
-    name: Option<String>,
-    company: Option<String>,
-    blog: Option<String>,
-    location: Option<String>,
-    email: Option<String>,
-    notification_email: Option<String>,
-    hireable: Option<bool>,
-    bio: Option<String>,
-    twitter_username: Option<String>,
-    public_repos: u64,
-    public_gists: u64,
-    followers: u64,
-    following: u64,
-    created_at: String,
-    updated_at: String,
+    pub access_token: String,
+    pub login: String,
+    pub id: u64,
+    pub avatar_url: String,
+    pub url: String,
+    pub html_url: String,
+    pub followers_url: String,
+    pub organizations_url: String,
+    pub repos_url: String,
+    pub name: Option<String>,
+    pub location: Option<String>,
+    pub email: Option<String>,
+    pub bio: Option<String>,
+    pub public_repos: u64,
+    pub followers: u64,
+    pub following: u64,
+    pub created_at: String,
+    pub updated_at: String,
 }
 
 impl Default for User {
     fn default() -> Self {
         User {
+            access_token: String::new(),
             login: String::new(),
             id: 0,
-            node_id: String::new(),
             avatar_url: String::new(),
-            gravatar_id: None,
             url: String::new(),
             html_url: String::new(),
             followers_url: String::new(),
-            following_url: String::new(),
-            gists_url: String::new(),
-            starred_url: String::new(),
-            subscriptions_url: String::new(),
             organizations_url: String::new(),
             repos_url: String::new(),
-            events_url: String::new(),
-            received_events_url: String::new(),
-            type_: String::new(),
-            site_admin: false,
             name: None,
-            company: None,
-            blog: None,
             location: None,
             email: None,
-            notification_email: None,
-            hireable: None,
             bio: None,
-            twitter_username: None,
             public_repos: 0,
-            public_gists: 0,
             followers: 0,
             following: 0,
             created_at: String::new(),
@@ -132,5 +102,72 @@ impl UserRepository {
             Some(user) => Ok(user),
             None => Ok(User::default()),
         }
+    }
+}
+
+#[post("/getById/{id}")]
+pub async fn get_user_by_id(
+    id: web::Path<u64>,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let id = id.into_inner();
+    let res = user_repo.get_by_id(id).await;
+    match res {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
+    }
+}
+
+#[post("/getAllUsers")]
+pub async fn get_all_users(user_repo: web::Data<UserRepository>) -> impl Responder {
+    let res = user_repo.get_all().await;
+    match res {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get users: {}", e)),
+    }
+}
+
+#[post("/delete/{id}")]
+pub async fn delete_user(
+    id: web::Path<u64>,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let id = id.into_inner();
+    let res = user_repo.delete(id).await;
+    match res {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to delete user: {}", e)),
+    }
+}
+
+pub async fn update_user(
+    id: u64,
+    user: User,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let res = user_repo.update_user(id, user).await;
+    match res {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to update user: {}", e)),
+    }
+}
+
+pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> impl Responder {
+    let res = user_repo.create(user).await;
+    match res {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to create user: {}", e)),
+    }
+}
+
+pub async fn create_or_update_user(id: u64, user: User, user_repo: web::Data<UserRepository>) {
+    match user_repo.get_by_id(id).await {
+        Ok(Some(_)) => {
+            update_user(id, user, user_repo).await;
+        }
+        Ok(None) => {
+            create_user(user, user_repo).await;
+        }
+        Err(e) => eprintln!("Error getting user by ID: {}", e),
     }
 }
