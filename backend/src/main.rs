@@ -4,6 +4,7 @@ use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
 use env_logger;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -196,8 +197,8 @@ async fn login(
             Ok(session_token) => {
                 let cookie = Cookie::build("session_token", session_token)
                     .http_only(true)
-                    .secure(false)
-                    .same_site(SameSite::Strict)
+                    .secure(true)
+                    .same_site(SameSite::None)
                     .path("/")
                     .finish();
 
@@ -281,14 +282,25 @@ async fn main() -> std::io::Result<()> {
 
     let user_repo = web::Data::new(UserRepository::new().await);
 
+    let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+    builder
+        .set_private_key_file("/home/kony/localhost-key.pem", SslFiletype::PEM)
+        .unwrap();
+    builder
+        .set_certificate_chain_file("/home/kony/localhost.pem")
+        .unwrap();
+
     HttpServer::new(move || {
         App::new()
             .app_data(user_repo.clone())
             .wrap(
                 Cors::default()
-                    .allowed_origin("http://localhost:5000") // Later change this to 'konyogony.dev'
+                    .allowed_origin("https://localhost:5000") // Later change this to 'konyogony.dev'
                     .allowed_methods(vec!["GET", "POST"])
-                    .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
+                    .allowed_headers(vec![
+                        actix_web::http::header::CONTENT_TYPE,
+                        actix_web::http::header::COOKIE,
+                    ])
                     .supports_credentials()
                     .max_age(3600),
             )
@@ -298,7 +310,7 @@ async fn main() -> std::io::Result<()> {
             .service(delete_user)
             .service(check_jwt)
     })
-    .bind("127.0.0.1:5001")?
+    .bind_openssl("localhost:8443", builder)?
     .run()
     .await
 }

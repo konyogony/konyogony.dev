@@ -1,23 +1,35 @@
 use reqwest::Client;
+use wasm_bindgen::prelude::*;
+use web_sys::console;
 
-pub async fn fetch_jwt(code: &str) -> Result<String, String> {
+pub async fn fetch_jwt(code: &str) -> Result<String, JsValue> {
     let client = Client::new();
     let response = client
         .get("http://localhost:5001/login/")
         .query(&[("code", code)])
         .send()
         .await
-        .map_err(|e| format!("Failed to send request: {}", e))?;
+        .map_err(|e| JsValue::from_str(&format!("Failed to send request: {}", e)))?;
 
     if !response.status().is_success() {
-        return Err(format!("Login request failed: {}", response.status()));
+        return Err(JsValue::from_str(&format!(
+            "Login request failed: {}",
+            response.status()
+        )));
     }
 
     let cookies_header = response
         .headers()
         .get("Set-Cookie")
         .and_then(|header| header.to_str().ok())
-        .ok_or_else(|| "No cookies found in response".to_string())?;
+        .ok_or_else(|| JsValue::from_str("No cookies found in response"))?
+        .to_string();
+
+    let body_text = response
+        .text()
+        .await
+        .map_err(|e| JsValue::from_str(&format!("Failed to read response body: {}", e)))?;
+    console::log_1(&JsValue::from_str(&body_text));
 
     let session_token = cookies_header
         .split("; ")
@@ -31,7 +43,7 @@ pub async fn fetch_jwt(code: &str) -> Result<String, String> {
                 None
             }
         })
-        .ok_or_else(|| "Session token not found in cookies".to_string())?;
+        .ok_or_else(|| JsValue::from_str("Session token not found in cookies"))?;
 
     Ok(session_token)
 }
