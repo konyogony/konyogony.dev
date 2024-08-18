@@ -284,10 +284,10 @@ async fn main() -> std::io::Result<()> {
 
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
     builder
-        .set_private_key_file("/home/kony/localhost-key.pem", SslFiletype::PEM)
+        .set_private_key_file("../localhost-key.pem", SslFiletype::PEM)
         .unwrap();
     builder
-        .set_certificate_chain_file("/home/kony/localhost.pem")
+        .set_certificate_chain_file("../localhost.pem")
         .unwrap();
 
     HttpServer::new(move || {
