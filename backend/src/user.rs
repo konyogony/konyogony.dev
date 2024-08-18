@@ -163,14 +163,20 @@ pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> im
 }
 
 #[post("/createOrUpdateUser")]
-pub async fn create_or_update_user(user: User, user_repo: web::Data<UserRepository>) {
+pub async fn create_or_update_user(
+    user: web::Json<User>,
+    user_repo: web::Data<UserRepository>,
+) -> impl Responder {
+    let user = user.into_inner();
     match user_repo.get_by_id(user.id).await {
         Ok(Some(_)) => {
-            update_user(id, user, user_repo).await;
+            update_user(user.id, user, user_repo).await;
+            HttpResponse::Ok().body("User updated")
         }
         Ok(None) => {
             create_user(user, user_repo).await;
+            HttpResponse::Ok().body("User created")
         }
-        Err(e) => eprintln!("Error getting user by ID: {}", e),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
     }
 }

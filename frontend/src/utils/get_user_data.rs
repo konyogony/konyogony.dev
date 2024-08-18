@@ -1,7 +1,8 @@
 use reqwest::Client;
+use serde_json::Value;
 use wasm_bindgen::prelude::*;
 
-pub async fn get_user_data(access_token: String) -> Result<String, JsValue> {
+pub async fn get_user_data(access_token: String) -> Result<Value, JsValue> {
     let client = Client::new();
     let response = client
         .get("https://localhost:5001/getUserData")
@@ -18,7 +19,7 @@ pub async fn get_user_data(access_token: String) -> Result<String, JsValue> {
     }
 
     let body = response
-        .text()
+        .json::<Value>()
         .await
         .map_err(|e| JsValue::from_str(&format!("Failed to read response body: {}", e)));
 

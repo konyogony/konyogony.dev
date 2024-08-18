@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde_json::Value;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -5,6 +7,8 @@ use wasm_bindgen_futures::spawn_local;
 use web_sys::window;
 use yew::prelude::*;
 
+use crate::utils::create_or_update_user::create_or_update_user;
+use crate::utils::create_or_update_user::User;
 use crate::utils::fetch_jwt::fetch_jwt;
 use crate::utils::get_access_token::get_access_token;
 use crate::utils::get_user_data::get_user_data;
@@ -117,7 +121,148 @@ pub fn auth_provider(props: &Props) -> Html {
                                     let user_data = get_user_data(access_token.to_string()).await;
                                     match user_data {
                                         Ok(user_data) => {
-                                            web_sys::console::log_1(&JsValue::from(user_data));
+                                            web_sys::console::log_1(&JsValue::from(
+                                                user_data.to_string(),
+                                            ));
+                                            let user: HashMap<String, Value> = HashMap::from([
+                                                (
+                                                    "access_token".to_string(),
+                                                    Value::from(access_token),
+                                                ),
+                                                (
+                                                    "login".to_string(),
+                                                    Value::from(
+                                                        user_data["login"].as_str().unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "id".to_string(),
+                                                    Value::from(user_data["id"].as_u64().unwrap()),
+                                                ),
+                                                (
+                                                    "avatar_url".to_string(),
+                                                    Value::from(
+                                                        user_data["avatar_url"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "url".to_string(),
+                                                    Value::from(
+                                                        user_data["url"].as_str().unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "html_url".to_string(),
+                                                    Value::from(
+                                                        user_data["html_url"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "followers_url".to_string(),
+                                                    Value::from(
+                                                        user_data["followers_url"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "organizations_url".to_string(),
+                                                    Value::from(
+                                                        user_data["organizations_url"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "repos_url".to_string(),
+                                                    Value::from(
+                                                        user_data["repos_url"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "name".to_string(),
+                                                    Value::from(
+                                                        user_data["name"].as_str().unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "location".to_string(),
+                                                    Value::from(
+                                                        user_data["location"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "email".to_string(),
+                                                    Value::from(
+                                                        user_data["email"].as_str().unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "bio".to_string(),
+                                                    Value::from(
+                                                        user_data["bio"].as_str().unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "public_repos".to_string(),
+                                                    Value::from(
+                                                        user_data["public_repos"]
+                                                            .as_u64()
+                                                            .unwrap_or(0),
+                                                    ),
+                                                ),
+                                                (
+                                                    "followers".to_string(),
+                                                    Value::from(
+                                                        user_data["followers"]
+                                                            .as_u64()
+                                                            .unwrap_or(0),
+                                                    ),
+                                                ),
+                                                (
+                                                    "following".to_string(),
+                                                    Value::from(
+                                                        user_data["following"]
+                                                            .as_u64()
+                                                            .unwrap_or(0),
+                                                    ),
+                                                ),
+                                                (
+                                                    "created_at".to_string(),
+                                                    Value::from(
+                                                        user_data["created_at"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                                (
+                                                    "updated_at".to_string(),
+                                                    Value::from(
+                                                        user_data["updated_at"]
+                                                            .as_str()
+                                                            .unwrap_or(""),
+                                                    ),
+                                                ),
+                                            ]);
+                                            let response = create_or_update_user(user).await;
+                                            match response {
+                                                Ok(_) => {
+                                                    web_sys::console::log_1(&JsValue::from(
+                                                        "User created or updated successfully",
+                                                    ));
+                                                }
+                                                Err(e) => {
+                                                    web_sys::console::error_1(&JsValue::from(e));
+                                                }
+                                            }
                                         }
                                         Err(e) => {
                                             web_sys::console::error_1(&JsValue::from(e));
