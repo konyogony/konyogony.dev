@@ -1,3 +1,4 @@
+use serde_json::Value;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::spawn_local;
@@ -5,6 +6,8 @@ use web_sys::window;
 use yew::prelude::*;
 
 use crate::utils::fetch_jwt::fetch_jwt;
+use crate::utils::get_access_token::get_access_token;
+use crate::utils::get_user_data::get_user_data;
 use crate::utils::redirect::redirect_to;
 use crate::utils::validate_jwt::validate_jwt;
 
@@ -97,13 +100,37 @@ pub fn auth_provider(props: &Props) -> Html {
             if url.contains("?code=") {
                 spawn_local(async move {
                     let url = url.clone();
-                    let session_token = fetch_jwt(url.split("?code=").nth(1).unwrap_or("")).await;
-                    match session_token {
-                        Ok(session_token) => {
-                            session_token_clone.set(session_token.into());
+                    // let session_token = fetch_jwt(url.split("?code=").nth(1).unwrap_or("")).await;
+                    let access_token =
+                        get_access_token(url.split("?code=").nth(1).unwrap_or("")).await;
+                    match access_token {
+                        Ok(access_token) => {
+                            // session_token_clone.set(session_token.into());
+                            web_sys::console::log_1(&JsValue::from(&access_token));
+                            let parsed_json: Value = serde_json::from_str(&access_token).unwrap();
+
+                            let access_token = parsed_json["access_token"]
+                                .as_str()
+                                .ok_or("Access token not found");
+                            match access_token {
+                                Ok(access_token) => {
+                                    let user_data = get_user_data(access_token.to_string()).await;
+                                    match user_data {
+                                        Ok(user_data) => {
+                                            web_sys::console::log_1(&JsValue::from(user_data));
+                                        }
+                                        Err(e) => {
+                                            web_sys::console::error_1(&JsValue::from(e));
+                                        }
+                                    }
+                                }
+                                Err(e) => {
+                                    web_sys::console::error_1(&JsValue::from(e));
+                                }
+                            }
                         }
                         Err(e) => {
-                            redirect_to("/login/error".to_string());
+                            // redirect_to("/login/error".to_string());
                             web_sys::console::error_1(&JsValue::from(e));
                         }
                     }
@@ -113,19 +140,19 @@ pub fn auth_provider(props: &Props) -> Html {
         || ()
     });
 
-    let session_token_clone = session_token.clone();
-    use_effect(move || {
-        let session_token_clone = session_token_clone.clone(); // Clone handle for use in async block
-        spawn_local(async move {
-            if let Some(token) = session_token_clone.as_ref() {
-                if !validate_jwt(token).await {
-                    session_token_clone.set(None); // Update original state handle
-                    eraseCookie("session_token");
-                }
-            }
-        });
-        || ()
-    });
+    // let session_token_clone = session_token.clone();
+    // use_effect(move || {
+    //     let session_token_clone = session_token_clone.clone(); // Clone handle for use in async block
+    //     spawn_local(async move {
+    //         if let Some(token) = session_token_clone.as_ref() {
+    //             if !validate_jwt(token).await {
+    //                 session_token_clone.set(None); // Update original state handle
+    //                 eraseCookie("session_token");
+    //             }
+    //         }
+    //     });
+    //     || ()
+    // });
 
     html!(
         <ContextProvider<AuthContextProvider> context={AuthContextProvider::new(login, logout, session_token)}>

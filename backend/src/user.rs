@@ -1,4 +1,4 @@
-use actix_web::{post, web, HttpResponse, Responder};
+use actix_web::{get, post, web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use surrealdb::{engine::remote::ws::Client, Surreal};
 
@@ -162,8 +162,9 @@ pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> im
     }
 }
 
-pub async fn create_or_update_user(id: u64, user: User, user_repo: web::Data<UserRepository>) {
-    match user_repo.get_by_id(id).await {
+#[post("/createOrUpdateUser")]
+pub async fn create_or_update_user(user: User, user_repo: web::Data<UserRepository>) {
+    match user_repo.get_by_id(user.id).await {
         Ok(Some(_)) => {
             update_user(id, user, user_repo).await;
         }

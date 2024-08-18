@@ -5,7 +5,7 @@ use web_sys::console;
 pub async fn fetch_jwt(code: &str) -> Result<String, JsValue> {
     let client = Client::new();
     let response = client
-        .get("http://localhost:5001/login/")
+        .get("https://localhost:5001/login/")
         .query(&[("code", code)])
         .send()
         .await
