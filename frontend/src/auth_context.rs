@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::time::SystemTime;
+use std::time::UNIX_EPOCH;
 
 use serde_json::Value;
 use wasm_bindgen::prelude::*;
@@ -11,6 +13,7 @@ use crate::utils::create_or_update_user::create_or_update_user;
 use crate::utils::create_or_update_user::User;
 use crate::utils::fetch_jwt::fetch_jwt;
 use crate::utils::get_access_token::get_access_token;
+use crate::utils::get_current_time::get_current_time;
 use crate::utils::get_user_data::get_user_data;
 use crate::utils::redirect::redirect_to;
 use crate::utils::validate_jwt::validate_jwt;
@@ -122,136 +125,82 @@ pub fn auth_provider(props: &Props) -> Html {
                                     match user_data {
                                         Ok(user_data) => {
                                             web_sys::console::log_1(&JsValue::from(
-                                                user_data.to_string(),
+                                                &user_data.to_string(),
                                             ));
-                                            let user: HashMap<String, Value> = HashMap::from([
-                                                (
-                                                    "access_token".to_string(),
-                                                    Value::from(access_token),
+                                            let user: User = User {
+                                                access_token: access_token.to_string(),
+                                                id: user_data["id"].as_u64().unwrap_or(0),
+                                                login: user_data["login"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                avatar_url: user_data["avatar_url"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                last_active: get_current_time() as u64,
+                                                url: user_data["url"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                html_url: user_data["html_url"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                followers_url: user_data["followers_url"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                organizations_url: user_data["organizations_url"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                repos_url: user_data["repos_url"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                name: Some(
+                                                    user_data["name"]
+                                                        .as_str()
+                                                        .unwrap_or("")
+                                                        .to_string(),
                                                 ),
-                                                (
-                                                    "login".to_string(),
-                                                    Value::from(
-                                                        user_data["login"].as_str().unwrap_or(""),
-                                                    ),
+                                                email: Some(
+                                                    user_data["email"]
+                                                        .as_str()
+                                                        .unwrap_or("")
+                                                        .to_string(),
                                                 ),
-                                                (
-                                                    "id".to_string(),
-                                                    Value::from(user_data["id"].as_u64().unwrap()),
+                                                bio: Some(
+                                                    user_data["bio"]
+                                                        .as_str()
+                                                        .unwrap_or("")
+                                                        .to_string(),
                                                 ),
-                                                (
-                                                    "avatar_url".to_string(),
-                                                    Value::from(
-                                                        user_data["avatar_url"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
+                                                location: Some(
+                                                    user_data["location"]
+                                                        .as_str()
+                                                        .unwrap_or("")
+                                                        .to_string(),
                                                 ),
-                                                (
-                                                    "url".to_string(),
-                                                    Value::from(
-                                                        user_data["url"].as_str().unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "html_url".to_string(),
-                                                    Value::from(
-                                                        user_data["html_url"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "followers_url".to_string(),
-                                                    Value::from(
-                                                        user_data["followers_url"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "organizations_url".to_string(),
-                                                    Value::from(
-                                                        user_data["organizations_url"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "repos_url".to_string(),
-                                                    Value::from(
-                                                        user_data["repos_url"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "name".to_string(),
-                                                    Value::from(
-                                                        user_data["name"].as_str().unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "location".to_string(),
-                                                    Value::from(
-                                                        user_data["location"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "email".to_string(),
-                                                    Value::from(
-                                                        user_data["email"].as_str().unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "bio".to_string(),
-                                                    Value::from(
-                                                        user_data["bio"].as_str().unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "public_repos".to_string(),
-                                                    Value::from(
-                                                        user_data["public_repos"]
-                                                            .as_u64()
-                                                            .unwrap_or(0),
-                                                    ),
-                                                ),
-                                                (
-                                                    "followers".to_string(),
-                                                    Value::from(
-                                                        user_data["followers"]
-                                                            .as_u64()
-                                                            .unwrap_or(0),
-                                                    ),
-                                                ),
-                                                (
-                                                    "following".to_string(),
-                                                    Value::from(
-                                                        user_data["following"]
-                                                            .as_u64()
-                                                            .unwrap_or(0),
-                                                    ),
-                                                ),
-                                                (
-                                                    "created_at".to_string(),
-                                                    Value::from(
-                                                        user_data["created_at"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                                (
-                                                    "updated_at".to_string(),
-                                                    Value::from(
-                                                        user_data["updated_at"]
-                                                            .as_str()
-                                                            .unwrap_or(""),
-                                                    ),
-                                                ),
-                                            ]);
+                                                public_repos: user_data["public_repos"]
+                                                    .as_u64()
+                                                    .unwrap_or(0),
+                                                followers: user_data["followers"]
+                                                    .as_u64()
+                                                    .unwrap_or(0),
+                                                following: user_data["following"]
+                                                    .as_u64()
+                                                    .unwrap_or(0),
+                                                created_at: user_data["created_at"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                updated_at: user_data["updated_at"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                            };
                                             let response = create_or_update_user(user).await;
                                             match response {
                                                 Ok(_) => {
