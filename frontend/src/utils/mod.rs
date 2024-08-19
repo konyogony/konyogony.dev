@@ -1,4 +1,5 @@
 pub mod create_or_update_user;
+pub mod fetch_all_users;
 pub mod fetch_jwt;
 pub mod get_access_token;
 pub mod get_current_time;

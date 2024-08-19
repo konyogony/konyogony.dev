@@ -4,11 +4,11 @@ use surrealdb::{engine::remote::ws::Client, Surreal};
 
 use crate::db::init;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct User {
     pub access_token: String,
     pub login: String,
-    pub id: u64,
+    pub id: String,
     pub last_active: u64,
     pub avatar_url: String,
     pub url: String,
@@ -32,7 +32,7 @@ impl Default for User {
         User {
             access_token: String::new(),
             login: String::new(),
-            id: 0,
+            id: String::new(),
             last_active: 0,
             avatar_url: String::new(),
             url: String::new(),
@@ -63,7 +63,7 @@ impl UserRepository {
     pub async fn new() -> Self {
         let db = init().await.unwrap();
         UserRepository {
-            table: "user".to_string(),
+            table: "users".to_string(),
             db,
         }
     }
@@ -73,7 +73,7 @@ impl UserRepository {
         Ok(res)
     }
 
-    pub async fn get_by_id(&self, id: u64) -> surrealdb::Result<Option<User>> {
+    pub async fn get_by_id(&self, id: &String) -> surrealdb::Result<Option<User>> {
         let res = self.db.select((&self.table, id.to_string())).await?;
         match res {
             Some(user) => Ok(Some(user)),
@@ -86,7 +86,7 @@ impl UserRepository {
         Ok(res)
     }
 
-    pub async fn update_user(&self, id: u64, user: User) -> surrealdb::Result<User> {
+    pub async fn update_user(&self, id: String, user: User) -> surrealdb::Result<User> {
         let res = self
             .db
             .update((&self.table, id.to_string()))
@@ -98,7 +98,7 @@ impl UserRepository {
         }
     }
 
-    pub async fn delete(&self, id: u64) -> surrealdb::Result<User> {
+    pub async fn delete(&self, id: String) -> surrealdb::Result<User> {
         let res = self.db.delete((&self.table, id.to_string())).await?;
         match res {
             Some(user) => Ok(user),
@@ -113,7 +113,7 @@ pub async fn get_user_by_id(
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
     let id = id.into_inner();
-    let res = user_repo.get_by_id(id).await;
+    let res = user_repo.get_by_id(&id.to_string()).await;
     match res {
         Ok(user) => HttpResponse::Ok().json(user),
         Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
@@ -122,10 +122,12 @@ pub async fn get_user_by_id(
 
 #[post("/getAllUsers")]
 pub async fn get_all_users(user_repo: web::Data<UserRepository>) -> impl Responder {
-    let res = user_repo.get_all().await;
-    match res {
+    match user_repo.get_all().await {
         Ok(users) => HttpResponse::Ok().json(users),
-        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get users: {}", e)),
+        Err(e) => {
+            eprintln!("Error fetching users: {}", e); // Log the error
+            HttpResponse::InternalServerError().body(format!("Failed to get users: {}", e))
+        }
     }
 }
 
@@ -135,7 +137,7 @@ pub async fn delete_user(
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
     let id = id.into_inner();
-    let res = user_repo.delete(id).await;
+    let res = user_repo.delete(id.to_string()).await;
     match res {
         Ok(user) => HttpResponse::Ok().json(user),
         Err(e) => HttpResponse::InternalServerError().body(format!("Failed to delete user: {}", e)),
@@ -143,22 +145,22 @@ pub async fn delete_user(
 }
 
 pub async fn update_user(
-    id: u64,
+    id: String,
     user: User,
     user_repo: web::Data<UserRepository>,
-) -> impl Responder {
-    let res = user_repo.update_user(id, user).await;
+) -> Result<User, String> {
+    let res = user_repo.update_user(id.to_string(), user).await;
     match res {
-        Ok(user) => HttpResponse::Ok().json(user),
-        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to update user: {}", e)),
+        Ok(user) => Ok(user),
+        Err(e) => Err(format!("Failed to update user: {}", e)),
     }
 }
 
-pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> impl Responder {
+pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> Result<User, String> {
     let res = user_repo.create(user).await;
     match res {
-        Ok(users) => HttpResponse::Ok().json(users),
-        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to create user: {}", e)),
+        Ok(users) => Ok(users[0].clone()),
+        Err(e) => Err(format!("Failed to create user: {}", e)),
     }
 }
 
@@ -168,15 +170,25 @@ pub async fn create_or_update_user(
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
     let user = user.into_inner();
-    match user_repo.get_by_id(user.id).await {
-        Ok(Some(_)) => {
-            update_user(user.id, user, user_repo).await;
-            HttpResponse::Ok().body("User updated")
+    let user_clone = user.clone();
+    match user_repo.get_by_id(&user.id).await {
+        Ok(Some(_)) => match update_user(user.id, user_clone, user_repo).await {
+            Ok(updated_user) => HttpResponse::Ok().json(updated_user),
+            Err(e) => {
+                eprintln!("Error updating user: {}", e);
+                HttpResponse::InternalServerError().body(format!("Failed to update user: {}", e))
+            }
+        },
+        Ok(None) => match create_user(user, user_repo).await {
+            Ok(created_user) => HttpResponse::Ok().json(created_user),
+            Err(e) => {
+                eprintln!("Error creating user: {}", e);
+                HttpResponse::InternalServerError().body(format!("Failed to create user: {}", e))
+            }
+        },
+        Err(e) => {
+            eprintln!("Error checking if user exists: {}", e);
+            HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e))
         }
-        Ok(None) => {
-            create_user(user, user_repo).await;
-            HttpResponse::Ok().body("User created")
-        }
-        Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
     }
 }

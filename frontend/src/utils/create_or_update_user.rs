@@ -1,4 +1,4 @@
-use reqwest::Client;
+use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 
@@ -6,7 +6,7 @@ use wasm_bindgen::JsValue;
 pub struct User {
     pub access_token: String,
     pub login: String,
-    pub id: u64,
+    pub id: String,
     pub last_active: u64,
     pub avatar_url: String,
     pub url: String,
@@ -26,37 +26,22 @@ pub struct User {
 }
 
 pub async fn create_or_update_user(user: User) -> Result<String, JsValue> {
-    let client = Client::new();
-    let request = client
-        .get("https://localhost:5001/createOrUpdateUser")
+    let response = Request::post("https://localhost:5001/createOrUpdateUser")
         .json(&user)
-        .build()
-        .map_err(|e| JsValue::from_str(&format!("Failed to build: {}", e)))?;
-
-    let response = client
-        .execute(request)
+        .map_err(|e| JsValue::from_str(&format!("Failed to build request: {}", e)))?
+        .send()
         .await
-        .map_err(|e| JsValue::from_str(&format!("Failed to execute: {}", e)));
+        .map_err(|e| JsValue::from_str(&format!("Failed to execute request: {}", e)))?;
 
-    match response {
-        Ok(response) => {
-            if !response.status().is_success() {
-                return Err(JsValue::from_str(&format!(
-                    "Create or update user request failed: {}",
-                    response.status()
-                )));
-            }
-
-            let body = response
-                .text()
-                .await
-                .map_err(|e| JsValue::from_str(&format!("Failed to read response body: {}", e)));
-
-            match body {
-                Ok(body) => Ok(body),
-                Err(e) => Err(e),
-            }
-        }
-        Err(e) => Err(e),
+    if !response.ok() {
+        return Err(JsValue::from_str(&format!(
+            "Create or update user request failed: {}",
+            response.status()
+        )));
     }
+
+    response
+        .text()
+        .await
+        .map_err(|e| JsValue::from_str(&format!("Failed to read response body: {}", e)))
 }

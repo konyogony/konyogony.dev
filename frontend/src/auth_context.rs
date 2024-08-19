@@ -11,6 +11,7 @@ use yew::prelude::*;
 
 use crate::utils::create_or_update_user::create_or_update_user;
 use crate::utils::create_or_update_user::User;
+use crate::utils::fetch_all_users::fetch_all_users;
 use crate::utils::fetch_jwt::fetch_jwt;
 use crate::utils::get_access_token::get_access_token;
 use crate::utils::get_current_time::get_current_time;
@@ -107,9 +108,8 @@ pub fn auth_provider(props: &Props) -> Html {
             if url.contains("?code=") {
                 spawn_local(async move {
                     let url = url.clone();
-                    // let session_token = fetch_jwt(url.split("?code=").nth(1).unwrap_or("")).await;
-                    let access_token =
-                        get_access_token(url.split("?code=").nth(1).unwrap_or("")).await;
+                    // let session_token = fetch_jwt(url.split("?code=").nth(1).unwrap()).await;
+                    let access_token = get_access_token(url.split("?code=").nth(1).unwrap()).await;
                     match access_token {
                         Ok(access_token) => {
                             // session_token_clone.set(session_token.into());
@@ -129,77 +129,18 @@ pub fn auth_provider(props: &Props) -> Html {
                                             ));
                                             let user: User = User {
                                                 access_token: access_token.to_string(),
-                                                id: user_data["id"].as_u64().unwrap_or(0),
-                                                login: user_data["login"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
-                                                avatar_url: user_data["avatar_url"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
+                                                id: user_data["id"].to_string(),
+                                                login: user_data["login"].to_string(),
+                                                avatar_url: user_data["avatar_url"].to_string(),
                                                 last_active: get_current_time() as u64,
-                                                url: user_data["url"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
-                                                html_url: user_data["html_url"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
+                                                url: user_data["url"].to_string(),
+                                                html_url: user_data["html_url"].to_string(),
                                                 followers_url: user_data["followers_url"]
-                                                    .as_str()
-                                                    .unwrap_or("")
                                                     .to_string(),
                                                 organizations_url: user_data["organizations_url"]
-                                                    .as_str()
-                                                    .unwrap_or("")
                                                     .to_string(),
-                                                repos_url: user_data["repos_url"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
-                                                name: Some(
-                                                    user_data["name"]
-                                                        .as_str()
-                                                        .unwrap_or("")
-                                                        .to_string(),
-                                                ),
-                                                email: Some(
-                                                    user_data["email"]
-                                                        .as_str()
-                                                        .unwrap_or("")
-                                                        .to_string(),
-                                                ),
-                                                bio: Some(
-                                                    user_data["bio"]
-                                                        .as_str()
-                                                        .unwrap_or("")
-                                                        .to_string(),
-                                                ),
-                                                location: Some(
-                                                    user_data["location"]
-                                                        .as_str()
-                                                        .unwrap_or("")
-                                                        .to_string(),
-                                                ),
-                                                public_repos: user_data["public_repos"]
-                                                    .as_u64()
-                                                    .unwrap_or(0),
-                                                followers: user_data["followers"]
-                                                    .as_u64()
-                                                    .unwrap_or(0),
-                                                following: user_data["following"]
-                                                    .as_u64()
-                                                    .unwrap_or(0),
-                                                created_at: user_data["created_at"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
-                                                updated_at: user_data["updated_at"]
-                                                    .as_str()
-                                                    .unwrap_or("")
-                                                    .to_string(),
+                                                repos_url: user_data["repos_url"].to_string(),
+                                                // TODO: FINISH THIS
                                             };
                                             let response = create_or_update_user(user).await;
                                             match response {
@@ -207,6 +148,17 @@ pub fn auth_provider(props: &Props) -> Html {
                                                     web_sys::console::log_1(&JsValue::from(
                                                         "User created or updated successfully",
                                                     ));
+                                                    // let response = fetch_all_users().await;
+                                                    // match response {
+                                                    //     Ok(users) => web_sys::console::log_1(
+                                                    //         &JsValue::from(&users.to_string()),
+                                                    //     ),
+                                                    //     Err(e) => {
+                                                    //         web_sys::console::error_1(
+                                                    //             &JsValue::from(e),
+                                                    //         );
+                                                    //     }
+                                                    // }
                                                 }
                                                 Err(e) => {
                                                     web_sys::console::error_1(&JsValue::from(e));

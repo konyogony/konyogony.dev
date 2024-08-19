@@ -382,6 +382,7 @@ async fn main() -> std::io::Result<()> {
             .service(delete_user)
             .service(check_jwt)
             .service(get_user_data)
+            .service(create_or_update_user)
     })
     .bind_openssl("localhost:5001", builder)?
     .run()
