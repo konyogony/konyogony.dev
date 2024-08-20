@@ -16,20 +16,16 @@ pub fn home() -> Html {
         <div class="h-full w-full bg-gradient-to-bl from-[#121419] to-[#2b303b] flex flex-col items-center">
             <div class="w-full h-1/2 flex flex-shrink-0 flex-row px-[15%] gap-2 border-b border-white/5 relative">
                 <div class="flex flex-col w-1/2 h-full gap-2 flex-shrink-0 justify-center">
-                    <span class="relative w-fit text-6xl font-bold z-20 px-1 py-0.5">
+                    <span class="relative w-fit text-7xl font-bold z-20 px-1 py-0.5 font-[Outfit]">
                         <span class="z-10">{"Hey there!"}</span>
                         <div class="absolute w-full h-full inset-0 rotate-[0.5deg] bg-indigo-800 -z-10" />
                     </span>
-                    <div class="flex flex-row gap-1 text-2xl font-semibold">
-                        <span>{"I go by"}</span>
-                        <span class="bg-blue-600 text-transparent bg-clip-text">{"kony"}</span>
-                        <span>{"and I am a junior developer."}</span>
-                    </div>
-                    <span class="text-lg leading-6 font-medium text-gray-300 flex flex-wrap gap-x-1 whitespace-normal">
-                        <span class="w-fit flex-shrink-0">{"I'm an aspiring developer "}</span>
+                    <span class="text-xl leading-6 font-medium text-gray-300 flex flex-wrap gap-x-1 whitespace-normal">
+                        <span class="w-fit flex-shrink-0">{"I go by"}</span>
+                        <span class="w-fit flex-shrink-0 bg-blue-600 text-transparent bg-clip-text">{"kony"}</span>
+                        <span class="w-fit flex-shrink-0">{"and I am a junior fullstack developer"}</span>
                         <span class="w-fit flex-shrink-0">{"with hands-on experience in "}</span>
                         <span class="w-fit flex-shrink-0 bg-blue-500/80 text-transparent bg-clip-text">{"UI/UX design, "}</span>
-                        <span class="w-fit flex-shrink-0">{"building websites, "}</span>
                         <span class="w-fit flex-shrink-0">{"and creating apps with "}</span>
                         <span class="w-fit flex-shrink-0">{"React/Electron."}</span>
                         <span class="w-fit flex-shrink-0">{" My skill set includes strong proficiency in "}</span>
