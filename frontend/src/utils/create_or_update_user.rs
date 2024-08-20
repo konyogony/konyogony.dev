@@ -6,7 +6,7 @@ use wasm_bindgen::JsValue;
 pub struct User {
     pub access_token: String,
     pub login: String,
-    pub id: String,
+    pub _id: String,
     pub last_active: u64,
     pub avatar_url: String,
     pub url: String,

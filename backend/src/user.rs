@@ -8,7 +8,7 @@ use crate::db::init;
 pub struct User {
     pub access_token: String,
     pub login: String,
-    pub id: String,
+    pub _id: String,
     pub last_active: u64,
     pub avatar_url: String,
     pub url: String,
@@ -32,7 +32,7 @@ impl Default for User {
         User {
             access_token: String::new(),
             login: String::new(),
-            id: String::new(),
+            _id: String::new(),
             last_active: 0,
             avatar_url: String::new(),
             url: String::new(),
@@ -71,6 +71,14 @@ impl UserRepository {
     pub async fn get_all(&self) -> surrealdb::Result<Vec<User>> {
         let res: Vec<User> = self.db.select(&self.table).await?;
         Ok(res)
+    }
+
+    pub async fn does_exist(&self, id: &str) -> Result<bool, String> {
+        match self.get_by_id(&id.to_string()).await {
+            Ok(Some(_)) => Ok(true),
+            Ok(None) => Ok(false),
+            Err(e) => Err(format!("Error checking if user exists: {}", e)),
+        }
     }
 
     pub async fn get_by_id(&self, id: &String) -> Result<Option<User>, String> {
@@ -117,14 +125,6 @@ pub async fn get_user_by_id(
     match res {
         Ok(user) => HttpResponse::Ok().json(user),
         Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
-    }
-}
-
-pub async fn does_exist(id: web::Path<u64>, user_repo: web::Data<UserRepository>) {
-    if let Some(_) = user_repo.get_by_id(&id.to_string()).await.unwrap() {
-        println!("User exists");
-    } else {
-        println!("User does not exist");
     }
 }
 
@@ -177,16 +177,19 @@ pub async fn create_or_update_user(
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
     let user = user.into_inner();
+    eprint!("create_or_update_user: {:?} \n\n\n", &user);
     let user_clone = user.clone();
-    match user_repo.get_by_id(&user.id).await {
-        Ok(Some(_)) => match update_user(user.id, user_clone, user_repo).await {
+    eprint!("user_clone._id: {:?} \n\n\n", &user_clone._id);
+    let userid = user._id.clone();
+    match user_repo.does_exist(&userid).await {
+        Ok(true) => match update_user(user._id, user_clone, user_repo).await {
             Ok(updated_user) => HttpResponse::Ok().json(updated_user),
             Err(e) => {
                 eprintln!("Error updating user: {}", e);
                 HttpResponse::InternalServerError().body(format!("Failed to update user: {}", e))
             }
         },
-        Ok(None) => match create_user(user, user_repo).await {
+        Ok(false) => match create_user(user, user_repo).await {
             Ok(created_user) => HttpResponse::Ok().json(created_user),
             Err(e) => {
                 eprintln!("Error creating user: {}", e);
@@ -195,7 +198,8 @@ pub async fn create_or_update_user(
         },
         Err(e) => {
             eprintln!("Error checking if user exists: {}", e);
-            HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e))
+            HttpResponse::InternalServerError()
+                .body(format!("Failed to get user: {} \n\n\n\n\n", e))
         }
     }
 }

@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
 
+use serde_json::json;
 use serde_json::Value;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -129,7 +130,7 @@ pub fn auth_provider(props: &Props) -> Html {
                                             ));
                                             let user: User = User {
                                                 access_token: access_token.to_string(),
-                                                id: user_data["id"].to_string(),
+                                                _id: user_data["id"].to_string(),
                                                 login: user_data["login"].to_string(),
                                                 avatar_url: user_data["avatar_url"]
                                                     .to_string()
@@ -190,6 +191,9 @@ pub fn auth_provider(props: &Props) -> Html {
                                                     .unwrap_or("")
                                                     .to_string(),
                                             };
+                                            web_sys::console::log_1(&JsValue::from(
+                                                &json!(&user).to_string(),
+                                            ));
                                             let response = create_or_update_user(user).await;
                                             match response {
                                                 Ok(_) => {
