@@ -2,7 +2,7 @@ use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct User {
     pub access_token: String,
     pub login: String,
@@ -14,10 +14,10 @@ pub struct User {
     pub followers_url: String,
     pub organizations_url: String,
     pub repos_url: String,
-    pub name: Option<String>,
-    pub location: Option<String>,
-    pub email: Option<String>,
-    pub bio: Option<String>,
+    pub name: String,
+    pub location: String,
+    pub email: String,
+    pub bio: String,
     pub public_repos: u64,
     pub followers: u64,
     pub following: u64,

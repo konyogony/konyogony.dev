@@ -131,16 +131,64 @@ pub fn auth_provider(props: &Props) -> Html {
                                                 access_token: access_token.to_string(),
                                                 id: user_data["id"].to_string(),
                                                 login: user_data["login"].to_string(),
-                                                avatar_url: user_data["avatar_url"].to_string(),
+                                                avatar_url: user_data["avatar_url"]
+                                                    .to_string()
+                                                    .trim_matches('"')
+                                                    .to_string(),
                                                 last_active: get_current_time() as u64,
-                                                url: user_data["url"].to_string(),
-                                                html_url: user_data["html_url"].to_string(),
+                                                url: user_data["url"]
+                                                    .to_string()
+                                                    .trim_matches('"')
+                                                    .to_string(),
+                                                html_url: user_data["html_url"]
+                                                    .to_string()
+                                                    .trim_matches('"')
+                                                    .to_string(),
                                                 followers_url: user_data["followers_url"]
+                                                    .to_string()
+                                                    .trim_matches('"')
                                                     .to_string(),
                                                 organizations_url: user_data["organizations_url"]
+                                                    .to_string()
+                                                    .trim_matches('"')
                                                     .to_string(),
-                                                repos_url: user_data["repos_url"].to_string(),
-                                                // TODO: FINISH THIS
+                                                repos_url: user_data["repos_url"]
+                                                    .to_string()
+                                                    .trim_matches('"')
+                                                    .to_string(),
+                                                name: user_data["name"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                location: user_data["location"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                bio: user_data["bio"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                email: user_data["email"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                public_repos: user_data["public_repos"]
+                                                    .as_u64()
+                                                    .unwrap_or(0),
+                                                followers: user_data["followers"]
+                                                    .as_u64()
+                                                    .unwrap_or(0),
+                                                following: user_data["following"]
+                                                    .as_u64()
+                                                    .unwrap_or(0),
+                                                created_at: user_data["created_at"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
+                                                updated_at: user_data["updated_at"]
+                                                    .as_str()
+                                                    .unwrap_or("")
+                                                    .to_string(),
                                             };
                                             let response = create_or_update_user(user).await;
                                             match response {

@@ -1,6 +1,6 @@
-use actix_web::{get, post, web, HttpResponse, Responder};
+use actix_web::{post, web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
-use surrealdb::{engine::remote::ws::Client, Surreal};
+use surrealdb::{engine::remote::ws::Client, sql::Thing, Error, Surreal};
 
 use crate::db::init;
 
@@ -16,10 +16,10 @@ pub struct User {
     pub followers_url: String,
     pub organizations_url: String,
     pub repos_url: String,
-    pub name: Option<String>,
-    pub location: Option<String>,
-    pub email: Option<String>,
-    pub bio: Option<String>,
+    pub name: String,
+    pub location: String,
+    pub email: String,
+    pub bio: String,
     pub public_repos: u64,
     pub followers: u64,
     pub following: u64,
@@ -40,10 +40,10 @@ impl Default for User {
             followers_url: String::new(),
             organizations_url: String::new(),
             repos_url: String::new(),
-            name: None,
-            location: None,
-            email: None,
-            bio: None,
+            name: String::new(),
+            location: String::new(),
+            email: String::new(),
+            bio: String::new(),
             public_repos: 0,
             followers: 0,
             following: 0,
@@ -73,11 +73,12 @@ impl UserRepository {
         Ok(res)
     }
 
-    pub async fn get_by_id(&self, id: &String) -> surrealdb::Result<Option<User>> {
-        let res = self.db.select((&self.table, id.to_string())).await?;
+    pub async fn get_by_id(&self, id: &String) -> Result<Option<User>, String> {
+        let res: Result<Option<User>, Error> = self.db.select((&self.table, id.to_string())).await;
         match res {
-            Some(user) => Ok(Some(user)),
-            None => Ok(None),
+            Ok(Some(user)) => Ok(Some(user)),
+            Ok(None) => Ok(None),
+            Err(err) => Err(err.to_string()),
         }
     }
 
@@ -109,14 +110,21 @@ impl UserRepository {
 
 #[post("/getById/{id}")]
 pub async fn get_user_by_id(
-    id: web::Path<u64>,
+    id: web::Path<String>,
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
-    let id = id.into_inner();
-    let res = user_repo.get_by_id(&id.to_string()).await;
+    let res = user_repo.get_by_id(&id).await;
     match res {
         Ok(user) => HttpResponse::Ok().json(user),
         Err(e) => HttpResponse::InternalServerError().body(format!("Failed to get user: {}", e)),
+    }
+}
+
+pub async fn does_exist(id: web::Path<u64>, user_repo: web::Data<UserRepository>) {
+    if let Some(_) = user_repo.get_by_id(&id.to_string()).await.unwrap() {
+        println!("User exists");
+    } else {
+        println!("User does not exist");
     }
 }
 
@@ -133,10 +141,9 @@ pub async fn get_all_users(user_repo: web::Data<UserRepository>) -> impl Respond
 
 #[post("/delete/{id}")]
 pub async fn delete_user(
-    id: web::Path<u64>,
+    id: web::Path<String>,
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
-    let id = id.into_inner();
     let res = user_repo.delete(id.to_string()).await;
     match res {
         Ok(user) => HttpResponse::Ok().json(user),
