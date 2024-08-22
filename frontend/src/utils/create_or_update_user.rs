@@ -26,7 +26,7 @@ pub struct User {
 }
 
 pub async fn create_or_update_user(user: User) -> Result<String, JsValue> {
-    let response = Request::post("https://localhost:5001/createOrUpdateUser")
+    let response = Request::post("https://localhost:5001/create-or-update-user")
         .json(&user)
         .map_err(|e| JsValue::from_str(&format!("Failed to build request: {}", e)))?
         .send()

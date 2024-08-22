@@ -1,6 +1,6 @@
 use actix_web::{post, web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
-use surrealdb::{engine::remote::ws::Client, sql::Thing, Error, Surreal};
+use surrealdb::{engine::remote::ws::Client, Error, Surreal};
 
 use crate::db::init;
 
@@ -116,7 +116,7 @@ impl UserRepository {
     }
 }
 
-#[post("/getById/{id}")]
+#[post("/get-user-by-id/{id}")]
 pub async fn get_user_by_id(
     id: web::Path<String>,
     user_repo: web::Data<UserRepository>,
@@ -128,7 +128,7 @@ pub async fn get_user_by_id(
     }
 }
 
-#[post("/getAllUsers")]
+#[post("/get-all-users")]
 pub async fn get_all_users(user_repo: web::Data<UserRepository>) -> impl Responder {
     match user_repo.get_all().await {
         Ok(users) => HttpResponse::Ok().json(users),
@@ -171,15 +171,14 @@ pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> Re
     }
 }
 
-#[post("/createOrUpdateUser")]
+// 3
+#[post("/create-or-update-user")]
 pub async fn create_or_update_user(
     user: web::Json<User>,
     user_repo: web::Data<UserRepository>,
 ) -> impl Responder {
     let user = user.into_inner();
-    eprint!("create_or_update_user: {:?} \n\n\n", &user);
     let user_clone = user.clone();
-    eprint!("user_clone._id: {:?} \n\n\n", &user_clone._id);
     let userid = user._id.clone();
     match user_repo.does_exist(&userid).await {
         Ok(true) => match update_user(user._id, user_clone, user_repo).await {

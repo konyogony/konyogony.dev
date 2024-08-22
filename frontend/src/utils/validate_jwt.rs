@@ -7,7 +7,7 @@ struct JwtValidationResponse {
 
 pub async fn validate_jwt(session_token: &str) -> bool {
     let token_url = format!(
-        "https://127.0.0.1:5001/validateJwt/?token={}",
+        "https://127.0.0.1:5001/validate-jwt/?token={}",
         session_token
     );
     match reqwest::get(&token_url).await {

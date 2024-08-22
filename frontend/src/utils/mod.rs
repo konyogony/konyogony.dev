@@ -1,3 +1,4 @@
+pub mod cookies;
 pub mod create_or_update_user;
 pub mod fetch_all_users;
 pub mod fetch_jwt;

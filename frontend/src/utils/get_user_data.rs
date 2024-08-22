@@ -5,7 +5,7 @@ use wasm_bindgen::prelude::*;
 pub async fn get_user_data(access_token: String) -> Result<Value, JsValue> {
     let client = Client::new();
     let response = client
-        .get("https://localhost:5001/getUserData")
+        .get("https://localhost:5001/get-user-data")
         .query(&[("access_token", access_token)])
         .send()
         .await

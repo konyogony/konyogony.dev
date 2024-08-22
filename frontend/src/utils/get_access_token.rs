@@ -4,7 +4,7 @@ use wasm_bindgen::prelude::*;
 pub async fn get_access_token(code: &str) -> Result<String, JsValue> {
     let client = Client::new();
     let response = client
-        .get("https://localhost:5001/getAccessToken")
+        .get("https://localhost:5001/get-access-token")
         .query(&[("code", code)])
         .send()
         .await

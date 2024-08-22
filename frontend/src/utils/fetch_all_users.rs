@@ -1,8 +1,8 @@
 use gloo_net::http::Request;
 use wasm_bindgen::JsValue;
 
-pub async fn fetch_all_users() -> Result<String, JsValue> {
-    let response = Request::post("https://localhost:5001/getAllUsers")
+pub async fn get_all_users() -> Result<String, JsValue> {
+    let response = Request::post("https://localhost:5001/get-all-users")
         .send()
         .await
         .map_err(|e| JsValue::from_str(&format!("Failed to execute request: {}", e)))?;

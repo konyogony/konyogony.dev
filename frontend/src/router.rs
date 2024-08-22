@@ -27,9 +27,9 @@ pub enum Route {
     LoginSuccess,
     #[at("/login/error")]
     LoginFail,
-    #[at("/termsofservice")]
+    #[at("/terms-of-service")]
     TOS,
-    #[at("/privacypolicy")]
+    #[at("/privacy-policy")]
     PrivacyPolicy,
     #[not_found]
     #[at("/404")]
