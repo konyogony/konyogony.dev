@@ -772,14 +772,14 @@ select{
   margin: 0px;
 }
 
-.my-2{
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 .mx-auto{
   margin-left: auto;
   margin-right: auto;
+}
+
+.my-2{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .-mt-32{
@@ -816,10 +816,6 @@ select{
 
 .flex{
   display: flex;
-}
-
-.grid{
-  display: grid;
 }
 
 .size-4{
@@ -900,10 +896,6 @@ select{
 
 .cursor-pointer{
   cursor: pointer;
-}
-
-.grid-cols-4{
-  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .flex-row{
@@ -1151,11 +1143,6 @@ select{
 .text-xl{
   font-size: 1.25rem;
   line-height: 1.75rem;
-}
-
-.text-2xl{
-  font-size: 1.5rem;
-  line-height: 2rem;
 }
 
 .font-bold{

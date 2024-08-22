@@ -1,7 +1,3 @@
-use std::collections::HashMap;
-use std::time::SystemTime;
-use std::time::UNIX_EPOCH;
-
 use serde_json::json;
 use serde_json::Value;
 use wasm_bindgen::prelude::*;
@@ -10,22 +6,15 @@ use wasm_bindgen_futures::spawn_local;
 use web_sys::window;
 use yew::prelude::*;
 
+use crate::utils::cookies::eraseCookie;
+use crate::utils::cookies::getCookie;
 use crate::utils::create_or_update_user::create_or_update_user;
 use crate::utils::create_or_update_user::User;
-use crate::utils::fetch_all_users::fetch_all_users;
-use crate::utils::fetch_jwt::fetch_jwt;
+use crate::utils::fetch_jwt::generate_jwt;
 use crate::utils::get_access_token::get_access_token;
 use crate::utils::get_current_time::get_current_time;
 use crate::utils::get_user_data::get_user_data;
 use crate::utils::redirect::redirect_to;
-use crate::utils::validate_jwt::validate_jwt;
-
-#[wasm_bindgen(module = "/js/cookies.js")]
-extern "C" {
-    fn setCookie(name: &str, value: &str, days: i32);
-    fn getCookie(name: &str) -> JsValue;
-    fn eraseCookie(name: &str);
-}
 
 #[derive(Clone, PartialEq)]
 pub struct AuthContext {
@@ -105,13 +94,16 @@ pub fn auth_provider(props: &Props) -> Html {
         let session_token_clone = session_token_clone.clone(); // Clone handle for use in async block
         let path = window().unwrap().location().pathname().unwrap();
         if path == "/oauth/github" {
+            // Get the url and check if its github
             let url = window().unwrap().location().href().unwrap();
             if url.contains("?code=") {
+                // Check if it has our code
                 spawn_local(async move {
                     let url = url.clone();
                     // let session_token = fetch_jwt(url.split("?code=").nth(1).unwrap()).await;
-                    let access_token = get_access_token(url.split("?code=").nth(1).unwrap()).await;
+                    let access_token = get_access_token(url.split("?code=").nth(1).unwrap()).await; // Get the access token using code
                     match access_token {
+                        // Check if it was successful
                         Ok(access_token) => {
                             // session_token_clone.set(session_token.into());
                             web_sys::console::log_1(&JsValue::from(&access_token));
@@ -194,23 +186,32 @@ pub fn auth_provider(props: &Props) -> Html {
                                             web_sys::console::log_1(&JsValue::from(
                                                 &json!(&user).to_string(),
                                             ));
+                                            let user_copy = user.clone();
                                             let response = create_or_update_user(user).await;
                                             match response {
-                                                Ok(_) => {
+                                                Ok(user) => {
                                                     web_sys::console::log_1(&JsValue::from(
                                                         "User created or updated successfully",
                                                     ));
-                                                    // let response = fetch_all_users().await;
-                                                    // match response {
-                                                    //     Ok(users) => web_sys::console::log_1(
-                                                    //         &JsValue::from(&users.to_string()),
-                                                    //     ),
-                                                    //     Err(e) => {
-                                                    //         web_sys::console::error_1(
-                                                    //             &JsValue::from(e),
-                                                    //         );
-                                                    //     }
-                                                    // }
+                                                    web_sys::console::log_1(&JsValue::from(
+                                                        &json!(&user).to_string(),
+                                                    ));
+                                                    let response =
+                                                        generate_jwt(user_copy._id).await;
+                                                    match response {
+                                                        Ok(response) => {
+                                                            web_sys::console::log_1(
+                                                                &JsValue::from(
+                                                                    &json!(&response).to_string(),
+                                                                ),
+                                                            );
+                                                        }
+                                                        Err(e) => {
+                                                            web_sys::console::error_1(
+                                                                &JsValue::from(e),
+                                                            );
+                                                        }
+                                                    }
                                                 }
                                                 Err(e) => {
                                                     web_sys::console::error_1(&JsValue::from(e));
