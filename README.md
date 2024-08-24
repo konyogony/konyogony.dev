@@ -30,3 +30,5 @@ Currently using ngnix to make SSL work, so website loads on https://localhost
 
 ## Misc:
 - [ ] Make social redirect (e.g. /social/spotify)
+- [ ] Useful Info Page (e.g. /extras#boot-into-windows)
+- [ ] Admin for Info page
