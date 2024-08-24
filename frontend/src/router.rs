@@ -1,6 +1,6 @@
 use crate::auth_context::{AuthContextProvider, AuthContextProviderComponent};
 use crate::components::{
-    about::About, discord::Discord, home::Home, layout::Layout, login::Login,
+    about::About, discord::Discord, extras::Extras, home::Home, layout::Layout, login::Login,
     login_fail::LoginFail, login_success::LoginSuccess, logout::Logout, notesapp::NotesApp,
     notfound::NotFound, privacy_policy::PrivacyPolicy, tos::TOS, wait::Wait,
 };
@@ -19,6 +19,8 @@ pub enum Route {
     NotesApp,
     #[at("/about")]
     About,
+    #[at("/extras")]
+    Extras,
     #[at("/login")]
     Login,
     #[at("/logout")]
@@ -58,6 +60,7 @@ fn switch(routes: Route) -> Html {
         Route::Logout => html!(<Logout />),
         Route::Wait => html!(<Wait />),
         Route::TOS => html!(<TOS />),
+        Route::Extras => html!(<Extras />),
         Route::PrivacyPolicy => html!(<PrivacyPolicy />),
         Route::Login => {
             html!(<AuthDependantRoute authenticated_component={html!(<Redirect<Route> to={Route::Logout}/>)} not_authenticated_component={html!(<Login />)}/>)
