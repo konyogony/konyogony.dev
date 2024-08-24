@@ -77,7 +77,8 @@ struct AuthDependantProps {
 #[function_component(AuthDependantRoute)]
 fn auth_dependant(props: &AuthDependantProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
-    if auth_context.context.session_token.is_some() {
+    if auth_context.context.jwt.is_some() {
+        // TODO
         props.authenticated_component.clone()
     } else {
         props.not_authenticated_component.clone()
@@ -92,7 +93,8 @@ struct ProtectedRouteProps {
 #[function_component(ProtectedRoute)]
 fn protected_route(props: &ProtectedRouteProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
-    if auth_context.context.session_token.is_some() {
+    if auth_context.context.jwt.is_some() {
+        // TODO
         props.component.clone()
     } else {
         html!(<Redirect<Route> to={Route::Login}/>)
