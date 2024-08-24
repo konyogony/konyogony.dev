@@ -27,3 +27,6 @@ Currently using ngnix to make SSL work, so website loads on https://localhost
 - [ ] Logout
 - [ ] Page refresh
 - [ ] Updating Last active 
+
+## Misc:
+- [ ] Make social redirect (e.g. /social/spotify)
