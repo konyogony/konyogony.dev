@@ -1,6 +1,6 @@
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen(raw_module = "../../js/cookies.js")]
+#[wasm_bindgen(module = "/js/cookies.js")]
 extern "C" {
     fn setCookie(name: &str, value: &str, days: i32);
     fn getCookie(name: &str) -> JsValue;
