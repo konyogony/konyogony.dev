@@ -61,10 +61,13 @@ pub struct UserRepository {
 
 impl UserRepository {
     pub async fn new() -> Self {
-        let db = init().await.unwrap();
-        UserRepository {
-            table: "users".to_string(),
-            db,
+        let db = init().await;
+        match db {
+            Ok(db) => UserRepository {
+                table: "users".to_string(),
+                db,
+            },
+            Err(_) => panic!("Failed to connect to database"),
         }
     }
 

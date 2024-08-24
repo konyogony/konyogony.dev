@@ -1,7 +1,4 @@
-use actix_web::{
-    cookie::{Cookie, SameSite},
-    get, post, web, HttpResponse, Responder,
-};
+use actix_web::{get, post, web, HttpResponse, Responder};
 use chrono::{Duration, Utc};
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
