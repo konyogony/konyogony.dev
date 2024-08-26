@@ -2,7 +2,8 @@ use crate::auth_context::{AuthContextProvider, AuthContextProviderComponent};
 use crate::components::{
     about::About, discord::Discord, extras::Extras, home::Home, layout::Layout, login::Login,
     login_fail::LoginFail, login_success::LoginSuccess, logout::Logout, notesapp::NotesApp,
-    notfound::NotFound, privacy_policy::PrivacyPolicy, tos::TOS, wait::Wait,
+    notfound::NotFound, privacy_policy::PrivacyPolicy, social::Social,
+    social_redirect::SocialRedirect, tos::TOS, wait::Wait,
 };
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -11,6 +12,10 @@ use yew_router::prelude::*;
 pub enum Route {
     #[at("/")]
     Home,
+    #[at("/social")]
+    Social,
+    #[at("/social/:provider")]
+    SocialRedirect { provider: String },
     #[at("/discord-bot")]
     Discord,
     #[at("/oauth/github")]
@@ -57,6 +62,18 @@ fn switch(routes: Route) -> Html {
         Route::Discord => html!(<ProtectedRoute component={html!(<Discord />)} />),
         Route::NotesApp => html!(<ProtectedRoute component={html!(<NotesApp />)} />),
         Route::About => html!(<About />),
+        Route::Social => html!(<Social />),
+        Route::SocialRedirect { provider } => {
+            let redirect_url = match provider.as_str() {
+                "github" => "https://github.com/kony-ogony/".to_string(),
+                "discord" => "https://discordlookup.com/user/564472732071493633/".to_string(),
+                "spotify" => "https://open.spotify.com/user/xeq03n90tcwkg4tegzdxggvzd/".to_string(),
+                "steam" => "https://steamcommunity.com/id/kony_ogony/".to_string(),
+
+                _ => "/404".to_string(),
+            };
+            html!(<SocialRedirect redirect_url={redirect_url} />)
+        }
         Route::Logout => html!(<Logout />),
         Route::Wait => html!(<Wait />),
         Route::TOS => html!(<TOS />),

@@ -758,10 +758,6 @@ select{
   }
 }
 
-.visible{
-  visibility: visible;
-}
-
 .fixed{
   position: fixed;
 }
@@ -889,6 +885,10 @@ select{
   height: 1px;
 }
 
+.h-\[50rem\]{
+  height: 50rem;
+}
+
 .h-fit{
   height: -moz-fit-content;
   height: fit-content;
@@ -900,10 +900,6 @@ select{
 
 .h-screen{
   height: 100vh;
-}
-
-.h-\[50rem\]{
-  height: 50rem;
 }
 
 .w-1\/2{

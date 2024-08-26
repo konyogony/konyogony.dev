@@ -12,5 +12,7 @@ pub mod navbar;
 pub mod notesapp;
 pub mod notfound;
 pub mod privacy_policy;
+pub mod social;
+pub mod social_redirect;
 pub mod tos;
 pub mod wait;
