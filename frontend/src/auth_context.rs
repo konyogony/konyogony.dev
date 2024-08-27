@@ -5,6 +5,7 @@ use web_sys::console;
 use web_sys::window;
 use yew::prelude::*;
 
+use crate::utils::cookies::set_cookie;
 use crate::utils::cookies::{erase_cookie, get_cookie};
 use crate::utils::log_error::{log_error, LogProps};
 use crate::utils::login::login_fn;
@@ -103,7 +104,9 @@ pub fn auth_provider(props: &Props) -> Html {
                     let code = url.split("?code=").nth(1).unwrap();
                     match login_fn(code).await {
                         Ok(login_success) => {
+                            set_cookie("jwt", &login_success.jwt, 14);
                             jwt_clone.set(Some(login_success.jwt));
+                            set_cookie("id", &login_success.user._id, 14);
                             id_clone.set(Some(login_success.user._id));
                             redirect_to("/login/success".to_string());
                             console::log_1(&get_cookie("id").into());

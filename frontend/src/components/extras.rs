@@ -5,6 +5,7 @@ use yew::{function_component, html, use_effect, use_node_ref, use_state, Html};
 
 #[function_component(Extras)]
 pub fn extras() -> Html {
+    // +rep ChatGPT
     let container_ref = use_node_ref();
     let a_ref = use_node_ref();
     let b_ref = use_node_ref();
@@ -34,16 +35,16 @@ pub fn extras() -> Html {
                     ) {
                         let scroll_position = container.scroll_top();
 
-                        let a_top = a.offset_top() as i32;
-                        let b_top = b.offset_top() as i32;
-                        let c_top = c.offset_top() as i32;
+                        let a_top = a.offset_top() - 5 as i32;
+                        let b_top = b.offset_top() - 5 as i32;
+                        let c_top = c.offset_top() - 5 as i32;
 
                         let last_scrolled = if scroll_position >= c_top {
-                            "Section C"
+                            "c"
                         } else if scroll_position >= b_top {
-                            "Section B"
+                            "b"
                         } else if scroll_position >= a_top {
-                            "Section A"
+                            "a"
                         } else {
                             "None"
                         };
@@ -69,10 +70,9 @@ pub fn extras() -> Html {
             </div>
             <div class="w-1/5 sticky font-medium text-base h-fit top-0 flex flex-col">
                 <span class="text-lg text-gray-200 font-semibold">{"Content on this page"}</span>
-                <a href="#a" class="hover:text-gray-300">{"Link A"}</a>
-                <a href="#b" class="hover:text-gray-300">{"Link B"}</a>
-                <a href="#c" class="hover:text-gray-300">{"Link C"}</a>
-                <span class="mt-4">{"Currently viewing: "}{(*current_viewing).clone()}</span>
+                <a href="#a" class={format!("text-base font-normal {}", if *current_viewing == "a" {"text-blue-600"} else {"hover:text-gray-300 text-gray-200"})}>{"Link Aa"}</a>
+                <a href="#b" class={format!("text-base font-normal {}", if *current_viewing == "b" {"text-blue-600"} else {"hover:text-gray-300 text-gray-200"})}>{"Link Bb"}</a>
+                <a href="#c" class={format!("text-base font-normal {}", if *current_viewing == "c" {"text-blue-600"} else {"hover:text-gray-300 text-gray-200"})}>{"Link Cc"}</a>
             </div>
         </div>
     )

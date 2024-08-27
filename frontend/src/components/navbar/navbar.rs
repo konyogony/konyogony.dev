@@ -30,7 +30,7 @@ pub fn navbar() -> Html {
     };
 
     html!(
-        <nav class={format!("w-full flex z-40 flex-row transition-all duration-700 transform-gpu items-center px-[15%] py-4 gap-1 border-b fixed top-0 left-0 right-0 {}", bg)}>
+        <nav class={format!("w-full flex z-50 flex-row transition-all duration-700 transform-gpu items-center px-[15%] py-4 gap-1 border-b fixed top-0 left-0 right-0 {}", bg)}>
             <TitleHome />
             <div class="ml-auto flex flex-row gap-4 items-center text-sm font-semibold">
                 <HomeNav />
