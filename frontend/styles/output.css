@@ -758,10 +758,6 @@ select{
   }
 }
 
-.visible{
-  visibility: visible;
-}
-
 .fixed{
   position: fixed;
 }
@@ -806,8 +802,8 @@ select{
   z-index: 20;
 }
 
-.z-40{
-  z-index: 40;
+.z-50{
+  z-index: 50;
 }
 
 .m-0{
@@ -1259,6 +1255,11 @@ select{
 
 .tracking-tighter{
   letter-spacing: -0.05em;
+}
+
+.text-blue-600{
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
 .text-blue-700{

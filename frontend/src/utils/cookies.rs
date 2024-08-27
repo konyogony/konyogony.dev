@@ -8,11 +8,11 @@ extern "C" {
 }
 
 pub fn set_cookie(name: &str, value: &str, days: i32) {
-    unsafe { setCookie(name, value, days) }
+    setCookie(name, value, days)
 }
 pub fn get_cookie(name: &str) -> JsValue {
-    unsafe { getCookie(name) }
+    getCookie(name)
 }
 pub fn erase_cookie(name: &str) {
-    unsafe { eraseCookie(name) }
+    eraseCookie(name)
 }
