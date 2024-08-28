@@ -6,6 +6,7 @@ use crate::components::{
     social_redirect::SocialRedirect, tos::TOS, wait::Wait,
 };
 use crate::utils::validate_jwt::validate_jwt;
+use wasm_bindgen::JsValue;
 use web_sys::window;
 use yew::platform::spawn_local;
 use yew::prelude::*;
@@ -117,17 +118,29 @@ fn protected_route(props: &ProtectedRouteProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
     let location = use_location().unwrap();
     let valid = use_state(|| false);
+
     let valid_clone = valid.clone();
 
     spawn_local(async move {
-        match validate_jwt(auth_context.context.jwt.as_ref().unwrap()).await {
-            Ok(v) => valid_clone.set(v),
-            Err(_) => valid_clone.set(false),
+        let binding = String::from("");
+        let jwt = auth_context.context.jwt.as_ref().unwrap_or(&binding);
+
+        if jwt.is_empty() {
+            web_sys::console::log_1(&JsValue::from_str("JWT is empty"));
+            valid_clone.set(true);
+        } else {
+            web_sys::console::log_1(&format!("Not empty, JWT: {:?}", *jwt).into());
+            match validate_jwt(jwt).await {
+                Ok(true) => valid_clone.set(true),
+                Ok(false) => valid_clone.set(false),
+                Err(_) => valid_clone.set(false),
+            }
         }
     });
-    web_sys::console::log_1(&format!("{:?}", valid).into());
 
-    if *valid == true {
+    web_sys::console::log_1(&format!("JWT Valid: {:?}", *valid).into());
+
+    if *valid {
         props.component.clone()
     } else {
         let target_url = location.path();
@@ -137,7 +150,8 @@ fn protected_route(props: &ProtectedRouteProps) -> Html {
             .unwrap()
             .unwrap()
             .set_item("redirect_after_login", &target_url)
-            .unwrap();
+            .expect("Failed to set redirect URL in local storage");
+
         html!(<Redirect<Route> to={Route::Login}/>)
     }
 }

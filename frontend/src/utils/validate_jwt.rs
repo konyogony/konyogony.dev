@@ -18,7 +18,7 @@ pub async fn validate_jwt(session_token: &str) -> Result<bool, JsValue> {
         .map_err(|e| JsValue::from_str(&format!("Failed to read response text: {}", e)))?;
 
     let jwt = response.strip_prefix("jwt=").unwrap_or(&response);
-
+    web_sys::console::log_1(&format!("JWTa: {:?}", jwt).into());
     match jwt {
         "valid" => Ok(true),
         "invalid" => Ok(false),
