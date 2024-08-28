@@ -106,9 +106,30 @@ pub fn auth_provider(props: &Props) -> Html {
                         Ok(login_success) => {
                             set_cookie("jwt", &login_success.jwt, 14);
                             jwt_clone.set(Some(login_success.jwt));
+
                             set_cookie("id", &login_success.user._id, 14);
                             id_clone.set(Some(login_success.user._id));
-                            redirect_to("/login/success".to_string());
+
+                            if let Some(target) = window()
+                                .unwrap()
+                                .local_storage()
+                                .unwrap()
+                                .unwrap()
+                                .get_item("redirect_after_login")
+                                .unwrap_or_else(|_| None)
+                            {
+                                redirect_to(target);
+                                window()
+                                    .unwrap()
+                                    .local_storage()
+                                    .unwrap()
+                                    .unwrap()
+                                    .remove_item("redirect_after_login")
+                                    .unwrap();
+                            } else {
+                                redirect_to("/login/success".to_string());
+                            }
+
                             console::log_1(&get_cookie("id").into());
                             console::log_1(&get_cookie("jwt").into());
                         }

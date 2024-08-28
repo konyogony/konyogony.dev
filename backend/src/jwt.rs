@@ -43,12 +43,7 @@ struct ValidateProps {
     token: String,
 }
 
-#[derive(Serialize)]
-struct JwtValidationResponse {
-    valid: bool,
-}
-
-#[post("/validate-jwt")]
+#[get("/validate-jwt")]
 pub async fn validate_jwt(query: web::Query<ValidateProps>) -> impl Responder {
     let key = env::var("ENCRYPTION_KEY").expect("ENCRYPTION_KEY not set");
 
@@ -57,7 +52,7 @@ pub async fn validate_jwt(query: web::Query<ValidateProps>) -> impl Responder {
         &DecodingKey::from_secret(key.as_bytes()),
         &Validation::default(),
     ) {
-        Ok(_) => HttpResponse::Ok().json(JwtValidationResponse { valid: true }),
-        Err(_) => HttpResponse::Unauthorized().json(JwtValidationResponse { valid: false }),
+        Ok(_) => HttpResponse::Ok().body("jwt=valid"),
+        Err(_) => HttpResponse::Unauthorized().body("jwt=invalid"),
     }
 }

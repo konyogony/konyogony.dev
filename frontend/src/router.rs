@@ -5,6 +5,9 @@ use crate::components::{
     notfound::NotFound, privacy_policy::PrivacyPolicy, social::Social,
     social_redirect::SocialRedirect, tos::TOS, wait::Wait,
 };
+use crate::utils::validate_jwt::validate_jwt;
+use web_sys::window;
+use yew::platform::spawn_local;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -98,7 +101,6 @@ struct AuthDependantProps {
 fn auth_dependant(props: &AuthDependantProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
     if auth_context.context.jwt.is_some() {
-        // TODO
         props.authenticated_component.clone()
     } else {
         props.not_authenticated_component.clone()
@@ -113,10 +115,29 @@ struct ProtectedRouteProps {
 #[function_component(ProtectedRoute)]
 fn protected_route(props: &ProtectedRouteProps) -> Html {
     let auth_context = use_context::<AuthContextProvider>().unwrap();
-    if auth_context.context.jwt.is_some() {
-        // TODO
+    let location = use_location().unwrap();
+    let valid = use_state(|| false);
+    let valid_clone = valid.clone();
+
+    spawn_local(async move {
+        match validate_jwt(auth_context.context.jwt.as_ref().unwrap()).await {
+            Ok(v) => valid_clone.set(v),
+            Err(_) => valid_clone.set(false),
+        }
+    });
+    web_sys::console::log_1(&format!("{:?}", valid).into());
+
+    if *valid == true {
         props.component.clone()
     } else {
+        let target_url = location.path();
+        window()
+            .unwrap()
+            .local_storage()
+            .unwrap()
+            .unwrap()
+            .set_item("redirect_after_login", &target_url)
+            .unwrap();
         html!(<Redirect<Route> to={Route::Login}/>)
     }
 }
