@@ -30,7 +30,6 @@ struct UserDataRequest {
     access_token: String,
 }
 
-// 1
 #[get("/get-access-token")]
 async fn get_access_token(oauth_request: web::Query<OAuthRequest>) -> impl Responder {
     let client = Client::new();
@@ -66,7 +65,6 @@ async fn get_access_token(oauth_request: web::Query<OAuthRequest>) -> impl Respo
     }
 }
 
-// 2
 #[get("/get-user-data")]
 async fn get_user_data(access_token: web::Query<UserDataRequest>) -> impl Responder {
     let client = Client::new();
@@ -127,15 +125,14 @@ async fn main() -> std::io::Result<()> {
                     .supports_credentials()
                     .max_age(3600),
             )
-            // .service(login)
             .service(get_access_token)
             .service(get_user_by_id)
             .service(get_all_users)
             .service(delete_user)
-            .service(validate_jwt)
             .service(get_user_data)
             .service(create_or_update_user)
             .service(generate_jwt)
+            .service(validate_jwt)
     })
     .bind_openssl("localhost:5001", builder)?
     .run()
