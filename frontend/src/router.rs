@@ -7,7 +7,7 @@ use crate::components::{
 };
 use crate::utils::validate_jwt::validate_jwt;
 use wasm_bindgen::JsValue;
-use web_sys::window;
+use web_sys::{console, window};
 use yew::platform::spawn_local;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -119,38 +119,35 @@ fn protected_route(props: &ProtectedRouteProps) -> Html {
     let location = use_location().unwrap();
     let valid = use_state(|| false);
 
-    let valid_clone = valid.clone();
-
-    spawn_local(async move {
-        let binding = String::from("");
-        let jwt = auth_context.context.jwt.as_ref().unwrap_or(&binding);
-
-        if jwt.is_empty() {
-            web_sys::console::log_1(&JsValue::from_str("JWT is empty"));
-            valid_clone.set(true);
-        } else {
-            web_sys::console::log_1(&format!("Not empty, JWT: {:?}", *jwt).into());
-            match validate_jwt(jwt).await {
-                Ok(true) => valid_clone.set(true),
-                Ok(false) => valid_clone.set(false),
-                Err(_) => valid_clone.set(false),
+    {
+        let valid = valid.clone();
+        let auth_context = auth_context.clone();
+        spawn_local(async move {
+            let jwt = auth_context.context.jwt.as_deref().unwrap_or("");
+            if !jwt.is_empty() {
+                match validate_jwt(&jwt.to_string()).await {
+                    Ok(true) => valid.set(true),
+                    _ => valid.set(false),
+                }
+            } else {
+                valid.set(false);
             }
-        }
-    });
-
-    web_sys::console::log_1(&format!("JWT Valid: {:?}", *valid).into());
+        });
+    }
 
     if *valid {
         props.component.clone()
     } else {
         let target_url = location.path();
-        window()
-            .unwrap()
-            .local_storage()
-            .unwrap()
-            .unwrap()
-            .set_item("redirect_after_login", &target_url)
-            .expect("Failed to set redirect URL in local storage");
+        if let Ok(Some(storage)) = window().unwrap().local_storage() {
+            storage
+                .set_item("redirect_after_login", &target_url)
+                .expect("Failed to set redirect URL in local storage");
+        } else {
+            console::error_1(&JsValue::from_str(
+                "Failed to set redirect URL in local storage",
+            ));
+        }
 
         html!(<Redirect<Route> to={Route::Login}/>)
     }

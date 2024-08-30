@@ -13,10 +13,5 @@ pub async fn fetch_jwt(id: &String) -> Result<String, JsValue> {
         .await
         .map_err(|e| JsValue::from_str(&format!("Failed to read response text: {}", e)))?;
 
-    let jwt = response
-        .strip_prefix("jwt=")
-        .unwrap_or(&response)
-        .to_string();
-
-    Ok(jwt)
+    Ok(response)
 }

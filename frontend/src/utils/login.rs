@@ -1,5 +1,6 @@
 use serde_json::Value;
 use wasm_bindgen::JsValue;
+use web_sys::console;
 
 use crate::utils::{
     create_or_update_user::{create_or_update_user, User},
@@ -101,7 +102,6 @@ pub async fn login_fn(code: &str) -> Result<LoginSucess, JsValue> {
         Ok(jwt) => jwt,
         Err(e) => return Err(JsValue::from_str(&format!("Failed to fetch jwt: {:?}", e))),
     };
-
     Ok(LoginSucess {
         user: user_data,
         jwt: jwt,

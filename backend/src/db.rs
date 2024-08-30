@@ -7,8 +7,8 @@ pub async fn init() -> surrealdb::Result<Surreal<Client>> {
     let username = env::var("DB_USERNAME").expect("DB_USERNAME not set");
     let pswd = env::var("DB_PASSWORD").expect("DB_PASSWORD not set");
 
-    let db = Surreal::new::<Ws>("127.0.0.1:8080").await.map_err(|e| {
-        eprintln!("Failed to connect to SurrealDB at 127.0.0.1:8080: {}", e);
+    let db = Surreal::new::<Ws>("0.0.0.0:8080").await.map_err(|e| {
+        eprintln!("Failed to connect to SurrealDB at 0.0.0.0:8080: {}", e);
         e
     })?;
 

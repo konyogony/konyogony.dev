@@ -1,9 +1,22 @@
 use reqwest::Client;
+use serde::Deserialize;
 use wasm_bindgen::JsValue;
 
-pub async fn validate_jwt(session_token: &str) -> Result<bool, JsValue> {
-    let client = Client::new();
+#[derive(Deserialize)]
+struct ValidateResponse {
+    status: String,
+    claims: Option<Claims>,
+}
 
+#[derive(Deserialize)]
+struct Claims {
+    sub: String,
+    iat: usize,
+    exp: usize,
+}
+
+pub async fn validate_jwt(session_token: &String) -> Result<bool, JsValue> {
+    let client = Client::new();
     let response = client
         .get(format!(
             "https://localhost:5001/validate-jwt?token={}",
@@ -12,15 +25,12 @@ pub async fn validate_jwt(session_token: &str) -> Result<bool, JsValue> {
         .send()
         .await
         .map_err(|e| JsValue::from_str(&format!("Failed to execute request: {}", e)))?
-        .text()
+        .json::<ValidateResponse>()
         .await
-        .map_err(|e| JsValue::from_str(&format!("Failed to read response text: {}", e)))?;
+        .map_err(|e| JsValue::from_str(&format!("Failed to parse response JSON: {}", e)))?;
 
-    let jwt = response.strip_prefix("jwt=").unwrap_or(&response);
-    web_sys::console::log_1(&format!("JWTa: {:?}", jwt).into());
-    match jwt {
+    match response.status.as_str() {
         "valid" => Ok(true),
-        "invalid" => Ok(false),
         _ => Ok(false),
     }
 }
