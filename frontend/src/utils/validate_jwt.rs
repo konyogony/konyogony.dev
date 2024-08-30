@@ -1,5 +1,4 @@
 use reqwest::Client;
-use serde::Deserialize;
 use wasm_bindgen::JsValue;
 
 pub async fn validate_jwt(session_token: &str) -> Result<bool, JsValue> {

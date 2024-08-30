@@ -1,4 +1,4 @@
-use actix_web::{post, web, HttpResponse, Responder};
+use actix_web::{get, post, web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use surrealdb::{engine::remote::ws::Client, Error, Surreal};
 
@@ -131,8 +131,8 @@ pub async fn get_user_by_id(
     }
 }
 
-#[post("/get-all-users")]
-pub async fn get_all_users(user_repo: web::Data<UserRepository>) -> impl Responder {
+#[get("/fetch-all-users")]
+pub async fn fetch_all_users(user_repo: web::Data<UserRepository>) -> impl Responder {
     match user_repo.get_all().await {
         Ok(users) => HttpResponse::Ok().json(users),
         Err(e) => {
@@ -174,7 +174,6 @@ pub async fn create_user(user: User, user_repo: web::Data<UserRepository>) -> Re
     }
 }
 
-// 3
 #[post("/create-or-update-user")]
 pub async fn create_or_update_user(
     user: web::Json<User>,

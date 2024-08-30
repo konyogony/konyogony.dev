@@ -18,7 +18,11 @@ struct GenerateProps {
 
 #[get("/generate-jwt")]
 pub async fn generate_jwt(query: web::Query<GenerateProps>) -> impl Responder {
-    let key = env::var("ENCRYPTION_KEY").expect("ENCRYPTION_KEY not set");
+    let key = match env::var("ENCRYPTION_KEY") {
+        Ok(val) => val,
+        Err(_) => return HttpResponse::InternalServerError().json("ENCRYPTION_KEY not set"),
+    };
+
     let now = Utc::now();
     let exp = now + Duration::hours(12);
 
@@ -33,8 +37,8 @@ pub async fn generate_jwt(query: web::Query<GenerateProps>) -> impl Responder {
         &claims,
         &EncodingKey::from_secret(key.as_bytes()),
     ) {
-        Ok(jwt) => HttpResponse::Ok().body(format!("jwt={}", jwt)),
-        Err(_) => HttpResponse::InternalServerError().body("Failed to generate token"),
+        Ok(jwt) => HttpResponse::Ok().json(jwt),
+        Err(_) => HttpResponse::InternalServerError().json("Failed to generate token"),
     }
 }
 
@@ -45,14 +49,17 @@ struct ValidateProps {
 
 #[get("/validate-jwt")]
 pub async fn validate_jwt(query: web::Query<ValidateProps>) -> impl Responder {
-    let key = env::var("ENCRYPTION_KEY").expect("ENCRYPTION_KEY not set");
+    let key = match env::var("ENCRYPTION_KEY") {
+        Ok(val) => val,
+        Err(_) => return HttpResponse::InternalServerError().json("ENCRYPTION_KEY not set"),
+    };
 
     match decode::<Claims>(
         &query.token,
-        &DecodingKey::from_secret(key.as_bytes()),
+        &DecodingKey::from_secret(key.as_ref()),
         &Validation::default(),
     ) {
-        Ok(_) => HttpResponse::Ok().body("jwt=valid"),
-        Err(_) => HttpResponse::Unauthorized().body("jwt=invalid"),
+        Ok(_) => HttpResponse::Ok().json("jwt=valid"),
+        Err(_) => HttpResponse::Ok().json("jwt=invalid"),
     }
 }

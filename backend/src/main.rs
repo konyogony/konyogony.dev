@@ -7,7 +7,7 @@ use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::env;
-use user::{create_or_update_user, delete_user, get_all_users, get_user_by_id, UserRepository};
+use user::{create_or_update_user, delete_user, fetch_all_users, get_user_by_id, UserRepository};
 
 mod db;
 mod jwt;
@@ -127,7 +127,7 @@ async fn main() -> std::io::Result<()> {
             )
             .service(get_access_token)
             .service(get_user_by_id)
-            .service(get_all_users)
+            .service(fetch_all_users)
             .service(delete_user)
             .service(get_user_data)
             .service(create_or_update_user)
