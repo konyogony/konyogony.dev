@@ -5,10 +5,14 @@ Built using Yew, Tailwind and Github's OAuth2. First experience with WA and Rust
 
 # Installation:
 
-1. Install SurrealDB with `curl -sSf https://install.surrealdb.com | sh`
-2. Start DB using `cd backend; ./db.sh`
-3. Start Backend using `cd backend; ./rs.sh`
-4. Start Frontend using `cd frontend; ./run.sh`
+1. Install rustup and other dependencies using:
+
+- `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+- `cargo install --locked trunk`
+- `rustup target add wasm32-unknown-unknown`
+- `curl -sSf https://install.surrealdb.com | sh`
+
+2. Start frontend & backend using one command: `./start.sh`
 
 Currently using ngnix to make SSL work, so website loads on https://localhost
 
