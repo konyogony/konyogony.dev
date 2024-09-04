@@ -69,7 +69,7 @@ fn switch(routes: Route) -> Html {
         Route::Social => html!(<Social />),
         Route::SocialRedirect { provider } => {
             let redirect_url = match provider.as_str() {
-                "github" => "https://github.com/kony-ogony/".to_string(),
+                "github" => "https://github.com/konyogony/".to_string(),
                 "discord" => "https://discordlookup.com/user/564472732071493633/".to_string(),
                 "spotify" => "https://open.spotify.com/user/xeq03n90tcwkg4tegzdxggvzd/".to_string(),
                 "steam" => "https://steamcommunity.com/id/kony_ogony/".to_string(),
