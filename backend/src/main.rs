@@ -101,13 +101,13 @@ async fn main() -> std::io::Result<()> {
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
     builder
         .set_private_key_file(
-            "/home/kony/Documents/kony_clowning_2/konyweb/backend/localhost-key.pem",
+            "/home/kony/GitHub/konyogony.dev/backend/localhost-key.pem",
             SslFiletype::PEM,
         )
         .unwrap();
     builder
         .set_certificate_chain_file(
-            "/home/kony/Documents/kony_clowning_2/konyweb/backend/localhost.pem",
+            "/home/kony/GitHub/konyogony.dev/backend/localhost.pem",
         )
         .unwrap();
     // This obv will be changed
