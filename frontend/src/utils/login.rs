@@ -16,6 +16,7 @@ pub struct LoginSucess {
 }
 
 pub async fn login_fn(code: &str) -> Result<LoginSucess, JsValue> {
+    console::log_1(&JsValue::from_str("start"));
     let response = match get_access_token(code).await {
         Ok(response) => response,
         Err(e) => {

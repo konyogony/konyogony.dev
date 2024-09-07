@@ -102,6 +102,7 @@ pub fn auth_provider(props: &Props) -> Html {
             if url.contains("?code=") && !*login_in_progress {
                 spawn_local(async move {
                     let code = url.split("?code=").nth(1).unwrap();
+                    console::log_1(&JsValue::from_str(&code));
                     match login_fn(code).await {
                         Ok(login_success) => {
                             set_cookie("jwt", &login_success.jwt, 14);
