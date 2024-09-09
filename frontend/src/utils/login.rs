@@ -103,6 +103,8 @@ pub async fn login_fn(code: &str) -> Result<LoginSucess, JsValue> {
         Ok(jwt) => jwt,
         Err(e) => return Err(JsValue::from_str(&format!("Failed to fetch jwt: {:?}", e))),
     };
+    console::log_1(&JsValue::from_str("end"));
+
     Ok(LoginSucess {
         user: user_data,
         jwt: jwt,

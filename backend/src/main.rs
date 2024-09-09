@@ -116,7 +116,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(user_repo.clone())
             .wrap(
                 Cors::default()
-                    .allowed_origin("https://localhost") // Later change this to 'konyogony.dev'
+                    .allowed_origin("https://localhost")
+                    .allowed_origin("https://github.com")
                     .allowed_methods(vec!["GET", "POST"])
                     .allowed_headers(vec![
                         actix_web::http::header::CONTENT_TYPE,

@@ -14,7 +14,6 @@ pub fn footer() -> Html {
                         {"Kony's personal website for future projects and ideas."}
                     </span>
                 </div>
-
             </div>
             <div class="h-[1px] w-full bg-white/5 rounded-lg my-2 mt-4"/>
             <div class="flex flex-row gap-4 mt-2 text-sm text-gray-200 font-semibold items-center">

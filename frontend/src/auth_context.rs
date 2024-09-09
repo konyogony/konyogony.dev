@@ -101,6 +101,7 @@ pub fn auth_provider(props: &Props) -> Html {
             let url = window().unwrap().location().href().unwrap();
             if url.contains("?code=") && !*login_in_progress {
                 spawn_local(async move {
+                    login_in_progress.set(true);
                     let code = url.split("?code=").nth(1).unwrap();
                     console::log_1(&JsValue::from_str(&code));
                     match login_fn(code).await {

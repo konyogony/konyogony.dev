@@ -127,28 +127,41 @@ fn protected_route(props: &ProtectedRouteProps) -> Html {
             if !jwt.is_empty() {
                 match validate_jwt(&jwt.to_string()).await {
                     Ok(true) => valid.set(true),
-                    _ => valid.set(false),
+                    _ => {
+                        console::log_1(&JsValue::from_str("Invalid JWT"));
+                        valid.set(false)
+                    },
                 }
             } else {
+                console::log_1(&JsValue::from_str("No JWT"));
                 valid.set(false);
             }
         });
     }
 
+    console::log_1(&JsValue::from_str(&format!("valid: {}", *valid)));
     if *valid {
         props.component.clone()
     } else {
         let target_url = location.path();
-        if let Ok(Some(storage)) = window().unwrap().local_storage() {
-            storage
-                .set_item("redirect_after_login", &target_url)
-                .expect("Failed to set redirect URL in local storage");
-        } else {
-            console::error_1(&JsValue::from_str(
-                "Failed to set redirect URL in local storage",
-            ));
+        let storage = match window().unwrap().local_storage() {
+            Ok(Some(storage)) => storage,
+            _ => {
+                console::error_1(&JsValue::from_str(
+                    "Failed to set redirect URL in local storage",
+                ));
+                return html!(<Redirect<Route> to={Route::Login}/>);
+            }
+        };
+
+        if let Err(e) = storage.set_item("redirect_after_login", &target_url) {
+            console::error_1(&JsValue::from_str(&format!(
+                "Failed to set redirect URL in local storage: {:?}",
+                e
+            )));
         }
 
         html!(<Redirect<Route> to={Route::Login}/>)
     }
 }
+
