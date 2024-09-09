@@ -1,4 +1,4 @@
-use actix_web::{get, web, HttpResponse, Responder};
+use actix_web::{get, post, web, HttpResponse, Responder};
 use chrono::{Duration, Utc};
 use jsonwebtoken::{
     decode, encode,
@@ -29,7 +29,7 @@ impl Claims {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 struct GenerateProps {
     id: String,
 }
@@ -42,30 +42,27 @@ pub async fn generate_jwt(query: web::Query<GenerateProps>) -> impl Responder {
     };
 
     let claims = Claims::new(&query.id, Duration::hours(12));
+    let header = Header::new(Algorithm::HS256);
 
-    match encode(
-        &Header::default(),
-        &claims,
-        &EncodingKey::from_secret(key.as_ref()),
-    ) {
+    match encode(&header, &claims, &EncodingKey::from_secret(key.as_ref())) {
         Ok(jwt) => HttpResponse::Ok().json(jwt),
         Err(_) => HttpResponse::InternalServerError().json("Failed to generate token"),
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 struct ValidateProps {
     token: String,
 }
 
-#[get("/validate-jwt")]
-pub async fn validate_jwt(query: web::Query<ValidateProps>) -> impl Responder {
+#[post("/validate-jwt")]
+pub async fn validate_jwt(body: web::Json<ValidateProps>) -> impl Responder {
     let key = match env::var("ENCRYPTION_KEY") {
         Ok(val) => val,
         Err(_) => return HttpResponse::InternalServerError().json("ENCRYPTION_KEY not set"),
     };
-
-    let token = query.token.trim().to_string();
+    
+    let token = body.token.trim().to_string();
 
     match decode::<Claims>(
         &token,
@@ -76,8 +73,8 @@ pub async fn validate_jwt(query: web::Query<ValidateProps>) -> impl Responder {
             HttpResponse::Ok().json(json!({"status": "valid", "claims": token_data.claims}))
         }
         Err(err) => match err.kind() {
-            ErrorKind::InvalidToken => HttpResponse::Unauthorized().json("Token has expired"),
-            _ => HttpResponse::Ok().json("jwt=invalid"),
+            ErrorKind::ExpiredSignature => HttpResponse::Unauthorized().json("Token has expired"),
+            _ => HttpResponse::Ok().json(json!({"status": "invalid", "error": err.to_string()})),
         },
     }
 }
