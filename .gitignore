@@ -16,3 +16,9 @@ db.sh
 
 # Enviromental variables
 .env
+.env.backup
+.env.production
+
+
+
+node_modules/

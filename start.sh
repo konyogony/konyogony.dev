@@ -11,4 +11,4 @@ sleep 2 # in seconds
 cd ..
 cd frontend
 
-./start.sh
+bun run dev
