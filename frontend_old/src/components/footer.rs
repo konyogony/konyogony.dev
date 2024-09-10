@@ -1,6 +1,6 @@
 use crate::components::navbar::nav_items::TitleHome;
 use yew::{function_component, html, Html};
-use yew_icons::{Icon, IconId};
+// use yew_icons::{Icon, IconId};
 // https://colorlib.com/wp/wp-content/uploads/sites/2/bootstrap-footer-04.  jpg
 
 #[function_component(Footer)]

@@ -2,7 +2,7 @@ use actix_web::{get, post, web, HttpResponse, Responder};
 use chrono::{Duration, Utc};
 use jsonwebtoken::{
     decode, encode,
-    errors::{Error as JwtError, ErrorKind},
+    errors::ErrorKind,
     Algorithm, DecodingKey, EncodingKey, Header, Validation,
 };
 use serde::{Deserialize, Serialize};
