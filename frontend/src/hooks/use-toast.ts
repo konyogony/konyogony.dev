@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
 import * as React from 'react';
 

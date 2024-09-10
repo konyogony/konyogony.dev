@@ -104,7 +104,4 @@ server {
 - [x] Add "About" command for my discord-bot
 - [ ] Proper branding and PFP (currently using [steamhappy](https://i.redd.it/i-made-steamhappy-vector-image-v0-jmmqmwzwk14c1.png?width=800&format=png&auto=webp&s=7cc8498450fbd323b22899722ac24cbd23a91a83) everywhere I can)
 
-
-
-
-<!-- +rep chatgpt -->
+ 
