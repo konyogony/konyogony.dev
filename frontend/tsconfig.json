@@ -4,7 +4,7 @@
         "module": "esnext",
         "moduleResolution": "node",
         "jsx": "react-jsx",
-        "rootDir": "./src",
+        "rootDir": "./",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
@@ -14,5 +14,5 @@
         },
         "types": ["vite/client"]
     },
-    "include": ["./src/*.{ts,tsx}", "vite.config.ts"]
+    "include": ["./src/**/*", "vite.config.ts"]
 }
