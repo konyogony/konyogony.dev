@@ -4,11 +4,20 @@
 @tailwind utilities;
 
 body {
-    @apply font-[Inter];
+    @apply scroll-smooth font-[Inter] text-zinc-200;
 }
 
 @layer base {
     :root {
         --radius: 0.75rem;
     }
+}
+
+/* Firefox sucsk */
+::-webkit-scrollbar {
+    @apply w-2 bg-zinc-950;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply rounded-xl bg-zinc-900 hover:bg-zinc-800;
 }
