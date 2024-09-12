@@ -88,6 +88,7 @@ server {
 - [x] Make social redirect (e.g. `/social/spotify`)
 
 ### Backend
+- [ ] Change to RocksDB
 - [ ] Auth working
   - [x] Get access-token
   - [x] Get user data
