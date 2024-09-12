@@ -1,6 +1,4 @@
-use std::env;
 use surrealdb::engine::local::{Db, File};
-use surrealdb::opt::auth::Root;
 use surrealdb::Surreal;
 use tokio::sync::OnceCell;
 

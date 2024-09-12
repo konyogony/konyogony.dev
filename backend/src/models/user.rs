@@ -106,11 +106,11 @@ impl UserRepository {
         }
     }
 
-    pub async fn delete(&self, id: String) -> surrealdb::Result<User> {
-        let res = self.db.delete((&self.table, id.to_string())).await?;
-        match res {
-            Some(user) => Ok(user),
-            None => Ok(User::default()),
-        }
-    }
+    // pub async fn delete(&self, id: String) -> surrealdb::Result<User> {
+    //     let res = self.db.delete((&self.table, id.to_string())).await?;
+    //     match res {
+    //         Some(user) => Ok(user),
+    //         None => Ok(User::default()),
+    //     }
+    // }
 }
