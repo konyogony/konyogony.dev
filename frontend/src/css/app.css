@@ -3,8 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    @apply scroll-smooth font-[Inter] text-zinc-200;
+html {
+    scroll-behavior: smooth !important;
+    @apply font-[Inter] text-zinc-200;
 }
 
 @layer base {

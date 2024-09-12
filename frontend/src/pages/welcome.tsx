@@ -1,6 +1,6 @@
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { Button } from '@/components/ui/button';
-import { FiArrowRight } from 'react-icons/fi';
+import { FiArrowRight, FiChevronDown } from 'react-icons/fi';
 import { RxMagnifyingGlass } from 'react-icons/rx';
 import {
     SiActix,
@@ -18,10 +18,13 @@ import {
 export const Welcome = () => {
     return (
         <>
-            <div className='relative flex h-[75vh] w-full flex-col items-center justify-center gap-8 border-b border-white/5'>
-                <div className='z-40 flex flex-col items-center gap-1 bg-gradient-to-t from-zinc-400 to-zinc-200 bg-clip-text text-transparent'>
-                    <span className='text-7xl font-bold tracking-wide'>Meet kony_ogony,</span>
-                    <span className='text-xl font-medium'>a junior full-stack developer, who does cool stuff!</span>
+            <div className='bg-dot-white/[0.2] lg:bg-dot-white/0 relative flex h-[55vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 lg:h-[75vh] lg:gap-8'>
+                <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
+                <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-400 to-zinc-200 bg-clip-text text-transparent lg:gap-1'>
+                    <span className='text-5xl font-bold tracking-wide lg:text-7xl'>Meet kony_ogony,</span>
+                    <span className='text-lg font-medium lg:text-xl'>
+                        a junior full-stack developer, who does cool stuff!
+                    </span>
                 </div>
                 <div className='z-40 flex flex-row items-center gap-4'>
                     <Button className='flex flex-row items-center gap-1'>
@@ -57,9 +60,15 @@ export const Welcome = () => {
                         <SiSurrealdb size={20} />
                     </a>
                 </div>
+                <a
+                    href='#work'
+                    className='absolute bottom-4 left-1/2 z-40 hidden -translate-x-1/2 text-zinc-500 motion-reduce:hidden lg:flex'
+                >
+                    <FiChevronDown size={18} />
+                </a>
                 <BackgroundBeams className='hidden motion-reduce:hidden lg:flex' />
             </div>
-            <div className='flex flex-col items-center gap-2'>
+            <div className='flex flex-col items-center gap-2' id='work'>
                 <span className='text-2xl font-semibold'>Some of my work</span>
             </div>
 
