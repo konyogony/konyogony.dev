@@ -1,8 +1,8 @@
 # konyogony.dev (WIP)
 
 Personal website to host my portofolio, DB and future API's. \
-Built using Yew, Tailwind and GitHub's OAuth2. First experience with WA and Rust for backend.
-
+Built using Vite, Shadcn and Tailwind for frontend. Actix-web and SurrealDB for backend and Github's OAuth2. \
+First experience with Rust for backend.
 ## Main Installation Guide
 1. Install rustup, bun and other dependencies using:
 - `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
