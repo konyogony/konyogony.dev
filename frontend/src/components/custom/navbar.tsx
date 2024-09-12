@@ -23,7 +23,7 @@ export const Navbar = () => {
     return (
         <nav
             className={cn(
-                'fixed top-0 z-50 flex w-full flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
+                'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
                 scrolled ? 'border-white/5 bg-zinc-950/60 backdrop-blur-md' : 'border-transparent bg-transparent',
             )}
         >
