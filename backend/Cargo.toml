@@ -1,6 +1,6 @@
 [package]
-name = "backend"
-version = "0.1.0"
+name = "konyogony-dev-backend"
+version = "0.0.0"
 edition = "2021"
 
 [dependencies]
@@ -10,8 +10,8 @@ actix-session = "0.10"
 reqwest = { version = "0.12.7", features = ["json"] }
 serde = { version = "1.0.209", features = ["derive"] }
 serde_json = "1.0.127"
-# tokio = { version = "1", features = ["full", "macros", "rt-multi-thread"] }
-surrealdb = { version = "1.5.5", features = ["protocol-http"]} 
+tokio = { version = "1", features = ["full", "macros", "rt-multi-thread"] }
+surrealdb = { version = "1.5.5", features = ["protocol-http", "kv-rocksdb"]} 
 dotenv = "0.15"
 env_logger = "0.11.5"
 anyhow = "1.0.68"

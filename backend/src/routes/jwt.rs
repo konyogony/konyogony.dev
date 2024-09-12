@@ -1,9 +1,7 @@
 use actix_web::{get, post, web, HttpResponse, Responder};
 use chrono::{Duration, Utc};
 use jsonwebtoken::{
-    decode, encode,
-    errors::ErrorKind,
-    Algorithm, DecodingKey, EncodingKey, Header, Validation,
+    decode, encode, errors::ErrorKind, Algorithm, DecodingKey, EncodingKey, Header, Validation,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::json;
@@ -61,7 +59,7 @@ pub async fn validate_jwt(body: web::Json<ValidateProps>) -> impl Responder {
         Ok(val) => val,
         Err(_) => return HttpResponse::InternalServerError().json("ENCRYPTION_KEY not set"),
     };
-    
+
     let token = body.token.trim().to_string();
 
     match decode::<Claims>(

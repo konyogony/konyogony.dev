@@ -3,7 +3,7 @@ use std::env;
 use actix_web::{get, web, HttpResponse, Responder};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
-
+use serde_json::json;
 
 #[derive(Deserialize)]
 pub struct OAuthRequest {
@@ -79,6 +79,7 @@ pub async fn get_user_data(access_token: web::Query<UserDataRequest>) -> impl Re
                 HttpResponse::BadRequest().body(format!("GitHub API error: {}", response.status()))
             }
         }
-        Err(e) => HttpResponse::BadRequest().body(format!("Failed to get access token: {}", e)),
+        Err(e) => HttpResponse::BadRequest()
+            .json(json!({ "error": format!("Failed to get access token: {}", e) })),
     }
 }
