@@ -25,14 +25,14 @@ export const Navbar = () => {
     return (
         <nav
             className={cn(
-                'fixed top-0 flex w-full flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 xl:flex-row xl:items-center xl:gap-0 xl:py-4',
+                'fixed top-0 flex w-full flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
                 scrolled ? 'border-white/5 bg-zinc-950/60 backdrop-blur-md' : 'border-transparent bg-transparent',
             )}
         >
-            <Link to={'/'} className='mr-8 hidden flex-row items-center gap-1 xl:flex'>
-                <span className='text-xl font-bold text-zinc-100'>konyogony.dev</span>
+            <Link to={'/'} className='mr-8 hidden flex-row items-center gap-1 lg:flex'>
+                <span className='text-lg font-bold text-zinc-100'>konyogony.dev</span>
             </Link>
-            <div className='text-md flex w-full flex-row items-center justify-around font-medium xl:w-fit xl:justify-normal xl:gap-8 xl:text-sm'>
+            <div className='text-md flex w-full flex-row items-center justify-around font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
                 {routes.map((routeName, i) => {
                     return (
                         <NavLink
@@ -45,7 +45,7 @@ export const Navbar = () => {
                     );
                 })}
             </div>
-            <div className='ml-auto mr-2 hidden flex-row items-center gap-2 xl:flex'>
+            <div className='ml-auto mr-2 hidden flex-row items-center gap-2 lg:flex'>
                 <a
                     className='flex items-center justify-center rounded-sm p-2 hover:bg-zinc-900'
                     href='https://github.com/konyogony'
