@@ -1,12 +1,10 @@
 import { cn } from '@/lib/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { BsDiscord, BsGithub } from 'react-icons/bs';
-import { IoLogIn } from 'react-icons/io5';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
 
 export const Navbar = () => {
-    const location = useLocation();
     const [scrolled, setScrolled] = useState<boolean>(false);
 
     const routes = ['Home', 'Docs', 'About', 'Notes'];
@@ -25,7 +23,7 @@ export const Navbar = () => {
     return (
         <nav
             className={cn(
-                'fixed top-0 flex w-full flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
+                'fixed top-0 z-50 flex w-full flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
                 scrolled ? 'border-white/5 bg-zinc-950/60 backdrop-blur-md' : 'border-transparent bg-transparent',
             )}
         >
@@ -44,6 +42,9 @@ export const Navbar = () => {
                         </NavLink>
                     );
                 })}
+                <Button variant={'ghost'} className='flex font-medium lg:hidden'>
+                    Login
+                </Button>
             </div>
             <div className='ml-auto mr-2 hidden flex-row items-center gap-2 lg:flex'>
                 <a
@@ -63,10 +64,9 @@ export const Navbar = () => {
                     <BsDiscord size={20} />
                 </a>
             </div>
-            {/* <Button className='flex flex-row'>
-                <IoLogIn size={22} />
+            <Button variant={'ghost'} className='hidden font-medium lg:flex'>
                 Login
-            </Button> */}
+            </Button>
         </nav>
     );
 };
