@@ -1,5 +1,4 @@
 import { fetchBackend } from '@/lib/fetchBackend';
-import { getMdx } from '@/lib/getMdx';
 import { MDXProvider } from '@mdx-js/react';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -13,7 +12,6 @@ export const Docs = () => {
 
     useEffect(() => {
         const data = fetchBackend(`/get-docs/${path}`);
-        console.log(data);
     }, [path]);
 
     return (

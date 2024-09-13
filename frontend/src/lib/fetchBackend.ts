@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const backendUrl = 'http://localhost:5001';
+const backendUrl = 'https://localhost:5001';
 
 export const fetchBackend = (url: string, method: 'get' | 'post' = 'get') => {
     const request = method === 'get' ? axios.get : axios.post;
