@@ -8,6 +8,12 @@ mod db;
 mod models;
 mod routes;
 
+use routes::github::get_access_token;
+use routes::github::get_user_data;
+use routes::user::create_or_update_user;
+use routes::user::fetch_all_users;
+use routes::user::get_user_by_id;
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
@@ -36,6 +42,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(
                 Cors::default()
                     .allowed_origin("https://localhost")
+                    .allowed_origin("http://localhost:5000")
                     .allowed_origin("https://github.com")
                     .allowed_methods(vec!["GET", "POST"])
                     .allowed_headers(vec![
@@ -46,11 +53,11 @@ async fn main() -> std::io::Result<()> {
                     .supports_credentials()
                     .max_age(3600),
             )
-            .service(routes::github::get_access_token)
-            .service(routes::github::get_user_data)
-            .service(routes::user::get_user_by_id)
-            .service(routes::user::fetch_all_users)
-            .service(routes::user::create_or_update_user)
+            .service(get_access_token)
+            .service(get_user_data)
+            .service(get_user_by_id)
+            .service(fetch_all_users)
+            .service(create_or_update_user)
     })
     .bind_openssl("localhost:5001", builder)?
     .run()
