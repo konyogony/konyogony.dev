@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+import { DocsLayout } from './layouts/docsLayout';
 import { Layout } from './layouts/layout';
+import { Docs } from './pages/docs';
 import { Notes } from './pages/notes';
 import { NotFound } from './pages/notfound';
 import { Welcome } from './pages/welcome';
@@ -37,7 +39,14 @@ export const App = () => {
                 <Routes>
                     {/* Public routes */}
                     <Route path='/' element={<Welcome />} />
-                    <Route path='/welcome' element={<Welcome />} />
+                    <Route
+                        path='/docs/*'
+                        element={
+                            <DocsLayout>
+                                <Docs />
+                            </DocsLayout>
+                        }
+                    />
 
                     {/* Protected routes */}
                     <Route path='/notes' element={<ProtectedRoute component={<Notes />} />} />
@@ -47,7 +56,6 @@ export const App = () => {
 
                     {/* Not found */}
                     <Route path='*' element={<NotFound />} />
-                    <Route path='404' element={<NotFound />} />
                 </Routes>
             </Layout>
         </BrowserRouter>

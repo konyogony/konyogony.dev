@@ -10,9 +10,13 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@mdx-js/mdx": "^3.0.1",
+        "@mdx-js/react": "^3.0.1",
+        "@mdx-js/rollup": "^3.0.1",
         "@radix-ui/react-slot": "^1.1.0",
         "@radix-ui/react-toast": "^1.2.1",
         "@types/node": "^22.5.4",
+        "axios": "^1.7.7",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "framer-motion": "^11.5.4",
