@@ -55,6 +55,7 @@ export const App = () => {
                     <Route path='/social/:service' element={<RedirectSocial />} />
 
                     {/* Not found */}
+                    <Route path='404' element={<NotFound />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </Layout>
