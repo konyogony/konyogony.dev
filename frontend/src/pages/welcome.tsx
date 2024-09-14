@@ -7,9 +7,9 @@ import { SiActix, SiReact, SiRust, SiShadcnui, SiSurrealdb, SiTailwindcss, SiTyp
 export const Welcome = () => {
     return (
         <>
-            <div className='relative flex h-[55vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-dot-white/[0.2] lg:h-[75vh] lg:gap-8 lg:bg-dot-white/0'>
+            <div className='relative flex h-[55vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-dot-white/[0.2] lg:h-[75vh] lg:gap-4 lg:bg-dot-white/0'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
-                <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-300 to-zinc-100 bg-clip-text text-transparent lg:gap-1'>
+                <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-300 to-zinc-100 bg-clip-text text-transparent lg:gap-2'>
                     <span className='text-5xl font-bold tracking-wide lg:text-7xl'>Meet kony_ogony,</span>
                     <span className='text-lg font-medium lg:text-xl'>
                         a junior full-stack developer, who does cool stuff!
