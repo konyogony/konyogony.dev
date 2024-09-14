@@ -22,34 +22,37 @@ html {
 ::-webkit-scrollbar-thumb {
     @apply rounded-xl bg-zinc-900 hover:bg-zinc-800;
 }
-h1 {
+
+/* For wiki */
+
+.wiki h1 {
     @apply text-4xl text-indigo-600;
 }
 
-h2 {
+.wiki h2 {
     @apply text-3xl text-indigo-500;
 }
 
-h3 {
+.wiki h3 {
     @apply text-2xl text-indigo-400;
 }
 
-h4 {
+.wiki h4 {
     @apply text-xl text-indigo-300;
 }
 
-h5 {
+.wiki h5 {
     @apply text-lg text-indigo-200;
 }
 
-h6 {
+.wiki h6 {
     @apply text-base text-indigo-100;
 }
 
-p {
+.wiki p {
     @apply text-base;
 }
 
-a {
+.wiki a {
     @apply text-indigo-600 underline decoration-dotted;
 }
