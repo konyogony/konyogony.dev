@@ -26,27 +26,15 @@ html {
 /* For wiki */
 
 .wiki h1 {
-    @apply border-b border-white/10 p-2 text-4xl text-indigo-600;
+    @apply mb-4 border-b border-white/10 p-2 text-4xl text-zinc-50;
 }
 
 .wiki h2 {
-    @apply text-3xl text-indigo-500;
+    @apply mb-2 text-3xl text-zinc-200;
 }
 
 .wiki h3 {
-    @apply text-2xl text-indigo-400;
-}
-
-.wiki h4 {
-    @apply text-xl text-indigo-300;
-}
-
-.wiki h5 {
-    @apply text-lg text-indigo-200;
-}
-
-.wiki h6 {
-    @apply text-base text-indigo-100;
+    @apply mb-1 text-2xl text-zinc-300;
 }
 
 .wiki p {
@@ -54,5 +42,5 @@ html {
 }
 
 .wiki a {
-    @apply text-indigo-600 underline decoration-dotted;
+    @apply text-base underline decoration-dotted;
 }

@@ -1,5 +1,4 @@
-export interface WikiFile {
+interface FileInfo {
     name: string;
     folder: string;
-    path: string;
 }

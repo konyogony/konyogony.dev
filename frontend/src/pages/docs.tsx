@@ -1,9 +1,7 @@
-import { getFromBackend } from '@/lib/fetchBackend';
-import { compile, evaluate } from '@mdx-js/mdx';
 import { MDXProvider } from '@mdx-js/react';
 import { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import * as runtime from 'react/jsx-runtime';
+import { useLocation } from 'react-router-dom';
+import { NotFound } from './notfound';
 
 export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
@@ -15,37 +13,42 @@ export const Docs = () => {
     const path =
         location.pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', '');
 
+    const mdxFiles = import.meta.glob('../docs/**/*.mdx');
+    console.log('0:', Object.keys(mdxFiles));
+
     useEffect(() => {
-        (async () => {
-            setLoading(true);
-            const data = await getFromBackend(`/get-docs/${path}`);
-            if (data) {
-                try {
-                    const mdxModule = await evaluate(data, {
-                        ...(runtime as any),
-                        useMDXComponents: () => ({}),
-                    });
-                    setContent(() => (mdxModule.default as React.FC) ?? null);
-                } catch (error) {
-                    console.error('Error compiling MDX:', error);
-                }
-            }
-            setLoading(false);
-        })();
+        setLoading(true);
+        console.log('a', path);
+        const mdxPath = `../docs/${path}.mdx`;
+
+        const importFile = mdxFiles[mdxPath];
+        console.log('b', importFile);
+        if (importFile) {
+            importFile()
+                .then((module) => {
+                    setContent(() => (module as { default: React.FC }).default);
+                })
+                .catch((err) => {
+                    console.error('Error loading MDX file:', err);
+                    setContent(null);
+                });
+        } else {
+            setContent(null);
+        }
+
+        setLoading(false);
     }, [path]);
 
     return (
         <>
             {loading ? (
-                <div className='flex h-screen items-center justify-center'>
-                    <div className='animate-spin h-5 w-5 border-b-2 border-gray-900'></div>
-                </div>
+                <div className='flex h-screen w-full items-center justify-center'>loading...</div>
             ) : Content ? (
-                <MDXProvider>
+                <MDXProvider {...options}>
                     <Content />
                 </MDXProvider>
             ) : (
-                <Navigate to='/404' />
+                <NotFound />
             )}
         </>
     );
