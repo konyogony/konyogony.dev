@@ -1,5 +1,5 @@
 import { getFromBackend } from '@/lib/fetchBackend';
-import { evaluate } from '@mdx-js/mdx';
+import { compile, evaluate } from '@mdx-js/mdx';
 import { MDXProvider } from '@mdx-js/react';
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
@@ -9,17 +9,17 @@ export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const options = {};
+
     const location = useLocation();
     const path =
         location.pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', '');
 
     useEffect(() => {
-        const getDocs = async () => {
+        (async () => {
             setLoading(true);
-            console.log(`path: ${path}`);
             const data = await getFromBackend(`/get-docs/${path}`);
             if (data) {
-                console.log(`data: ${data}`);
                 try {
                     const mdxModule = await evaluate(data, {
                         ...(runtime as any),
@@ -31,8 +31,7 @@ export const Docs = () => {
                 }
             }
             setLoading(false);
-        };
-        getDocs();
+        })();
     }, [path]);
 
     return (
