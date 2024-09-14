@@ -22,3 +22,34 @@ html {
 ::-webkit-scrollbar-thumb {
     @apply rounded-xl bg-zinc-900 hover:bg-zinc-800;
 }
+h1 {
+    @apply text-4xl text-indigo-600;
+}
+
+h2 {
+    @apply text-3xl text-indigo-500;
+}
+
+h3 {
+    @apply text-2xl text-indigo-400;
+}
+
+h4 {
+    @apply text-xl text-indigo-300;
+}
+
+h5 {
+    @apply text-lg text-indigo-200;
+}
+
+h6 {
+    @apply text-base text-indigo-100;
+}
+
+p {
+    @apply text-base;
+}
+
+a {
+    @apply text-indigo-600 underline decoration-dotted;
+}

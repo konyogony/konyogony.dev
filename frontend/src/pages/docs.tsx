@@ -6,9 +6,8 @@ import { useLocation } from 'react-router-dom';
 export const Docs = () => {
     const [Content, setContent] = useState<(() => JSX.Element) | null>(null);
 
-    const location = useLocation();
     const path =
-        location.pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', ''); // This is so ugly bro
+        useLocation().pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', ''); // This is so ugly bro
 
     useEffect(() => {
         const getDocs = async () => {

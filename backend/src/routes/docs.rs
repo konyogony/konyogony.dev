@@ -2,7 +2,7 @@ use actix_web::{get, web, HttpResponse, Responder};
 use std::fs::read_to_string;
 use std::path::Path;
 
-#[get("/get-docs/{path}")]
+#[get("/get-docs/{path:.*}")]
 pub async fn get_docs(path: web::Path<String>) -> impl Responder {
     let file_path = format!("src/docs/{}.mdx", path.into_inner());
 
