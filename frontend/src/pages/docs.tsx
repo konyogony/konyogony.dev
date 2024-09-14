@@ -1,4 +1,4 @@
-import { fetchBackend } from '@/lib/fetchBackend';
+import { getFromBackend } from '@/lib/fetchBackend';
 import { MDXProvider } from '@mdx-js/react';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -11,7 +11,13 @@ export const Docs = () => {
         location.pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', ''); // This is so ugly bro
 
     useEffect(() => {
-        const data = fetchBackend(`/get-docs/${path}`);
+        const getDocs = async () => {
+            const data = await getFromBackend(`/get-docs/${path}`);
+            if (data) {
+                console.log(data);
+            }
+        };
+        getDocs();
     }, [path]);
 
     return (
