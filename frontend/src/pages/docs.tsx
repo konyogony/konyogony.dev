@@ -1,12 +1,13 @@
 import { getFromBackend } from '@/lib/fetchBackend';
-import { compile, evaluate } from '@mdx-js/mdx';
+import { evaluate } from '@mdx-js/mdx';
 import { MDXProvider } from '@mdx-js/react';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import * as runtime from 'react/jsx-runtime';
 
 export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const location = useLocation();
     const path =
@@ -14,8 +15,11 @@ export const Docs = () => {
 
     useEffect(() => {
         const getDocs = async () => {
+            setLoading(true);
+            console.log(`path: ${path}`);
             const data = await getFromBackend(`/get-docs/${path}`);
             if (data) {
+                console.log(`data: ${data}`);
                 try {
                     const mdxModule = await evaluate(data, {
                         ...(runtime as any),
@@ -26,18 +30,23 @@ export const Docs = () => {
                     console.error('Error compiling MDX:', error);
                 }
             }
+            setLoading(false);
         };
         getDocs();
     }, [path]);
 
     return (
         <>
-            {Content ? (
+            {loading ? (
+                <div className='flex h-screen items-center justify-center'>
+                    <div className='animate-spin h-5 w-5 border-b-2 border-gray-900'></div>
+                </div>
+            ) : Content ? (
                 <MDXProvider>
                     <Content />
                 </MDXProvider>
             ) : (
-                <p>Error occurred, check the console. It is likely that this element doesn't exist</p>
+                <Navigate to='/404' />
             )}
         </>
     );
