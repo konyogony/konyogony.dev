@@ -9,6 +9,7 @@ mod models;
 mod routes;
 
 use routes::docs::get_docs;
+use routes::docs::get_structure;
 use routes::github::get_access_token;
 use routes::github::get_user_data;
 use routes::user::create_or_update_user;
@@ -60,6 +61,7 @@ async fn main() -> std::io::Result<()> {
             .service(fetch_all_users)
             .service(create_or_update_user)
             .service(get_docs)
+            .service(get_structure)
     })
     .bind_openssl("localhost:5001", builder)?
     .run()
