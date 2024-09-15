@@ -27,16 +27,12 @@ interface wikiFolderProps {
 }
 
 const WikiFolder = ({ name, children }: wikiFolderProps) => {
-    const [isOpened, isSetOpened] = useState<boolean>(false);
-
-    const interactFolder = () => {
-        isSetOpened(!isOpened);
-    };
+    const [isOpened, isSetOpened] = useState(false);
 
     return (
         <>
             <button
-                onClick={() => interactFolder()}
+                onClick={() => isSetOpened(!isOpened)}
                 className='flex w-fit flex-row items-center rounded-md px-8 py-2 text-base hover:bg-zinc-800'
             >
                 {name} {!isOpened ? '-' : '+'}
@@ -61,18 +57,14 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
 
     useEffect(() => {
         const files = import.meta.glob('/src/docs/**/*', { query: 'url', import: 'default' });
-        const fileArray: FileInfo[] = [];
-        const folderSet = new Set<string>();
-
-        for (const filePath in files) {
+        const fileArray = Object.entries(files).map(([filePath, _]) => {
             const parts = filePath.split('/');
             const name = parts[parts.length - 1].replace('/', '').replace('.mdx', '');
             const folder = parts.slice(0, -1).join('/').replace('src/docs/', '').replace('src/docs', '');
 
-            if (folder !== '/') folderSet.add(folder);
-
-            fileArray.push({ name, folder });
-        }
+            return { name, folder };
+        });
+        const folderSet = new Set(fileArray.map((file) => file.folder).filter((folder) => folder !== '/'));
 
         setStructure(fileArray);
         setFolders(Array.from(folderSet));

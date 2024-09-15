@@ -10,21 +10,17 @@ export const Docs = () => {
     const options = {};
 
     const location = useLocation();
-    const path =
-        location.pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', '');
+    const path = location.pathname.replace('/docs/', '').replace('/docs', '') || 'index';
 
     const mdxFiles = import.meta.glob('../docs/**/*.mdx');
 
     useEffect(() => {
         setLoading(true);
-        const mdxPath = `../docs/${path}.mdx`;
 
-        const importFile = mdxFiles[mdxPath];
+        const importFile = mdxFiles[`../docs/${path}.mdx`];
         if (importFile) {
             importFile()
-                .then((module) => {
-                    setContent(() => (module as { default: React.FC }).default);
-                })
+                .then((module) => setContent(() => (module as { default: React.FC }).default))
                 .catch((err) => {
                     console.error('Error loading MDX file:', err);
                     setContent(null);
