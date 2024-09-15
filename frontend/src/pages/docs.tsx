@@ -14,15 +14,12 @@ export const Docs = () => {
         location.pathname.replace('/docs', '').length === 0 ? 'index' : location.pathname.replace('/docs/', '');
 
     const mdxFiles = import.meta.glob('../docs/**/*.mdx');
-    console.log('0:', Object.keys(mdxFiles));
 
     useEffect(() => {
         setLoading(true);
-        console.log('a', path);
         const mdxPath = `../docs/${path}.mdx`;
 
         const importFile = mdxFiles[mdxPath];
-        console.log('b', importFile);
         if (importFile) {
             importFile()
                 .then((module) => {
