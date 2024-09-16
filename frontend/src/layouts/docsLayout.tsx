@@ -76,15 +76,19 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
                 {structure &&
                     structure
                         .filter((v) => v.folder === '/')
-                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} />)}
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} />
+                )}
                 {folders &&
-                    folders.map((v, i) => (
+                    folders
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((v, i) => (
                         <WikiFolder
                             key={i}
                             name={capitalize(v.replaceAll('/', '').replaceAll('-', ' '))}
                             children={structure ? structure.filter((w) => w.folder === v) : []}
                         />
-                    ))}
+                ))}
             </div>
             <div className='wiki w-1/2 flex-shrink-0 items-start'>{children}</div>
             <div className='flex w-1/4 flex-shrink-0 items-end'>second sidebar</div>
