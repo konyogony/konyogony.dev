@@ -1,14 +1,15 @@
-import { Heading1, Heading2, Heading3 } from '@/components/custom/wiki';
+import { CodeWrapper } from '@/components/custom/codeWrapper';
+import { HashTag } from '@/components/custom/wiki';
 
-<Heading1> The Wonders of Space </Heading1>
+# The Wonders of Space <HashTag id={'The Wonders of Space'} />
 
-<Heading2> Introduction </Heading2>
+Amogus
+
+## Introduction <HashTag id={'Introducton'} variant={'h2'} />
 
 Space, the final frontier, has always captivated human imagination. From the twinkling stars to distant galaxies, the vastness of space offers limitless opportunities for exploration and discovery.
 
----
-
-<Heading2> Table of Contents</Heading2>
+## Table of Contents
 
 1. [The Solar System](#the-solar-system)
 2. [Black Holes](#black-holes)
@@ -16,9 +17,7 @@ Space, the final frontier, has always captivated human imagination. From the twi
 4. [The Search for Extraterrestrial Life](#the-search-for-extraterrestrial-life)
 5. [Conclusion](#conclusion)
 
----
-
-<Heading2> The Solar System</Heading2>
+## The Solar System
 
 Our **solar system** is made up of the Sun, eight planets, and countless other celestial bodies such as moons, asteroids, and comets. Here’s a breakdown of the key planets:
 
@@ -31,22 +30,18 @@ Our **solar system** is made up of the Sun, eight planets, and countless other c
 -   **Uranus**: Known for its unique tilt.
 -   **Neptune**: The farthest planet from the Sun, characterized by its deep blue color.
 
----
-
-<Heading2> Black Holes</Heading2>
+## Black Holes
 
 Black holes are mysterious objects with an intense gravitational pull, so strong that not even light can escape from them.
 
-<Heading3> Types of Black Holes </Heading3>
+### Types of Black Holes
 
 1. **Stellar Black Holes**: Formed when massive stars collapse.
 2. **Supermassive Black Holes**: Found at the centers of galaxies, including the Milky Way.
 3. **Intermediate Black Holes**: A relatively rare and elusive category.
 4. **Miniature Black Holes**: Hypothetical black holes smaller than a stellar mass.
 
----
-
-<Heading2> Galaxies</Heading2>
+## Galaxies
 
 Galaxies are massive collections of stars, gas, dust, and dark matter held together by gravity. The Milky Way is the galaxy we live in, but there are billions more in the universe, each with its own unique characteristics.
 
@@ -56,48 +51,38 @@ Some common types of galaxies include:
 -   **Elliptical Galaxies**: More spherical in shape.
 -   **Irregular Galaxies**: No defined shape or structure.
 
-<Heading3> Fun Fact </Heading3>
+### Fun Fact
 
 Did you know? The closest galaxy to us is **Andromeda**, located about 2.5 million light-years away. It’s on a collision course with the Milky Way!
 
----
-
-<Heading2> The Search for Extraterrestrial Life</Heading2>
+## The Search for Extraterrestrial Life
 
 One of the biggest questions in science is whether we are alone in the universe. Scientists use tools like the **Kepler Space Telescope** and projects like **SETI** (Search for Extraterrestrial Intelligence) to scan the cosmos for signs of life.
 
-<Heading3> Potential Signs of Life </Heading3>
+### Potential Signs of Life
 
 -   **Exoplanets**: Planets outside our solar system, many of which exist in the "habitable zone" where liquid water might exist.
 -   **Radio Signals**: Researchers monitor radio waves for patterns that might indicate intelligent life.
 -   **Microbial Life**: Evidence of ancient microbes could be found on planets like Mars or moons such as Europa.
 
----
-
-<Heading2>Conclusion</Heading2>
+## Conclusion
 
 The universe is vast, mysterious, and full of potential for discovery. From our own solar system to the farthest reaches of space, humanity’s journey to understand the cosmos has only just begun.
 
 > _Somewhere, something incredible is waiting to be known._  
 > **– Carl Sagan**
 
----
-
-<Heading2>References</Heading2>
+## References
 
 1. [NASA's Solar System Exploration](https://solarsystem.nasa.gov/)
 2. [The Event Horizon Telescope](https://eventhorizontelescope.org/)
 3. [Galaxy Exploration](https://www.nationalgeographic.com/science/article/galaxies)
 
----
+# I love coding
 
----
+Some of the code: `cringe` stuff
 
----
-
-<Heading1>I love coding</Heading1>
-
-Some of the code:
+<CodeWrapper>
 
 ```ts
 useEffect(() => {
@@ -115,3 +100,5 @@ useEffect(() => {
     setFolders(Array.from(folderSet));
 }, []);
 ```
+
+</CodeWrapper>

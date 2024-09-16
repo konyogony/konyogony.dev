@@ -22,25 +22,3 @@ html {
 ::-webkit-scrollbar-thumb {
     @apply rounded-xl bg-zinc-900 hover:bg-zinc-800;
 }
-
-/* For wiki  */
-
-.wiki h1 {
-    @apply mb-4 flex w-full flex-row items-center gap-1 border-b border-white/10 p-2 text-4xl text-zinc-50;
-}
-
-.wiki h2 {
-    @apply mb-4 flex flex-row items-center gap-1 border-b border-white/10 p-2 text-3xl text-zinc-100;
-}
-
-.wiki h3 {
-    @apply mb-1 text-2xl text-zinc-300;
-}
-
-.wiki p {
-    @apply text-base;
-}
-
-.wiki a {
-    @apply text-base underline decoration-dotted;
-}

@@ -1,3 +1,4 @@
+import CodeWrapper from '@/components/custom/codeWrapper';
 import { MDXProvider } from '@mdx-js/react';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -29,7 +30,11 @@ export const Docs = () => {
             {loading ? (
                 <div className='flex h-screen w-full items-center justify-center'>loading...</div>
             ) : Content ? (
-                <MDXProvider>
+                <MDXProvider
+                    components={{
+                        code: CodeWrapper,
+                    }}
+                >
                     <Content />
                 </MDXProvider>
             ) : (
