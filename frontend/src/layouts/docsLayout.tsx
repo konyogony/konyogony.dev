@@ -1,7 +1,39 @@
+import { toast } from '@/hooks/use-toast';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
+import copy from 'copy-to-clipboard';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { HiOutlineHashtag } from 'react-icons/hi';
+import { NavLink, useLocation } from 'react-router-dom';
+
+const H1 = ({ text }: { text: string }) => {
+    const strippedText = text
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\p{L}\p{N}\-]/gu, '');
+    return (
+        <div className='mb-4 flex flex-row gap-1 border-b border-white/10 p-2 text-4xl text-zinc-50' id={strippedText}>
+            <HashTag id={strippedText} /> {text}
+        </div>
+    );
+};
+
+const HashTag = ({ id }: { id: string }) => {
+    const path = useLocation().pathname + id;
+    const clickCopy = () => {
+        copy(path);
+        toast({
+            description: 'URL copied succesfully!.',
+        });
+    };
+    return (
+        <button onClick={() => copy(path)}>
+            <HiOutlineHashtag size={14} className='transition-all duration-300 hover:text-indigo-600' />;
+        </button>
+    );
+};
+
+const components = {};
 
 interface wikiLinkProps {
     name: string;
@@ -77,18 +109,17 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
                     structure
                         .filter((v) => v.folder === '/')
                         .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} />
-                )}
+                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} />)}
                 {folders &&
                     folders
-                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .sort((a, b) => a.localeCompare(b))
                         .map((v, i) => (
-                        <WikiFolder
-                            key={i}
-                            name={capitalize(v.replaceAll('/', '').replaceAll('-', ' '))}
-                            children={structure ? structure.filter((w) => w.folder === v) : []}
-                        />
-                ))}
+                            <WikiFolder
+                                key={i}
+                                name={capitalize(v.replaceAll('/', '').replaceAll('-', ' '))}
+                                children={structure ? structure.filter((w) => w.folder === v) : []}
+                            />
+                        ))}
             </div>
             <div className='wiki w-1/2 flex-shrink-0 items-start'>{children}</div>
             <div className='flex w-1/4 flex-shrink-0 items-end'>second sidebar</div>
