@@ -79,7 +79,7 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
                             />
                         ))}
             </div>
-            <div className='prose flex w-1/2 flex-shrink-0 flex-col items-start'>
+            <div className='prose prose-invert flex w-1/2 flex-shrink-0 flex-col items-start'>
                 {children}
                 <div className='mt-20 flex flex-row'>last, next</div>
             </div>

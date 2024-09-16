@@ -23,58 +23,6 @@ export default {
             },
         },
         extend: {
-            typography: {
-                DEFAULT: {
-                    css: {
-                        h1: {
-                            marginBottom: '1rem', // mb-4
-                            display: 'flex', // flex
-                            width: '100%', // w-full
-                            flexDirection: 'row', // flex-row
-                            alignItems: 'center', // items-center
-                            gap: '0.25rem', // gap-1
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.1)', // border-b border-white/10
-                            padding: '0.5rem', // p-2
-                            fontSize: '2.25rem', // text-4xl
-                            color: '#f8f9fa', // text-zinc-50
-                        },
-                        h2: {
-                            marginBottom: '1rem', // mb-4
-                            display: 'flex', // flex
-                            flexDirection: 'row', // flex-row
-                            alignItems: 'center', // items-center
-                            gap: '0.25rem', // gap-1
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.1)', // border-b border-white/10
-                            padding: '0.5rem', // p-2
-                            fontSize: '1.875rem', // text-3xl
-                            color: '#e5e7eb', // text-zinc-100
-                        },
-                        h3: {
-                            marginBottom: '0.25rem', // mb-1
-                            fontSize: '1.5rem', // text-2xl
-                            color: '#d1d5db', // text-zinc-300
-                        },
-                        p: {
-                            fontSize: '1rem', // text-base
-                            color: '#e4e4e7', // text-zinc-200
-                        },
-                        a: {
-                            fontSize: '1rem', // text-base
-                            textDecoration: 'underline',
-                            textDecorationStyle: 'dotted', // decoration-dotted
-                            color: '#e4e4e7', // text-zinc-200
-                        },
-                        ol: {
-                            listStyleType: 'decimal',
-                            color: '#e4e4e7', // text-zinc-200 for ordered lists
-                        },
-                        ul: {
-                            listStyleType: 'disc',
-                            color: '#e4e4e7', // text-zinc-200 for unordered lists
-                        },
-                    },
-                },
-            },
             borderRadius: {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
