@@ -23,14 +23,14 @@ html {
     @apply rounded-xl bg-zinc-900 hover:bg-zinc-800;
 }
 
-/* For wiki */
+/* For wiki  */
 
 .wiki h1 {
-    @apply mb-4 border-b border-white/10 p-2 text-4xl text-zinc-50;
+    @apply mb-4 flex w-full flex-row items-center gap-1 border-b border-white/10 p-2 text-4xl text-zinc-50;
 }
 
 .wiki h2 {
-    @apply mb-2 text-3xl text-zinc-200;
+    @apply mb-4 flex flex-row items-center gap-1 border-b border-white/10 p-2 text-3xl text-zinc-100;
 }
 
 .wiki h3 {

@@ -29,7 +29,7 @@ const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) 
             </button>
             <div
                 className={cn(
-                    'ml-2 flex-col items-start gap-2 transition-transform duration-300',
+                    'ml-10 flex-col items-start gap-2 transition-transform duration-300',
                     isOpened ? 'hidden h-0' : 'flex h-fit',
                 )}
             >
@@ -61,8 +61,8 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
     }, []);
 
     return (
-        <div className='flex w-full flex-row pt-20'>
-            <div className='flex w-1/4 flex-shrink-0 flex-col items-center gap-2'>
+        <div className='mb-20 flex w-full flex-row px-[20%] pt-20'>
+            <div className='flex w-1/4 flex-shrink-0 flex-col items-start gap-2'>
                 {structure &&
                     structure
                         .filter((v) => v.folder === '/')
@@ -79,8 +79,11 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
                             />
                         ))}
             </div>
-            <div className='wiki w-1/2 flex-shrink-0 items-start'>{children}</div>
-            <div className='flex w-1/4 flex-shrink-0 items-end'>second sidebar</div>
+            <div className='prose flex w-1/2 flex-shrink-0 flex-col items-start'>
+                {children}
+                <div className='mt-20 flex flex-row'>last, next</div>
+            </div>
+            <div className='flex w-1/4 flex-shrink-0 flex-col items-end'>second sidebar</div>
         </div>
     );
 };
