@@ -1,46 +1,9 @@
-import { toast } from '@/hooks/use-toast';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
-import copy from 'copy-to-clipboard';
 import { useEffect, useState } from 'react';
-import { HiOutlineHashtag } from 'react-icons/hi';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-const H1 = ({ text }: { text: string }) => {
-    const strippedText = text
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\p{L}\p{N}\-]/gu, '');
-    return (
-        <div className='mb-4 flex flex-row gap-1 border-b border-white/10 p-2 text-4xl text-zinc-50' id={strippedText}>
-            <HashTag id={strippedText} /> {text}
-        </div>
-    );
-};
-
-const HashTag = ({ id }: { id: string }) => {
-    const path = useLocation().pathname + id;
-    const clickCopy = () => {
-        copy(path);
-        toast({
-            description: 'URL copied succesfully!.',
-        });
-    };
-    return (
-        <button onClick={() => copy(path)}>
-            <HiOutlineHashtag size={14} className='transition-all duration-300 hover:text-indigo-600' />;
-        </button>
-    );
-};
-
-const components = {};
-
-interface wikiLinkProps {
-    name: string;
-    url: string;
-}
-
-const WikiLink = ({ name, url }: wikiLinkProps) => {
+const WikiLink = ({ name, url }: { name: string; url: string }) => {
     return (
         <NavLink
             to={url}
@@ -53,12 +16,7 @@ const WikiLink = ({ name, url }: wikiLinkProps) => {
     );
 };
 
-interface wikiFolderProps {
-    name: string;
-    children: FileInfo[];
-}
-
-const WikiFolder = ({ name, children }: wikiFolderProps) => {
+const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) => {
     const [isOpened, isSetOpened] = useState(false);
 
     return (
@@ -71,7 +29,7 @@ const WikiFolder = ({ name, children }: wikiFolderProps) => {
             </button>
             <div
                 className={cn(
-                    'flex-col items-start gap-2 transition-transform duration-300',
+                    'ml-2 flex-col items-start gap-2 transition-transform duration-300',
                     isOpened ? 'hidden h-0' : 'flex h-fit',
                 )}
             >
