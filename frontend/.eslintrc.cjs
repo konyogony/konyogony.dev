@@ -9,6 +9,7 @@ module.exports = {
         },
         project: './tsconfig.json',
         tsconfigRootDir: './',
+        workingDirectory: './',
         sourceType: 'module',
     },
     settings: {
