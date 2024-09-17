@@ -1,9 +1,9 @@
+import { HashTag } from '@/components/custom/wiki';
 import { MDXProvider } from '@mdx-js/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { NotFound } from './notfound';
-import { HashTag } from '@/components/custom/wiki';
-import React from 'react';
+
 // IMPORTANT: If you change this code pages starts loading x20 times slower!
 
 export const Docs = () => {
@@ -12,7 +12,7 @@ export const Docs = () => {
 
     const components = {
         h1: (props: any) => {
-            console.log(props.children)
+            console.log(props.children);
             const headingText = React.Children.toArray(props.children).join('');
             return (
                 <h1 {...props} id={headingText}>
@@ -37,7 +37,6 @@ export const Docs = () => {
             );
         },
     };
-    
 
     const location = useLocation();
     const path = location.pathname.replace('/docs/', '').replace('/docs', '') || 'index';
@@ -59,9 +58,7 @@ export const Docs = () => {
             {loading ? (
                 <div className='flex h-screen w-full items-center justify-center'>loading...</div>
             ) : Content ? (
-                <MDXProvider
-                    components={components}
-                >
+                <MDXProvider components={components}>
                     <Content />
                 </MDXProvider>
             ) : (

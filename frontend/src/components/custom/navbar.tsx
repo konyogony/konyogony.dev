@@ -42,9 +42,6 @@ export const Navbar = () => {
                         </NavLink>
                     );
                 })}
-                <Button variant={'ghost'} className='flex font-medium lg:hidden'>
-                    Login
-                </Button>
             </div>
             <div className='ml-auto mr-2 hidden flex-row items-center gap-2 lg:flex'>
                 <a

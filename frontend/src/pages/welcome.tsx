@@ -10,8 +10,8 @@ export const Welcome = () => {
             <div className='relative flex h-[55vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-dot-white/[0.2] lg:h-[75vh] lg:gap-4 lg:bg-dot-white/0'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
                 <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-300 to-zinc-100 bg-clip-text text-transparent lg:gap-2'>
-                    <span className='text-5xl font-bold tracking-wide lg:text-7xl'>Meet kony_ogony,</span>
-                    <span className='text-lg font-medium lg:text-xl'>
+                    <span className='text-4xl font-bold tracking-wide lg:text-7xl'>Meet kony_ogony,</span>
+                    <span className='text-base font-medium lg:text-xl'>
                         a junior full-stack developer, who does cool stuff!
                     </span>
                 </div>
@@ -25,28 +25,28 @@ export const Welcome = () => {
                 </div>
                 <div className='z-40 flex flex-row items-center gap-4'>
                     <a href='https://ui.shadcn.com/' target='_blank' rel='noreferrer'>
-                        <SiShadcnui />
+                        <SiShadcnui className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://react.dev/' target='_blank' rel='noreferrer'>
-                        <SiReact size={20} />
+                        <SiReact className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://tailwindcss.com/' target='_blank' rel='noreferrer'>
-                        <SiTailwindcss size={20} />
+                        <SiTailwindcss className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://www.typescriptlang.org/' target='_blank' rel='noreferrer'>
-                        <SiTypescript size={20} />
+                        <SiTypescript className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-                        <SiVite size={20} />
+                        <SiVite className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://actix.rs/' target='_blank' rel='noreferrer'>
-                        <SiActix size={20} />
+                        <SiActix className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://www.rust-lang.org' target='_blank' rel='noreferrer'>
-                        <SiRust size={20} />
+                        <SiRust className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                     <a href='https://surrealdb.com/' target='_blank' rel='noreferrer'>
-                        <SiSurrealdb size={20} />
+                        <SiSurrealdb className='h-4 w-4 lg:h-5 lg:w-5' />
                     </a>
                 </div>
                 <a

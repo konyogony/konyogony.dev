@@ -61,7 +61,7 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
     }, []);
 
     return (
-        <div className='mb-20 flex w-full flex-row px-[10%] pt-20 overflow-x-clip'>
+        <div className='mb-20 flex w-full flex-row overflow-x-clip px-[10%] pt-20'>
             <div className='sticky top-0 w-1/4 flex-shrink-0 flex-col items-start gap-2'>
                 {structure &&
                     structure
@@ -79,11 +79,11 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
                             />
                         ))}
             </div>
-            <div className='prose prose-invert prose-h1:my-4 prose-headings:border-b prose-h1:border-white/15 prose-h2:border-white/10 prose-h3:border-white/5 prose-headings:w-full prose-headings:pb-1 prose-h2:my-2 prose-h3:my-1 flex w-full lg:w-1/2 flex-shrink-0 flex-col items-start'>
+            <div className='prose prose-invert flex w-full flex-shrink-0 flex-col items-start prose-headings:w-full prose-headings:border-b prose-headings:pb-1 prose-h1:my-4 prose-h1:border-white/15 prose-h2:my-2 prose-h2:border-white/10 prose-h3:my-1 prose-h3:border-white/5 lg:w-1/2'>
                 {children}
                 <div className='mt-20 flex flex-row'>last, next</div>
             </div>
-            <div className='hidden lg:flex w-1/4 flex-shrink-0 flex-col items-end'>second sidebar</div>
+            <div className='hidden w-1/4 flex-shrink-0 flex-col items-end lg:flex'>second sidebar</div>
         </div>
     );
 };
