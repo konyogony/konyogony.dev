@@ -1,31 +1,36 @@
-import { toast } from '@/hooks/use-toast'; // Adjust the path as necessary
 import copy from 'copy-to-clipboard';
-import { FiCopy } from 'react-icons/fi';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'; // Choose a theme
+import { useEffect, useState } from 'react';
+import { FiClipboard } from 'react-icons/fi';
+import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
+import { toast } from 'sonner';
 
-interface CodeWrapperProps {
-    className?: string; // className is optional
-    children: React.ReactNode;
-}
+// https://shiki.matsu.io/guide/decorations
 
-const CodeWrapper: React.FC<CodeWrapperProps> = ({ className = '', children }) => {
-    const language = className.replace('language-', '') || '';
+export const CodeWrapper = ({ language = '', code }: { language: string; code: string }) => {
+    const [highlighter, setHighlighter] = useState<HighlighterGeneric<BundledLanguage, BundledTheme>>();
 
-    // Ensure children is a string
-    const codeString = typeof children === 'string' ? children : '';
+    useEffect(() => {
+        const createHighlight = async () => {
+            const highlighter = await createHighlighter({
+                themes: ['github-dark-dimmed'],
+                langs: ['ts', language],
+            });
+            setHighlighter(highlighter);
+        };
+        createHighlight();
+    }, []);
+
+    const codeBlock =
+        highlighter &&
+        highlighter.codeToHtml(code, {
+            lang: language,
+            theme: 'github-dark-dimmed',
+        });
 
     return (
-        <div className='relative'>
-            <CopyButton text={codeString} />
-            <SyntaxHighlighter
-                language={language}
-                style={darcula}
-                showLineNumbers
-                customStyle={{ fontFamily: 'monospace', fontSize: '14px' }}
-            >
-                {codeString}
-            </SyntaxHighlighter>
+        <div className='group relative rounded-lg'>
+            <div dangerouslySetInnerHTML={{ __html: codeBlock ? codeBlock : '' }} />
+            <CopyButton text={code} />
         </div>
     );
 };
@@ -33,16 +38,15 @@ const CodeWrapper: React.FC<CodeWrapperProps> = ({ className = '', children }) =
 const CopyButton: React.FC<{ text: string }> = ({ text }) => {
     const clickCopy = () => {
         copy(text);
-        toast({
-            description: 'Code copied successfully!',
-        });
+        toast.success('Code copied to clipboard');
     };
 
     return (
-        <button onClick={clickCopy} className='absolute right-2 top-2 rounded-lg bg-zinc-900/60 backdrop-blur-md'>
-            <FiCopy size={18} className='m-2' />
+        <button
+            onClick={clickCopy}
+            className='absolute right-2 top-8 rounded-lg bg-zinc-500/20 opacity-0 transition-all duration-300 group-hover:opacity-100'
+        >
+            <FiClipboard size={18} className='m-2' />
         </button>
     );
 };
-
-export default CodeWrapper;

@@ -1,4 +1,7 @@
-# The Wonders of Space
+import { CodeWrapper } from '@/components/custom/codeWrapper';
+import { HashTag } from '@/components/custom/wiki';
+
+# The Wonders of Space <HashTag id={'The Wonders of Space'} />
 
 Amogus
 
@@ -79,19 +82,18 @@ The universe is vast, mysterious, and full of potential for discovery. From our 
 
 Some of the code: `cringe` stuff
 
-```ts
-useEffect(() => {
-    const files = import.meta.glob('/src/docs/**/*', { query: 'url', import: 'default' });
-    const fileArray = Object.entries(files).map(([filePath, _]) => {
-        const parts = filePath.split('/');
-        const name = parts[parts.length - 1].replace('/', '').replace('.mdx', '');
-        const folder = parts.slice(0, -1).join('/').replace('src/docs/', '').replace('src/docs', '');
-
-        return { name, folder };
-    });
-    const folderSet = new Set(fileArray.map((file) => file.folder).filter((folder) => folder !== '/'));
-
-    setStructure(fileArray);
-    setFolders(Array.from(folderSet));
-}, []);
-```
+<CodeWrapper
+    language='ts'
+    code={`useEffect(() => {
+  const files = import.meta.glob('/src/docs/*/_', { query: 'url', import: 'default' });
+  const fileArray = Object.entries(files).map(([filePath, _]) => {
+    const parts = filePath.split('/');
+    const name = parts[parts.length - 1].replace('/', '').replace('.mdx', '');
+    const folder = parts.slice(0, -1).join('/').replace('src/docs/', '').replace('src/docs', '');
+    return { name, folder };
+  });
+  const folderSet = new Set(fileArray.map((file) => file.folder).filter((folder) => folder !== '/'));
+  setStructure(fileArray);
+  setFolders(Array.from(folderSet));
+}, []);`}
+/>

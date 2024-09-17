@@ -5,7 +5,7 @@
 
 html {
     scroll-behavior: smooth !important;
-    @apply font-[Inter] text-zinc-200;
+    @apply scroll-pt-32 font-[Inter] text-zinc-200;
 }
 
 @layer base {
@@ -21,4 +21,20 @@ html {
 
 ::-webkit-scrollbar-thumb {
     @apply rounded-xl bg-zinc-900 hover:bg-zinc-800;
+}
+
+/* To display number lines */
+code {
+    counter-increment: step 0;
+    counter-reset: step;
+}
+
+code .line::before {
+    display: inline-block;
+    counter-increment: step;
+    margin-right: 1.5rem;
+    width: 1rem;
+    content: counter(step);
+    color: rgba(115, 138, 148, 0.4);
+    text-align: right;
 }

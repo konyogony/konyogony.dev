@@ -5,6 +5,7 @@ module.exports = {
         ecmaVersion: 'latest',
         ecmaFeatures: {
             jsx: true,
+            mdx: true,
         },
         project: './tsconfig.json',
         tsconfigRootDir: './',
@@ -23,6 +24,7 @@ module.exports = {
     plugins: ['react', 'react-hooks', 'prettier', '@typescript-eslint'],
     extends: [
         // 'standard',
+        'plugin:mdx/recommended',
         'plugin:prettier/recommended',
         'eslint:recommended',
         'plugin:react/recommended',

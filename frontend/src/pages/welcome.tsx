@@ -55,7 +55,7 @@ export const Welcome = () => {
                 >
                     <FiChevronDown size={18} />
                 </a>
-                <BackgroundBeams className='hidden motion-reduce:hidden lg:flex' />
+                <BackgroundBeams className='hidden transform-gpu motion-reduce:hidden lg:flex' />
             </div>
             <div className='flex flex-col items-center gap-2' id='work'>
                 <span className='text-2xl font-semibold'>Some of my work</span>

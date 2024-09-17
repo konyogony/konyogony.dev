@@ -1,40 +1,52 @@
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { FiChevronRight } from 'react-icons/fi';
+import { Link, NavLink } from 'react-router-dom';
 
-const WikiLink = ({ name, url }: { name: string; url: string }) => {
+const WikiLink = ({ name, url, line }: { name: string; url: string; line: boolean }) => {
     return (
         <NavLink
             to={url}
-            className={
-                'flex w-fit flex-row items-center rounded-md px-8 py-2 text-base hover:bg-zinc-800 [&.active]:bg-zinc-600/60'
-            }
+            className={cn(
+                'flex py-2 text-sm font-normal text-zinc-400 transition-all duration-300 hover:text-zinc-200 [&.active]:font-semibold [&.active]:text-indigo-600 [&.active]:hover:!text-zinc-100',
+                line && 'border-l-[1.5px] border-white/15 pl-4 [&.active]:border-indigo-600',
+            )}
         >
-            {name}
+            {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
         </NavLink>
     );
 };
 
 const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) => {
     const [isOpened, isSetOpened] = useState(false);
-
     return (
         <>
             <button
                 onClick={() => isSetOpened(!isOpened)}
-                className='flex w-fit flex-row items-center rounded-md px-8 py-2 text-base hover:bg-zinc-800'
+                className='flex w-full flex-row items-center py-2 pb-2.5 text-sm font-normal text-zinc-400 transition-all duration-300 hover:text-zinc-100'
             >
-                {name} {!isOpened ? '-' : '+'}
+                {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
+                <FiChevronRight size={14} className={cn('ml-auto mt-[1px]', isOpened && 'rotate-90')} />
             </button>
             <div
                 className={cn(
-                    'ml-10 flex-col items-start gap-2 transition-transform duration-300',
-                    isOpened ? 'hidden h-0' : 'flex h-fit',
+                    'ml-1 flex flex-col items-start transition-all duration-300',
+                    !isOpened
+                        ? 'pointer-events-none max-h-0 opacity-0'
+                        : 'pointer-events-auto max-h-[100vh] opacity-100',
                 )}
             >
                 {children.map((w, i) => (
-                    <WikiLink key={i} name={w.name} url={`/docs${w.folder}/${w.name}`} />
+                    <WikiLink key={i} name={w.name} url={`/docs${w.folder}/${w.name}`} line={true} />
                 ))}
             </div>
         </>
@@ -46,7 +58,7 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
     const [folders, setFolders] = useState<string[]>([]);
 
     useEffect(() => {
-        const files = import.meta.glob('/src/docs/**/*', { query: 'url', import: 'default' });
+        const files = import.meta.glob('/src/docs/**/*.mdx', { query: 'url', import: 'default' });
         const fileArray = Object.entries(files).map(([filePath, _]) => {
             const parts = filePath.split('/');
             const name = parts[parts.length - 1].replace('/', '').replace('.mdx', '');
@@ -61,29 +73,29 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
     }, []);
 
     return (
-        <div className='mb-20 flex w-full flex-row overflow-x-clip px-[10%] pt-20'>
-            <div className='sticky top-0 w-1/4 flex-shrink-0 flex-col items-start gap-2'>
+        <div className='my-20 flex w-full flex-row justify-center gap-10 overflow-x-clip'>
+            <div className='sticky top-24 flex w-fit min-w-[15vh] max-w-[25%] flex-shrink-0 flex-col items-start'>
+                <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>Documentation</span>
                 {structure &&
                     structure
                         .filter((v) => v.folder === '/')
                         .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} />)}
+                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} line={false} />)}
                 {folders &&
                     folders
                         .sort((a, b) => a.localeCompare(b))
                         .map((v, i) => (
                             <WikiFolder
                                 key={i}
-                                name={capitalize(v.replaceAll('/', '').replaceAll('-', ' '))}
+                                name={v}
                                 children={structure ? structure.filter((w) => w.folder === v) : []}
                             />
                         ))}
             </div>
-            <div className='prose prose-invert flex w-full flex-shrink-0 flex-col items-start prose-headings:w-full prose-headings:border-b prose-headings:pb-1 prose-h1:my-4 prose-h1:border-white/15 prose-h2:my-2 prose-h2:border-white/10 prose-h3:my-1 prose-h3:border-white/5 lg:w-1/2'>
+            <div className='prose prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:w-full prose-headings:border-b prose-headings:pb-1 prose-h1:my-4 prose-h1:border-white/15 prose-h2:my-2 prose-h2:border-white/10 prose-h3:my-1 prose-h3:border-white/5 prose-a:decoration-dotted'>
                 {children}
-                <div className='mt-20 flex flex-row'>last, next</div>
             </div>
-            <div className='hidden w-1/4 flex-shrink-0 flex-col items-end lg:flex'>second sidebar</div>
+            <div className='hidden w-fit max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>second sidebar</div>
         </div>
     );
 };
