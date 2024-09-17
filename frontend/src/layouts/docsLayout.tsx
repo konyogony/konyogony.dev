@@ -10,7 +10,7 @@ import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const WikiLink = ({ name, url, line }: { name: string; url: string; line: boolean }) => {
     return (
@@ -56,6 +56,7 @@ const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) 
 export const DocsLayout = ({ children }: { children: JSX.Element }) => {
     const [structure, setStructure] = useState<FileInfo[] | null>(null);
     const [folders, setFolders] = useState<string[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         const files = import.meta.glob('/src/docs/**/*.mdx', { query: 'url', import: 'default' });
@@ -95,7 +96,16 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
             <div className='prose prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:w-full prose-headings:border-b prose-headings:pb-1 prose-h1:my-4 prose-h1:border-white/15 prose-h2:my-2 prose-h2:border-white/10 prose-h3:my-1 prose-h3:border-white/5 prose-a:decoration-dotted'>
                 {children}
             </div>
-            <div className='hidden w-fit max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>second sidebar</div>
+            <div className='hidden w-fit max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
+                second sidebar
+                <a
+                    href={`https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs/${structure?.[currentIndex].name}.mdx`}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                >
+                    Edit this page on GitHub
+                </a>
+            </div>
         </div>
     );
 };
