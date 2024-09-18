@@ -1,36 +1,28 @@
+import { getHighlighter } from '@/lib/highlighterSingleton';
 import copy from 'copy-to-clipboard';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { FiClipboard } from 'react-icons/fi';
-import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
 import { toast } from 'sonner';
 
-// https://shiki.matsu.io/guide/decorations
-
 export const CodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
-    const [highlighter, setHighlighter] = useState<HighlighterGeneric<BundledLanguage, BundledTheme>>();
+    const [codeBlock, setCodeBlock] = useState<string>('');
 
     useEffect(() => {
-        const createHighlight = async () => {
-            const highlighterInstance = await createHighlighter({
-                themes: ['github-dark-dimmed'],
-                langs: ['ts', 'tsx', 'jsx', 'jsx', 'rs', 'html', 'mdx', language],
+        const fetchHighlighter = async () => {
+            const highlighter = await getHighlighter(language);
+            const highlightedCode = highlighter.codeToHtml(children?.toString() || '', {
+                lang: language,
+                theme: 'github-dark-dimmed',
             });
-            setHighlighter(highlighterInstance);
+            setCodeBlock(highlightedCode);
         };
-        createHighlight();
-    }, [language]);
 
-    // Use useMemo to cache the codeBlock value
-    const codeBlock = useMemo(() => {
-        return highlighter?.codeToHtml(children?.toString() || '', {
-            lang: language,
-            theme: 'github-dark-dimmed',
-        });
-    }, [highlighter, language, children]);
+        fetchHighlighter();
+    }, [language, children]);
 
     return (
         <div className='group relative rounded-lg'>
-            <div dangerouslySetInnerHTML={{ __html: codeBlock || '' }} className='w-full' />
+            <div dangerouslySetInnerHTML={{ __html: codeBlock }} className='w-full' />
             <CopyButton text={children?.toString() || ''} />
         </div>
     );
