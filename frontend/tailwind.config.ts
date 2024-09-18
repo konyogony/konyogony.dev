@@ -21,8 +21,15 @@ export default {
                     backgroundPosition: '-200% 0',
                 },
             },
+            'spin-slow': {
+                from: { transform: 'rotate(0deg)' },
+                to: { transform: 'rotate(360deg)' },
+            },
         },
         extend: {
+            animation: {
+                'spin-slow': 'spin-slow 3s linear infinite',
+            },
             borderRadius: {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
