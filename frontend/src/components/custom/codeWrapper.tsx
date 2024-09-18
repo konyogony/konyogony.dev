@@ -1,7 +1,7 @@
 import { getHighlighter } from '@/lib/highlighterSingleton';
 import copy from 'copy-to-clipboard';
 import { ReactNode, useEffect, useState } from 'react';
-import { FiClipboard } from 'react-icons/fi';
+import { FiClipboard } from '@vertisanpro/react-icons/fi';
 import { toast } from 'sonner';
 
 export const CodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {

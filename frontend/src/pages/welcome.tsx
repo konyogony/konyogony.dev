@@ -1,8 +1,17 @@
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { Button } from '@/components/ui/button';
-import { FiArrowRight, FiChevronDown } from 'react-icons/fi';
-import { RxMagnifyingGlass } from 'react-icons/rx';
-import { SiActix, SiReact, SiRust, SiShadcnui, SiSurrealdb, SiTailwindcss, SiTypescript, SiVite } from 'react-icons/si';
+import { FiArrowRight, FiChevronDown } from '@vertisanpro/react-icons/fi';
+import { RxMagnifyingGlass } from '@vertisanpro/react-icons/rx';
+import {
+    SiActix,
+    SiReact,
+    SiRust,
+    SiShadcnui,
+    SiSurrealdb,
+    SiTailwindcss,
+    SiTypescript,
+    SiVite,
+} from '@vertisanpro/react-icons/si';
 
 export const Welcome = () => {
     return (

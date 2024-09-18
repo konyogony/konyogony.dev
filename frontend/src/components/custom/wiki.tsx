@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
+import { HiOutlineHashtag } from '@vertisanpro/react-icons/hi';
 import copy from 'copy-to-clipboard';
 import React, { useRef } from 'react';
-import { HiOutlineHashtag } from 'react-icons/hi';
 import { toast } from 'sonner';
 
 export const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | 'h2' | 'h3' }) => {

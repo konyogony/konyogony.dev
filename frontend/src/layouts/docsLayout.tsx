@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
+import { FiChevronLeft, FiChevronRight, FiEdit2 } from '@vertisanpro/react-icons/fi';
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { FiChevronLeft, FiChevronRight, FiEdit2 } from 'react-icons/fi';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const WikiLink = ({ name, url, line }: { name: string; url: string; line: boolean }) => {

@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
+import { FiChevronRight, FiMoreHorizontal } from '@vertisanpro/react-icons/fi';
 import * as React from 'react';
-import { FiChevronRight, FiMoreHorizontal } from 'react-icons/fi';
 
 const Breadcrumb = React.forwardRef<
     HTMLElement,

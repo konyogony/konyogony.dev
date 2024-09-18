@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
+import { BsDiscord, BsGithub } from '@vertisanpro/react-icons/bs';
 import { useCallback, useEffect, useState } from 'react';
-import { BsDiscord, BsGithub } from 'react-icons/bs';
 import { Link, NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
 
