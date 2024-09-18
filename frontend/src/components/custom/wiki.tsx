@@ -7,14 +7,14 @@ export const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | '
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {
         copy(path);
-        window.location.href = path;
+        // window.location.href = path;
         toast.success('URL copied to clipboard');
     };
     return (
-        <button onClick={() => clickCopy()} id={strippedId}>
+        <button onClick={() => clickCopy()} id={strippedId} className='cursor-copy'>
             <HiOutlineHashtag
-                size={variant === 'h1' ? 26 : variant === 'h2' ? 22 : 18}
-                className='text-transparent transition-all duration-300 hover:text-zinc-400'
+                size={variant === 'h1' ? 26 : variant === 'h2' ? 18 : 14}
+                className='text-transparent transition-all duration-500 group-hover:text-zinc-200/60'
             />
         </button>
     );

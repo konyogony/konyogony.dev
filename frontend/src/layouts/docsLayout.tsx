@@ -1,24 +1,17 @@
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+import { Button } from '@/components/ui/button';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { FiChevronRight } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const WikiLink = ({ name, url, line }: { name: string; url: string; line: boolean }) => {
     return (
         <NavLink
             to={url}
             className={cn(
-                'flex py-2 text-sm font-normal text-zinc-400 transition-all duration-300 hover:text-zinc-200 [&.active]:font-semibold [&.active]:text-indigo-600 [&.active]:hover:!text-zinc-100',
-                line && 'border-l-[1.5px] border-white/15 pl-4 [&.active]:border-indigo-600',
+                'flex w-full py-2 text-sm font-normal text-zinc-400 transition-all duration-300 hover:text-zinc-200 [&.active]:font-semibold [&.active]:text-zinc-50',
+                line && 'border-l-[1.5px] border-white/15 pl-4 hover:border-zinc-400 [&.active]:border-zinc-50',
             )}
         >
             {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
@@ -39,14 +32,14 @@ const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) 
             </button>
             <div
                 className={cn(
-                    'ml-1 flex flex-col items-start transition-all duration-300',
+                    'ml-1 flex w-full flex-col items-start transition-all duration-300',
                     !isOpened
                         ? 'pointer-events-none max-h-0 opacity-0'
                         : 'pointer-events-auto max-h-[100vh] opacity-100',
                 )}
             >
                 {children.map((w, i) => (
-                    <WikiLink key={i} name={w.name} url={`/docs${w.folder}/${w.name}`} line={true} />
+                    <WikiLink key={i} name={w.name} url={w.path} line={true} />
                 ))}
             </div>
         </>
@@ -57,6 +50,16 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
     const [structure, setStructure] = useState<FileInfo[] | null>(null);
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const location = useLocation();
+
+    const customSort = (a: FileInfo, b: FileInfo) => {
+        if (a.folder === '/' && b.folder !== '/') return -1;
+        if (a.folder !== '/' && b.folder === '/') return 1;
+        if (a.folder === b.folder) {
+            return a.name.localeCompare(b.name);
+        }
+        return a.folder.localeCompare(b.folder);
+    };
 
     useEffect(() => {
         const files = import.meta.glob('/src/docs/**/*.mdx', { query: 'url', import: 'default' });
@@ -64,14 +67,23 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
             const parts = filePath.split('/');
             const name = parts[parts.length - 1].replace('/', '').replace('.mdx', '');
             const folder = parts.slice(0, -1).join('/').replace('src/docs/', '').replace('src/docs', '');
-
-            return { name, folder };
+            const path = `/docs${folder}${folder !== '/' ? '/' : ''}${name}`;
+            return { name, folder, path };
         });
+        1;
         const folderSet = new Set(fileArray.map((file) => file.folder).filter((folder) => folder !== '/'));
 
-        setStructure(fileArray);
-        setFolders(Array.from(folderSet));
+        setStructure(fileArray.sort(customSort));
+        setFolders(Array.from(folderSet).sort((a, b) => a.localeCompare(b)));
     }, []);
+
+    useEffect(() => {
+        const path = location.pathname.replace('/docs/', '').replace('/docs', '') || 'index';
+        const [file, folder] = path.split('/').reverse();
+        setCurrentIndex(
+            structure?.findIndex((f) => (folder ? f.name === file && f.folder === '/' + folder : f.name === file)) || 0,
+        );
+    }, [location.pathname, structure]);
 
     return (
         <div className='my-20 flex w-full flex-row justify-center gap-10 overflow-x-clip'>
@@ -80,26 +92,40 @@ export const DocsLayout = ({ children }: { children: JSX.Element }) => {
                 {structure &&
                     structure
                         .filter((v) => v.folder === '/')
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((v, i) => <WikiLink key={i} name={v.name} url={`/docs/${v.name}`} line={false} />)}
+                        .map((v, i) => <WikiLink key={i} name={v.name} url={v.path} line={false} />)}
                 {folders &&
-                    folders
-                        .sort((a, b) => a.localeCompare(b))
-                        .map((v, i) => (
-                            <WikiFolder
-                                key={i}
-                                name={v}
-                                children={structure ? structure.filter((w) => w.folder === v) : []}
-                            />
-                        ))}
+                    folders.map((v, i) => (
+                        <WikiFolder
+                            key={i}
+                            name={v}
+                            children={structure ? structure.filter((w) => w.folder === v) : []}
+                        />
+                    ))}
             </div>
             <div className='prose prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:w-full prose-headings:border-b prose-headings:pb-1 prose-h1:my-4 prose-h1:border-white/15 prose-h2:my-2 prose-h2:border-white/10 prose-h3:my-1 prose-h3:border-white/5 prose-a:decoration-dotted'>
                 {children}
+                <div className='not-prose flex w-full flex-row items-center'>
+                    {structure && structure[currentIndex - 1] && (
+                        <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
+                            <Link to={`${structure[currentIndex - 1].path}`}>
+                                <FiChevronLeft size={14} />
+                                {capitalize(structure[currentIndex - 1].name.replaceAll('-', ' '))}
+                            </Link>
+                        </Button>
+                    )}
+                    {structure && structure[currentIndex + 1] && (
+                        <Button variant={'outline'} className='ml-auto flex flex-row items-center gap-1' asChild>
+                            <Link to={`${structure[currentIndex + 1].path}`}>
+                                {capitalize(structure[currentIndex + 1].name.replaceAll('-', ' '))}
+                                <FiChevronRight size={14} />
+                            </Link>
+                        </Button>
+                    )}
+                </div>
             </div>
             <div className='hidden w-fit max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
-                second sidebar
                 <a
-                    href={`https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs/${structure?.[currentIndex].name}.mdx`}
+                    href={`https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs${structure?.[currentIndex].folder}${structure?.[currentIndex].folder !== '/' ? '/' : ''}${structure?.[currentIndex].name}.mdx`}
                     rel='noopener noreferrer'
                     target='_blank'
                 >

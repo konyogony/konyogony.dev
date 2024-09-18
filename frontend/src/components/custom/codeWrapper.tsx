@@ -1,36 +1,37 @@
 import copy from 'copy-to-clipboard';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { FiClipboard } from 'react-icons/fi';
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
 import { toast } from 'sonner';
 
 // https://shiki.matsu.io/guide/decorations
 
-export const CodeWrapper = ({ language = '', code }: { language: string; code: string }) => {
+export const CodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
     const [highlighter, setHighlighter] = useState<HighlighterGeneric<BundledLanguage, BundledTheme>>();
 
     useEffect(() => {
         const createHighlight = async () => {
-            const highlighter = await createHighlighter({
+            const highlighterInstance = await createHighlighter({
                 themes: ['github-dark-dimmed'],
-                langs: ['ts', language],
+                langs: ['ts', 'tsx', 'jsx', 'jsx', 'rs', 'html', 'mdx', language],
             });
-            setHighlighter(highlighter);
+            setHighlighter(highlighterInstance);
         };
         createHighlight();
-    }, []);
+    }, [language]);
 
-    const codeBlock =
-        highlighter &&
-        highlighter.codeToHtml(code, {
+    // Use useMemo to cache the codeBlock value
+    const codeBlock = useMemo(() => {
+        return highlighter?.codeToHtml(children?.toString() || '', {
             lang: language,
             theme: 'github-dark-dimmed',
         });
+    }, [highlighter, language, children]);
 
     return (
         <div className='group relative rounded-lg'>
-            <div dangerouslySetInnerHTML={{ __html: codeBlock ? codeBlock : '' }} />
-            <CopyButton text={code} />
+            <div dangerouslySetInnerHTML={{ __html: codeBlock || '' }} className='w-full' />
+            <CopyButton text={children?.toString() || ''} />
         </div>
     );
 };
