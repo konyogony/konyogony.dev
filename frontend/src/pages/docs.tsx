@@ -12,7 +12,6 @@ import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { MDXProvider } from '@mdx-js/react';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
-import { FiLoader } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
 import { NotFound } from './notfound';
 
