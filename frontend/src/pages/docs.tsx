@@ -106,11 +106,11 @@ export const Docs = () => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
+                    console.log('IntersectionObserver Entry:', entry);
                     if (entry.isIntersecting) {
                         setActiveHeading(entry.target.id);
                     }
@@ -120,7 +120,12 @@ export const Docs = () => {
         );
 
         const headingElements = contentRef.current?.querySelectorAll('h1, h2');
-        headingElements?.forEach((heading) => observer.observe(heading));
+        headingElements?.forEach((heading) => {
+            if (!heading.id) {
+                heading.id = heading.textContent?.toLowerCase().replace(/\s+/g, '-') || '';
+            }
+            observer.observe(heading);
+        });
 
         return () => {
             headingElements?.forEach((heading) => observer.unobserve(heading));
@@ -130,7 +135,7 @@ export const Docs = () => {
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
             <div className='sticky top-24 hidden h-fit w-fit min-w-[15vh] flex-shrink-0 flex-col items-start lg:flex'>
-                <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>Documentation</span>
+                <span className='py-2 text-sm font-bold text-zinc-50'>Documentation</span>
                 {folders &&
                     folders.map((v, i) => (
                         <WikiFolder
