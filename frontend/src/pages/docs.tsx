@@ -1,5 +1,4 @@
-import { CodeWrapper } from '@/components/custom/codeWrapper';
-import { HashTag } from '@/components/custom/wiki';
+import { components, WikiFolder } from '@/components/custom/wiki';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -12,115 +11,21 @@ import { Button } from '@/components/ui/button';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { MDXProvider } from '@mdx-js/react';
-import { FiChevronLeft, FiChevronRight, FiEdit2, FiLoader } from '@vertisanpro/react-icons/fi';
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, Navigate, NavLink, useLocation } from 'react-router-dom';
+import { FiArrowUp, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiLoader } from '@vertisanpro/react-icons/fi';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { NotFound } from './notfound';
-
-const WikiLink = ({ name, url, line = false }: { name: string; url: string; line?: boolean }) => {
-    return (
-        <NavLink
-            to={url}
-            className={cn(
-                'flex w-full py-2 text-sm font-normal text-zinc-400 transition-all duration-300 hover:text-zinc-200 [&.active]:font-semibold [&.active]:text-zinc-50',
-                line && 'border-l-[1.5px] border-white/15 pl-4 hover:border-zinc-400 [&.active]:border-zinc-50',
-            )}
-        >
-            {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
-        </NavLink>
-    );
-};
-
-const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) => {
-    const [isOpened, isSetOpened] = useState(false);
-    const location = useLocation();
-    useEffect(() => {
-        if (children.some((w) => w.path === location.pathname)) {
-            isSetOpened(true);
-        }
-    }, [children, location]);
-    return (
-        <>
-            {name === '' ? (
-                <div className={'flex w-full flex-col items-start transition-all duration-300'}>
-                    {children.map((w, i) => (
-                        <WikiLink key={i} name={w.name} url={w.path} />
-                    ))}
-                </div>
-            ) : (
-                <>
-                    <button
-                        onClick={() => isSetOpened(!isOpened)}
-                        className={cn(
-                            'flex w-full flex-row items-center py-2 pb-2.5 text-sm font-normal transition-all duration-300 hover:text-zinc-200',
-                            isOpened ? 'font-semibold text-zinc-50' : 'text-zinc-400',
-                        )}
-                    >
-                        {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
-                        <FiChevronRight size={14} className={cn('ml-auto mt-[1px]', isOpened && 'rotate-90')} />
-                    </button>
-                    <div
-                        className={cn(
-                            'ml-1 flex w-full flex-col items-start transition-all duration-300',
-                            !isOpened
-                                ? 'pointer-events-none max-h-0 opacity-0'
-                                : 'pointer-events-auto max-h-[100vh] opacity-100',
-                        )}
-                    >
-                        {children.map((w, i) => (
-                            <WikiLink key={i} name={w.name} url={w.path} line={true} />
-                        ))}
-                    </div>
-                </>
-            )}
-        </>
-    );
-};
-
-const components = {
-    h1: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
-        return (
-            <h1 className={cn('group text-4xl', className)} {...props} id={id}>
-                {children} <HashTag id={id ?? ''} />
-            </h1>
-        );
-    },
-    h2: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
-        return (
-            <h2 className={cn('group text-2xl', className)} {...props} id={id}>
-                {children} <HashTag id={id ?? ''} variant='h2' />
-            </h2>
-        );
-    },
-    h3: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
-        return (
-            <h3 className={cn('group text-xl', className)} {...props} id={id}>
-                {children} <HashTag id={id ?? ''} variant='h3' />
-            </h3>
-        );
-    },
-    pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => {
-        const codeElement = children as React.ReactElement<{ className: string; children: ReactNode }>;
-        const language = codeElement.props.className?.replace('language-', '') || '';
-        return (
-            <CodeWrapper language={language} {...props}>
-                {codeElement.props.children}
-            </CodeWrapper>
-        );
-    },
-};
 
 export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
+    const [scrollHeight, setScrollHeight] = useState(0);
     const [loading, setLoading] = useState(true);
     const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
     const [structure, setStructure] = useState<FileInfo[] | null>(null);
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [headings, setHeadings] = useState<(string | null)[]>([]);
+    const [activeHeading, setActiveHeading] = useState<string | null>(null);
 
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
@@ -181,7 +86,7 @@ export const Docs = () => {
 
         setStructure(fileArray.sort(customSort));
         setFolders(Array.from(folderSet).sort((a, b) => a.localeCompare(b)));
-    }, [mdxFiles]);
+    }, [path, mdxFiles]);
 
     useEffect(() => {
         const [file, folder] = path.split('/').reverse();
@@ -191,15 +96,41 @@ export const Docs = () => {
     }, [location.pathname, structure]);
 
     useEffect(() => {
-        const headings = contentRef.current?.querySelectorAll('h1, h2, h3');
+        const headings = contentRef.current?.querySelectorAll('h1, h2');
         setHeadings(headings ? Array.from(headings).map((h) => h.textContent) : []);
     }, [location.pathname, Content]);
 
-    console.log(headings);
+    useEffect(() => {
+        const handleScroll = () => setScrollHeight(window.scrollY);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveHeading(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: '0px 0px -80% 0px', threshold: 0.1 },
+        );
+
+        const headingElements = contentRef.current?.querySelectorAll('h1, h2');
+        headingElements?.forEach((heading) => observer.observe(heading));
+
+        return () => {
+            headingElements?.forEach((heading) => observer.unobserve(heading));
+        };
+    }, [Content]);
+
+    if (!Content) return <NotFound />;
 
     return (
-        <div className='my-20 flex w-full flex-row justify-center gap-10 overflow-x-clip'>
-            <div className='sticky top-24 flex w-fit min-w-[15vh] max-w-[25%] flex-shrink-0 flex-col items-start'>
+        <div className='relative my-20 flex w-full flex-row justify-center gap-10 overflow-x-clip'>
+            <div className='sticky left-0 top-0 w-fit min-w-[15vh] max-w-[25%] flex-shrink-0 flex-col items-start'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>Documentation</span>
                 {folders ? (
                     folders.map((v, i) => (
@@ -238,53 +169,64 @@ export const Docs = () => {
                             <FiLoader className='animate-spin-slow' size={16} />
                             Loading, please wait...
                         </div>
-                    ) : Content ? (
+                    ) : (
                         <MDXProvider components={components}>
                             <Content />
                         </MDXProvider>
-                    ) : (
-                        <Navigate to={'/404'} />
                     )}
                 </div>
-                <div className='not-prose flex w-full flex-row items-center'>
-                    {structure && structure[currentIndex - 1] && (
-                        <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
-                            <Link to={`${structure[currentIndex - 1].path}`}>
-                                <FiChevronLeft size={14} />
-                                {capitalize(structure[currentIndex - 1].name.replaceAll('-', ' '))}
-                            </Link>
-                        </Button>
-                    )}
-                    {structure && structure[currentIndex + 1] && (
-                        <Button variant={'outline'} className='ml-auto flex flex-row items-center gap-1' asChild>
-                            <Link to={`${structure[currentIndex + 1].path}`}>
-                                {capitalize(structure[currentIndex + 1].name.replaceAll('-', ' '))}
-                                <FiChevronRight size={14} />
-                            </Link>
-                        </Button>
-                    )}
-                </div>
+                {!loading ? (
+                    <div className='not-prose flex w-full flex-row items-center'>
+                        {structure && structure[currentIndex - 1] && (
+                            <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
+                                <Link to={`${structure[currentIndex - 1].path}`}>
+                                    <FiChevronLeft size={14} />
+                                    {capitalize(structure[currentIndex - 1].name.replaceAll('-', ' '))}
+                                </Link>
+                            </Button>
+                        )}
+                        {structure && structure[currentIndex + 1] && (
+                            <Button variant={'outline'} className='ml-auto flex flex-row items-center gap-1' asChild>
+                                <Link to={`${structure[currentIndex + 1].path}`}>
+                                    {capitalize(structure[currentIndex + 1].name.replaceAll('-', ' '))}
+                                    <FiChevronRight size={14} />
+                                </Link>
+                            </Button>
+                        )}
+                    </div>
+                ) : null}
             </div>
-            <div className='hidden w-fit min-w-[20vh] max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
+            <div className='sticky hidden w-fit min-w-[20vh] max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
                 {headings.map((v, i) => (
                     <a
                         key={i}
                         href={`#${v?.trim().toLocaleLowerCase().replaceAll(' ', '-') || v}`}
-                        className='py-1 text-sm font-light text-zinc-400 hover:text-zinc-200'
+                        className={cn(
+                            'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200',
+                            activeHeading === v?.toLowerCase().replace(/\s+/g, '-') && 'font-bold text-zinc-50',
+                        )}
                     >
                         {v}
                     </a>
                 ))}
+                <div className='my-2 h-[1px] w-3/4 bg-white/10' />
                 <a
                     href={`https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs${structure?.[currentIndex].folder}${structure?.[currentIndex].folder !== '/' ? '/' : ''}${structure?.[currentIndex].name}.mdx`}
                     rel='noopener noreferrer'
                     target='_blank'
-                    className='mt-4 flex flex-row items-center gap-1 text-sm text-gray-400'
+                    className='flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
                 >
-                    <FiEdit2 />
-                    Edit this page on GitHub
+                    Edit this page on GitHub <FiArrowUpRight />
                 </a>
+                {scrollHeight > 500 && (
+                    <a
+                        href={`#${headings[0]?.trim().toLocaleLowerCase().replaceAll(' ', '-') || headings[0]}`}
+                        className='my-2 flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
+                    >
+                        Back to top <FiArrowUp />
+                    </a>
+                )}
             </div>
         </div>
     );
