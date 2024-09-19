@@ -69,6 +69,7 @@ export const Docs = () => {
         } else {
             setContent(null);
             setBreadcrumb([]);
+            11;
             setLoading(false);
         }
     }, [path, mdxFiles]);
@@ -78,7 +79,7 @@ export const Docs = () => {
             const pathParts = filePath.split('/');
             const name = pathParts[pathParts.length - 1].replace('.mdx', '');
             const folder = pathParts.slice(0, -1).join('/').replace('../docs/', '').replace('../docs', '');
-            const path = `/docs${folder === '' ? '' : '/' + folder}/${name}`;
+            const path = `/docs${folder ? `/${folder}` : ''}/${name}`;
             return { name, folder, path };
         });
 
@@ -89,7 +90,8 @@ export const Docs = () => {
     }, [path, mdxFiles]);
 
     useEffect(() => {
-        const [file, folder] = path.split('/').reverse();
+        const [file, ...folders] = path.split('/').reverse();
+        const folder = folders.reverse().join('/');
         setCurrentIndex(
             structure?.findIndex((f) => (folder ? f.name === file && f.folder === folder : f.name === file)) || 0,
         );
@@ -126,25 +128,18 @@ export const Docs = () => {
         };
     }, [Content]);
 
-    if (!Content) return <NotFound />;
-
     return (
         <div className='relative my-20 flex w-full flex-row justify-center gap-10 overflow-x-clip'>
-            <div className='sticky left-0 top-0 w-fit min-w-[15vh] max-w-[25%] flex-shrink-0 flex-col items-start'>
+            <div className='sticky top-24 flex h-fit w-fit min-w-[15vh] max-w-[25%] flex-shrink-0 flex-col items-start'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>Documentation</span>
-                {folders ? (
+                {folders &&
                     folders.map((v, i) => (
                         <WikiFolder
                             key={i}
                             name={v}
                             children={structure ? structure.filter((w) => w.folder === v) : []}
                         />
-                    ))
-                ) : (
-                    <span className='-ml-1 text-sm font-medium text-zinc-300'>
-                        An error occured, check the console.
-                    </span>
-                )}
+                    ))}
             </div>
             <div className='prose prose-zinc prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:mb-0 prose-headings:w-full prose-headings:border-b prose-headings:border-white/15 prose-headings:pb-1 prose-a:decoration-dotted hover:prose-a:text-blue-500 prose-hr:border-white/20'>
                 <Breadcrumb className='not-prose flex w-full'>
@@ -163,17 +158,17 @@ export const Docs = () => {
                         {breadcrumbElements}
                     </BreadcrumbList>
                 </Breadcrumb>
-                <div className='my-4 flex w-full flex-col' ref={contentRef}>
+                <div className='my-4 flex h-full w-full flex-col' ref={contentRef}>
                     {loading ? (
                         <div className='flex h-screen w-full flex-row items-center justify-center gap-2 lg:opacity-0'>
                             <FiLoader className='animate-spin-slow' size={16} />
                             Loading, please wait...
                         </div>
-                    ) : (
+                    ) : Content ? (
                         <MDXProvider components={components}>
                             <Content />
                         </MDXProvider>
-                    )}
+                    ) : null}
                 </div>
                 {!loading ? (
                     <div className='not-prose flex w-full flex-row items-center'>
@@ -196,7 +191,7 @@ export const Docs = () => {
                     </div>
                 ) : null}
             </div>
-            <div className='sticky hidden w-fit min-w-[20vh] max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
+            <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
                 {headings.map((v, i) => (
                     <a

@@ -77,7 +77,7 @@ The universe is vast, mysterious, and full of potential for discovery. From our 
 
 Some of the code: `cringe` stuff
 
-```tsx
+```ts
 useEffect(() => {
     // Old system of me dynamically importing the files
     const files = import.meta.glob('/src/docs/*/_', { query: 'url', import: 'default' });
@@ -92,4 +92,31 @@ useEffect(() => {
     setFolders(Array.from(folderSet));
 }, []);
 // End of file
+```
+
+Here is more code:
+
+```tsx
+const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | 'h2' | 'h3' }) => {
+    const strippedId = id.replace(/\s+/g, '-').replace(/[^\p{L}\p{N}\-]/gu, '');
+    const path = window.location.href.split('#')[0] + '#' + strippedId;
+    const clickCopy = () => {
+        copy(path);
+        toast.success('URL copied to clipboard');
+    };
+    return (
+        <button onClick={() => clickCopy()} id={strippedId} className='cursor-copy'>
+            <HiOutlineHashtag
+                size={variant === 'h1' ? 26 : variant === 'h2' ? 20 : 18}
+                className='text-transparent transition-all duration-300 hover:!text-zinc-200 group-hover:text-zinc-200/60'
+            />
+        </button>
+    );
+};
+```
+
+Then run:
+
+```sh
+bun install & bun dev
 ```

@@ -13,7 +13,6 @@ const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | 'h2' | '
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {
         copy(path);
-        // window.location.href = path;
         toast.success('URL copied to clipboard');
     };
     return (
@@ -42,10 +41,14 @@ export const WikiLink = ({ name, url, line = false }: { name: string; url: strin
 
 export const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) => {
     const [isOpened, isSetOpened] = useState(false);
+    const [isActive, isSetActive] = useState(false);
     const location = useLocation();
     useEffect(() => {
         if (children.some((w) => w.path === location.pathname)) {
             isSetOpened(true);
+            isSetActive(true);
+        } else {
+            isSetActive(false);
         }
     }, [children, location]);
     return (
@@ -62,7 +65,7 @@ export const WikiFolder = ({ name, children }: { name: string; children: FileInf
                         onClick={() => isSetOpened(!isOpened)}
                         className={cn(
                             'flex w-full flex-row items-center py-2 pb-2.5 text-sm font-normal transition-all duration-300 hover:text-zinc-200',
-                            isOpened ? 'font-semibold text-zinc-50' : 'text-zinc-400',
+                            isActive ? 'font-semibold text-zinc-50' : 'text-zinc-400',
                         )}
                     >
                         {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
