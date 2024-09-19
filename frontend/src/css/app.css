@@ -35,3 +35,7 @@ code > .line:not(:last-child)::before {
     @apply mr-6 inline-block w-4 text-right text-[rgba(115,138,148,0.4)] content-[counter(step)];
     counter-increment: step;
 }
+
+#codeBlock > pre {
+    @apply my-0 rounded-t-none;
+}
