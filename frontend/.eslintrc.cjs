@@ -3,14 +3,12 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 'latest',
+        sourceType: 'module',
         ecmaFeatures: {
             jsx: true,
-            mdx: true,
         },
         project: './tsconfig.json',
-        tsconfigRootDir: './',
-        workingDirectory: './',
-        sourceType: 'module',
+        tsconfigRootDir: __dirname,
     },
     settings: {
         react: {
@@ -20,34 +18,31 @@ module.exports = {
     },
     env: {
         browser: true,
-        es6: true,
+        es2020: true,
     },
-    plugins: ['react', 'react-hooks', 'prettier', '@typescript-eslint'],
+    plugins: ['react', 'react-hooks', 'prettier', '@typescript-eslint', 'mdx'],
     extends: [
-        // 'standard',
-        'plugin:mdx/recommended',
-        'plugin:prettier/recommended',
         'eslint:recommended',
         'plugin:react/recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:mdx/recommended',
+        'plugin:prettier/recommended',
     ],
     rules: {
         eqeqeq: 'error',
         'prettier/prettier': ['error', {}, { usePrettierrc: true }],
-        // TypeScript can infer this significantly better than eslint ever can.
-        'react/prop-types': 0,
-        'react/display-name': 0,
-        '@typescript-eslint/no-explicit-any': 0,
-        '@typescript-eslint/no-non-null-assertion': 0,
-        // This setup is required to avoid a spam of errors when running eslint about React being
-        // used before it is defined.
-        //
-        // @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md#how-to-use
-        'no-use-before-define': 0,
-        '@typescript-eslint/no-use-before-define': 'warn',
+        'react/prop-types': 'off', // TypeScript provides better type checking.
+        'react/display-name': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        'no-use-before-define': 'off', // Disable base rule
+        '@typescript-eslint/no-use-before-define': ['warn'], // Enable TypeScript specific rule
         '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
         '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
-        'react/no-unknown-property': ['error', { ignore: ['css'] }],
-        'react/react-in-jsx-scope': 'off',
+        'react/no-unknown-property': [
+            'error',
+            { ignore: ['css'] }, // Add any custom JSX attributes here.
+        ],
+        'react/react-in-jsx-scope': 'off', // Not needed with React 17+
     },
 };

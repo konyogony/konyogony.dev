@@ -2155,6 +2155,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2205,6 +2214,7 @@ dependencies = [
  "dotenv",
  "env_logger",
  "jsonwebtoken",
+ "object_store 0.10.2",
  "openssl",
  "reqwest 0.12.7",
  "serde",
@@ -2688,6 +2698,27 @@ dependencies = [
  "futures",
  "humantime",
  "itertools 0.11.0",
+ "parking_lot",
+ "percent-encoding",
+ "snafu",
+ "tokio",
+ "tracing",
+ "url",
+ "walkdir",
+]
+
+[[package]]
+name = "object_store"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e6da452820c715ce78221e8202ccc599b4a52f3e1eb3eedb487b680c81a8e3f3"
+dependencies = [
+ "async-trait",
+ "bytes",
+ "chrono",
+ "futures",
+ "humantime",
+ "itertools 0.13.0",
  "parking_lot",
  "percent-encoding",
  "snafu",
@@ -4147,7 +4178,7 @@ dependencies = [
  "nanoid",
  "nom",
  "num_cpus",
- "object_store",
+ "object_store 0.8.0",
  "once_cell",
  "pbkdf2",
  "pharos",
@@ -4225,7 +4256,7 @@ dependencies = [
  "nom",
  "num-traits",
  "num_cpus",
- "object_store",
+ "object_store 0.8.0",
  "once_cell",
  "pbkdf2",
  "pharos",
