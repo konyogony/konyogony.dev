@@ -30,7 +30,7 @@ export const Navbar = () => {
             <Link to={'/'} className='mr-8 hidden flex-row items-center gap-1 lg:flex'>
                 <span className='text-lg font-bold text-zinc-100'>konyogony.dev</span>
             </Link>
-            <div className='text-md flex w-full flex-row items-center justify-around font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
+            <div className='text-md flex w-full flex-row items-center justify-between font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
                 {routes.map((routeName, i) => {
                     return (
                         <NavLink

@@ -16,7 +16,7 @@ const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | 'h2' | '
         toast.success('URL copied to clipboard');
     };
     return (
-        <button onClick={() => clickCopy()} id={strippedId} className='cursor-copy'>
+        <button onClick={() => clickCopy()} id={strippedId} className='hidden cursor-copy lg:inline'>
             <HiOutlineHashtag
                 size={variant === 'h1' ? 26 : variant === 'h2' ? 20 : 18}
                 className='text-transparent transition-all duration-300 hover:!text-zinc-200 group-hover:text-zinc-200/60'
@@ -64,7 +64,7 @@ export const WikiFolder = ({ name, children }: { name: string; children: FileInf
                     <button
                         onClick={() => isSetOpened(!isOpened)}
                         className={cn(
-                            'flex w-full flex-row items-center py-2 pb-2.5 text-sm font-normal transition-all duration-300 hover:text-zinc-200',
+                            'flex w-full flex-row items-center py-2 text-sm font-normal transition-all duration-300 hover:text-zinc-200',
                             isActive ? 'font-semibold text-zinc-50' : 'text-zinc-400',
                         )}
                     >

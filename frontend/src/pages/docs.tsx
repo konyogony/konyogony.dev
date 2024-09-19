@@ -30,7 +30,7 @@ export const Docs = () => {
     const contentRef = useRef<HTMLDivElement>(null);
 
     const path = useMemo(
-        () => location.pathname.replace('/docs/', '').replace('/docs', '') || 'index',
+        () => location.pathname.replace('/docs/', '').replace('/docs', '') || 'typescript',
         [location.pathname],
     );
 
@@ -128,8 +128,8 @@ export const Docs = () => {
     }, [Content]);
 
     return (
-        <div className='relative my-20 flex w-full flex-row justify-center gap-10 overflow-x-clip'>
-            <div className='sticky top-24 flex h-fit w-fit min-w-[15vh] max-w-[25%] flex-shrink-0 flex-col items-start'>
+        <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
+            <div className='sticky top-24 hidden h-fit w-fit min-w-[15vh] flex-shrink-0 flex-col items-start lg:flex'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>Documentation</span>
                 {folders &&
                     folders.map((v, i) => (
@@ -140,7 +140,7 @@ export const Docs = () => {
                         />
                     ))}
             </div>
-            <div className='prose prose-zinc prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:mb-0 prose-headings:w-full prose-headings:border-b prose-headings:border-white/15 prose-headings:pb-1 prose-a:decoration-dotted hover:prose-a:text-blue-500 prose-hr:border-white/20'>
+            <div className='prose prose-zinc prose-invert flex w-full flex-shrink-0 flex-col items-start prose-headings:my-2 prose-headings:w-full prose-headings:border-b prose-headings:border-white/15 prose-headings:pb-1.5 prose-a:decoration-dotted hover:prose-a:text-blue-500 prose-hr:border-white/20 lg:max-w-[40%]'>
                 <Breadcrumb className='not-prose flex w-full'>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -190,7 +190,7 @@ export const Docs = () => {
                     </div>
                 ) : null}
             </div>
-            <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] max-w-[25%] flex-shrink-0 flex-col items-end lg:flex'>
+            <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
                 {headings.map((v, i) => (
                     <a
