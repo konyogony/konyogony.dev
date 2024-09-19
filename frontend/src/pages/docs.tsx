@@ -146,7 +146,7 @@ export const Docs = () => {
                     </span>
                 )}
             </div>
-            <div className='prose prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:mb-0 prose-headings:w-full prose-headings:border-b prose-headings:pb-1 prose-h1:border-white/15 prose-h2:border-white/10 prose-h3:border-white/5 prose-a:decoration-dotted'>
+            <div className='prose prose-zinc prose-invert flex min-w-[35%] flex-shrink-0 flex-col items-start prose-headings:mb-0 prose-headings:w-full prose-headings:border-b prose-headings:border-white/15 prose-headings:pb-1 prose-a:decoration-dotted hover:prose-a:text-blue-500 prose-hr:border-white/20'>
                 <Breadcrumb className='not-prose flex w-full'>
                     <BreadcrumbList>
                         <BreadcrumbItem>
