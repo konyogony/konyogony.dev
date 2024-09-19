@@ -9,7 +9,7 @@ export const getHighlighter = async (language: string): Promise<HighlighterGener
 
     highlighterInstance = await createHighlighter({
         themes: ['github-dark-dimmed'],
-        langs: ['ts', 'tsx', 'jsx', 'rs', 'html', 'mdx', language],
+        langs: ['ts', 'tsx', 'jsx', 'rs', 'html', 'mdx', 'bash', 'sh', 'html', 'js', 'css', language],
     });
 
     return highlighterInstance;

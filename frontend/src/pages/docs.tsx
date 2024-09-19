@@ -14,7 +14,6 @@ import { MDXProvider } from '@mdx-js/react';
 import { FiArrowUp, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiLoader } from '@vertisanpro/react-icons/fi';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NotFound } from './notfound';
 
 export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
