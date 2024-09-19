@@ -1,33 +1,41 @@
 import { getHighlighter } from '@/lib/highlighterSingleton';
 import { IconType } from '@vertisanpro/react-icons';
 import { FiClipboard, FiLoader } from '@vertisanpro/react-icons/fi';
-import { SiCss3, SiJavascript, SiMdx, SiReact, SiRust, SiTailwindcss, SiTypescript } from '@vertisanpro/react-icons/si';
+import {
+    SiHtml5,
+    SiJavascript,
+    SiMdx,
+    SiReact,
+    SiRust,
+    SiTailwindcss,
+    SiTypescript,
+} from '@vertisanpro/react-icons/si';
 import { VscJson, VscSymbolFile, VscTerminal } from '@vertisanpro/react-icons/vsc';
 import copy from 'copy-to-clipboard';
 import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const SelectIcon = ({ language }: { language: string }): { Icon: IconType; lang: string } => {
-    switch (language.toUpperCase()) {
-        case 'TS':
+    switch (language) {
+        case 'ts':
             return { Icon: SiTypescript, lang: 'Typescript' } as const;
-        case 'JSX':
-        case 'TSX':
-            return { Icon: SiTypescript, lang: 'React' } as const;
-        case 'JS':
+        case 'jsx':
+        case 'tsx':
+            return { Icon: SiReact, lang: 'React' } as const;
+        case 'js':
             return { Icon: SiJavascript, lang: 'Javascript' } as const;
-        case 'RS':
+        case 'rs':
             return { Icon: SiRust, lang: 'Rust' } as const;
-        case 'HTML':
-            return { Icon: SiTailwindcss, lang: 'HTML' } as const;
-        case 'MDX':
+        case 'html':
+            return { Icon: SiHtml5, lang: 'HTML' } as const;
+        case 'mdx':
             return { Icon: SiMdx, lang: 'MDX' } as const;
-        case 'CSS':
-            return { Icon: SiCss3, lang: 'CSS' } as const;
-        case 'JSON':
+        case 'css':
+            return { Icon: SiTailwindcss, lang: 'CSS' } as const;
+        case 'json':
             return { Icon: VscJson, lang: 'JSON' } as const;
-        case 'BASH':
-        case 'SH':
+        case 'bash':
+        case 'sh':
             return { Icon: VscTerminal, lang: 'Terminal' } as const;
         default:
             return { Icon: VscSymbolFile, lang: 'File' } as const;
