@@ -1,0 +1,26 @@
+# React
+
+React is a JavaScript library for building user interfaces, particularly single-page applications where you need a fast, interactive user experience.
+
+## Features
+
+-   **Component-Based:** React encourages building UIs using reusable components.
+-   **Declarative:** React allows you to describe how the UI should look based on the state and automatically manages the updates.
+-   **Virtual DOM:** React uses a virtual DOM to efficiently update and render the right components.
+-   **Hooks:** React provides hooks to manage state and side effects in functional components.
+
+## Example
+
+Here’s a simple React component example:
+
+```jsx
+import React from 'react';
+
+function Greeting({ name }) {
+    return <h1>Hello, {name}!</h1>;
+}
+
+export default function App() {
+    return <Greeting name='World' />;
+}
+```
