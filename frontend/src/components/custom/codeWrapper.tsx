@@ -1,46 +1,8 @@
 import { getHighlighter } from '@/lib/highlighterSingleton';
-import { IconType } from '@vertisanpro/react-icons';
-import { FiClipboard, FiLoader } from '@vertisanpro/react-icons/fi';
-import {
-    SiHtml5,
-    SiJavascript,
-    SiMdx,
-    SiReact,
-    SiRust,
-    SiTailwindcss,
-    SiTypescript,
-} from '@vertisanpro/react-icons/si';
-import { VscJson, VscSymbolFile, VscTerminal } from '@vertisanpro/react-icons/vsc';
-import copy from 'copy-to-clipboard';
+import { FiLoader } from '@vertisanpro/react-icons/fi';
 import { ReactNode, useEffect, useState } from 'react';
-import { toast } from 'sonner';
-
-const SelectIcon = ({ language }: { language: string }): { Icon: IconType; lang: string } => {
-    switch (language) {
-        case 'ts':
-            return { Icon: SiTypescript, lang: 'Typescript' } as const;
-        case 'jsx':
-        case 'tsx':
-            return { Icon: SiReact, lang: 'React' } as const;
-        case 'js':
-            return { Icon: SiJavascript, lang: 'Javascript' } as const;
-        case 'rs':
-            return { Icon: SiRust, lang: 'Rust' } as const;
-        case 'html':
-            return { Icon: SiHtml5, lang: 'HTML' } as const;
-        case 'mdx':
-            return { Icon: SiMdx, lang: 'MDX' } as const;
-        case 'css':
-            return { Icon: SiTailwindcss, lang: 'CSS' } as const;
-        case 'json':
-            return { Icon: VscJson, lang: 'JSON' } as const;
-        case 'bash':
-        case 'sh':
-            return { Icon: VscTerminal, lang: 'Terminal' } as const;
-        default:
-            return { Icon: VscSymbolFile, lang: 'File' } as const;
-    }
-};
+import { codeWrapperIcon } from '../../lib/codeWrapperIcon';
+import { CopyButton } from './copyButton';
 
 export const CodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
     const [codeBlock, setCodeBlock] = useState<string>('');
@@ -60,7 +22,7 @@ export const CodeWrapper = ({ language = '', children }: { language: string; chi
         fetchHighlighter();
     }, [language, children]);
 
-    const { Icon, lang } = SelectIcon({ language });
+    const { Icon, lang } = codeWrapperIcon({ language });
 
     return (
         <div className='group relative overflow-clip rounded-lg border border-white/15'>
@@ -80,21 +42,5 @@ export const CodeWrapper = ({ language = '', children }: { language: string; chi
                 />
             )}
         </div>
-    );
-};
-
-const CopyButton: React.FC<{ text: string }> = ({ text }) => {
-    const clickCopy = () => {
-        copy(text);
-        toast.success('Code copied to clipboard');
-    };
-
-    return (
-        <button
-            onClick={clickCopy}
-            className='ml-auto text-zinc-400 opacity-0 transition-all duration-150 hover:!text-zinc-200 group-hover:opacity-100'
-        >
-            <FiClipboard size={18} />
-        </button>
     );
 };
