@@ -1,25 +1,50 @@
-import { getHighlighter } from '@/lib/highlighterSingleton';
-import { FiLoader } from '@vertisanpro/react-icons/fi';
+import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { ReactNode, useEffect, useState } from 'react';
+import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
 import { codeWrapperIcon } from '../../lib/codeWrapperIcon';
 import { CopyButton } from './copyButton';
 
 export const CodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
     const [codeBlock, setCodeBlock] = useState<string>('');
     const [loading, setLoading] = useState(true);
+    let highlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;
 
     useEffect(() => {
+        let isMounted = true;
+
         const fetchHighlighter = async () => {
-            const highlighter = await getHighlighter(language);
-            const highlightedCode = highlighter.codeToHtml(children?.toString() || '', {
-                lang: language,
-                theme: 'github-dark-dimmed',
-            });
-            setCodeBlock(highlightedCode);
-            setLoading(false);
+            try {
+                setLoading(true);
+
+                highlighter = await createHighlighter({
+                    themes: ['github-dark-dimmed'],
+                    langs: ['ts', 'tsx', 'jsx', 'rs', 'html', 'mdx', 'bash', 'sh', 'js', 'css', language],
+                });
+
+                const highlightedCode = highlighter.codeToHtml(children?.toString() || '', {
+                    lang: language,
+                    theme: 'github-dark-dimmed',
+                });
+
+                if (isMounted) {
+                    setCodeBlock(highlightedCode);
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error('Error creating highlighter:', error);
+                setLoading(false);
+            }
         };
 
         fetchHighlighter();
+
+        return () => {
+            isMounted = false;
+            if (highlighter) {
+                highlighter.dispose();
+                highlighter = null;
+            }
+        };
     }, [language, children]);
 
     const { Icon, lang } = codeWrapperIcon({ language });
@@ -32,7 +57,7 @@ export const CodeWrapper = ({ language = '', children }: { language: string; chi
             </div>
             {loading ? (
                 <div className='flex h-[20vh] w-full items-center justify-center bg-[#22272e]'>
-                    <FiLoader size={18} className='animate-spin-slow' />
+                    <TbOutlineLoader2 size={20} className='animate-spin-slow' />
                 </div>
             ) : (
                 <article
