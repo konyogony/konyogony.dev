@@ -1,4 +1,4 @@
-interface FileInfo {
+export interface FileInfo {
     name: string;
     folder: string;
     path: string;

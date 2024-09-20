@@ -3,7 +3,7 @@ import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
 
 export const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | 'h2' | 'h3' }) => {
-    const strippedId = id.replace(/\s+/g, '-').replace(/[^\p{L}\p{N}\-]/gu, '');
+    const strippedId = id.replace(/\s+/g, '-').replace(/[^\p{L}\p{N}-]/gu, '');
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {
         copy(path);

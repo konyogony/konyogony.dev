@@ -11,8 +11,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
+import { FileInfo } from '@/types';
 import { MDXProvider } from '@mdx-js/react';
-import { FiArrowUp, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiLoader } from '@vertisanpro/react-icons/fi';
+import { FiArrowUp, FiArrowUpRight, FiChevronLeft, FiChevronRight } from '@vertisanpro/react-icons/fi';
+import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -107,7 +109,51 @@ export const Docs = () => {
     }, [location.pathname, Content]);
 
     useEffect(() => {
-        const handleScroll = () => setScrollHeight(window.scrollY);
+        // This effect creates an IntersectionObserver that observes all headings in the currently rendered MDX document.
+        // When a heading comes into view, the observer callback is triggered and the ID of the heading is set as the active heading.
+        // The observer is configured to consider an element "in view" if at least 5% of it is visible in the viewport.
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        setActiveHeading(id);
+                    }
+                });
+            },
+            {
+                // The root element is the document root, so we don't need to set it explicitly.
+                // The root margin is set to 0px on all sides except for the top, where it is set to -80% of the viewport height.
+                // This means that an element is considered "in view" as soon as 5% of its top edge is visible above the fold.
+                rootMargin: '0px 0px -80% 0px',
+                // The threshold is set to 0.05, which means that an element is considered "in view" if at least 5% of it is visible.
+                threshold: 0.05,
+            },
+        );
+
+        // Get all headings in the currently rendered MDX document.
+        const currentHeadings = contentRef.current?.querySelectorAll('h1, h2') || [];
+
+        // Observe each of the headings.
+        currentHeadings.forEach((heading) => {
+            if (heading) {
+                observer.observe(heading);
+            }
+        });
+
+        // When the component is unmounted, unobserve all headings.
+        return () => {
+            currentHeadings.forEach((heading) => {
+                observer.unobserve(heading);
+            });
+        };
+    }, [Content, location.pathname]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollHeight(window.scrollY);
+            console.log(activeHeading);
+        };
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -118,11 +164,9 @@ export const Docs = () => {
                 <span className='py-2 text-sm font-bold text-zinc-50'>Documentation</span>
                 {folders &&
                     folders.map((v, i) => (
-                        <WikiFolder
-                            key={i}
-                            name={v}
-                            children={structure ? structure.filter((w) => w.folder === v) : []}
-                        />
+                        <WikiFolder key={i} name={v}>
+                            {structure ? structure.filter((w) => w.folder === v) : []}
+                        </WikiFolder>
                     ))}
             </div>
             <div className='prose prose-zinc prose-invert flex w-full flex-shrink-0 flex-col items-start prose-headings:my-2 prose-headings:w-full prose-headings:border-b prose-headings:border-white/15 prose-headings:pb-1.5 prose-a:decoration-dotted hover:prose-a:text-blue-500 prose-hr:border-white/20 lg:max-w-[40%]'>
@@ -145,7 +189,7 @@ export const Docs = () => {
                 <div className='my-4 flex h-full w-full flex-col' ref={contentRef}>
                     {loading ? (
                         <div className='flex h-screen w-full flex-row items-center justify-center gap-2 lg:opacity-0'>
-                            <FiLoader className='animate-spin-slow' size={16} />
+                            <TbOutlineLoader2 className='animate-spin-slow' size={20} />
                             Loading, please wait...
                         </div>
                     ) : Content ? (
@@ -178,10 +222,9 @@ export const Docs = () => {
             <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
                 {headings.map((v, i) => (
-                    <>
+                    <React.Fragment key={i}>
                         {v ? (
                             <a
-                                key={i}
                                 href={`#${v.trim().toLocaleLowerCase().replaceAll(' ', '-') || v}`}
                                 className={cn(
                                     'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200',
@@ -191,7 +234,7 @@ export const Docs = () => {
                                 {v}
                             </a>
                         ) : null}
-                    </>
+                    </React.Fragment>
                 ))}
                 <div className='my-2 h-[1px] w-3/4 bg-white/10' />
                 <a
