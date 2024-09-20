@@ -2,6 +2,7 @@ import mdx from '@mdx-js/rollup';
 import react from '@vitejs/plugin-react-swc';
 import remarkGfm from 'remark-gfm';
 import { defineConfig } from 'vite';
+import oxlintPlugin from 'vite-plugin-oxlint';
 
 export default defineConfig(() => ({
     server: {
@@ -13,6 +14,9 @@ export default defineConfig(() => ({
             remarkPlugins: [remarkGfm],
         }),
         react(),
+        oxlintPlugin({
+            path: 'src',
+        }),
     ],
     resolve: {
         alias: { '@': '/src' },
