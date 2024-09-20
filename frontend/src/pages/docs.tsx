@@ -1,4 +1,5 @@
-import { components, WikiFolder } from '@/components/custom/wiki';
+import { wikiComponents } from '@/components/custom/wikiComponents';
+import { WikiFolder } from '@/components/custom/wikiFolder';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -26,11 +27,14 @@ export const Docs = () => {
     const [headings, setHeadings] = useState<(string | null)[]>([]);
     const [activeHeading, setActiveHeading] = useState<string | null>(null);
 
+    const fallback = 'typescript';
+    const scrollToTrigger = 500;
+
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
 
     const path = useMemo(
-        () => location.pathname.replace('/docs/', '').replace('/docs', '') || 'typescript',
+        () => location.pathname.replace('/docs/', '').replace('/docs', '') || fallback,
         [location.pathname],
     );
 
@@ -79,7 +83,8 @@ export const Docs = () => {
             const name = pathParts[pathParts.length - 1].replace('.mdx', '');
             const folder = pathParts.slice(0, -1).join('/').replace('../docs/', '').replace('../docs', '');
             const path = `/docs${folder ? `/${folder}` : ''}/${name}`;
-            return { name, folder, path };
+            const gitPath = `https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs/${folder}${folder !== '/' ? '/' : ''}${name}.mdx`;
+            return { name, folder, path, gitPath };
         });
 
         const folderSet = new Set(fileArray.map((file) => file.folder));
@@ -106,31 +111,6 @@ export const Docs = () => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    console.log('IntersectionObserver Entry:', entry);
-                    if (entry.isIntersecting) {
-                        setActiveHeading(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: '0px 0px -80% 0px', threshold: 0.1 },
-        );
-
-        const headingElements = contentRef.current?.querySelectorAll('h1, h2');
-        headingElements?.forEach((heading) => {
-            if (!heading.id) {
-                heading.id = heading.textContent?.toLowerCase().replace(/\s+/g, '-') || '';
-            }
-            observer.observe(heading);
-        });
-
-        return () => {
-            headingElements?.forEach((heading) => observer.unobserve(heading));
-        };
-    }, [Content]);
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
@@ -169,7 +149,7 @@ export const Docs = () => {
                             Loading, please wait...
                         </div>
                     ) : Content ? (
-                        <MDXProvider components={components}>
+                        <MDXProvider components={wikiComponents}>
                             <Content />
                         </MDXProvider>
                     ) : null}
@@ -198,33 +178,41 @@ export const Docs = () => {
             <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
                 <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
                 {headings.map((v, i) => (
-                    <a
-                        key={i}
-                        href={`#${v?.trim().toLocaleLowerCase().replaceAll(' ', '-') || v}`}
-                        className={cn(
-                            'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200',
-                            activeHeading === v?.toLowerCase().replace(/\s+/g, '-') && 'font-bold text-zinc-50',
-                        )}
-                    >
-                        {v}
-                    </a>
+                    <>
+                        {v ? (
+                            <a
+                                key={i}
+                                href={`#${v.trim().toLocaleLowerCase().replaceAll(' ', '-') || v}`}
+                                className={cn(
+                                    'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200',
+                                    activeHeading === v.toLowerCase().replace(/\s+/g, '-') && 'font-bold text-zinc-50',
+                                )}
+                            >
+                                {v}
+                            </a>
+                        ) : null}
+                    </>
                 ))}
                 <div className='my-2 h-[1px] w-3/4 bg-white/10' />
                 <a
-                    href={`https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs${structure?.[currentIndex].folder}${structure?.[currentIndex].folder !== '/' ? '/' : ''}${structure?.[currentIndex].name}.mdx`}
+                    href={structure ? structure[currentIndex].gitPath : '/404'}
                     rel='noopener noreferrer'
                     target='_blank'
                     className='flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
                 >
                     Edit this page on GitHub <FiArrowUpRight />
                 </a>
-                {scrollHeight > 500 && (
-                    <a
-                        href={`#${headings[0]?.trim().toLocaleLowerCase().replaceAll(' ', '-') || headings[0]}`}
-                        className='my-2 flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
-                    >
-                        Back to top <FiArrowUp />
-                    </a>
+                {scrollHeight > scrollToTrigger && (
+                    <>
+                        {headings.length > 0 && (
+                            <a
+                                href={`#${headings[0]?.trim().toLocaleLowerCase().replaceAll(' ', '-') || headings[0]}`}
+                                className='my-2 flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
+                            >
+                                Back to top <FiArrowUp />
+                            </a>
+                        )}
+                    </>
                 )}
             </div>
         </div>
