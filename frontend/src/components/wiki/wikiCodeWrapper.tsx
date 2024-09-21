@@ -1,10 +1,10 @@
 import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { ReactNode, useEffect, useState } from 'react';
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
-import { codeWrapperIcon } from '../../lib/codeWrapperIcon';
-import { CopyButton } from './copyButton';
+import { wikiCodeWrapperIcon } from '../../lib/wiki/wikiCodeWrapperIcon';
+import { CopyButton } from '../custom/copyButton';
 
-export const CodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
+export const WikiCodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
     const [codeBlock, setCodeBlock] = useState<string>('');
     const [loading, setLoading] = useState(true);
     let highlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;
@@ -47,7 +47,7 @@ export const CodeWrapper = ({ language = '', children }: { language: string; chi
         };
     }, [language, children]);
 
-    const { Icon, lang } = codeWrapperIcon({ language });
+    const { Icon, lang } = wikiCodeWrapperIcon({ language });
 
     return (
         <div className='group relative overflow-clip rounded-lg border border-white/15'>

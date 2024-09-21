@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
-import { CodeWrapper } from './codeWrapper';
-import { HashTag } from './hashTag';
+import { HashTag } from '../custom/hashTag';
+import { WikiCodeWrapper } from './wikiCodeWrapper';
 
 export const wikiComponents = {
     h1: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
@@ -32,9 +32,9 @@ export const wikiComponents = {
         const codeElement = children as React.ReactElement<{ className: string; children: ReactNode }>;
         const language = codeElement.props.className?.replace('language-', '') || '';
         return (
-            <CodeWrapper language={language} {...props}>
+            <WikiCodeWrapper language={language} {...props}>
                 {codeElement.props.children}
-            </CodeWrapper>
+            </WikiCodeWrapper>
         );
     },
 };
