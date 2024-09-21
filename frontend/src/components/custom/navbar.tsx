@@ -1,13 +1,12 @@
 import { cn } from '@/lib/utils';
 import { BsDiscord, BsGithub } from '@vertisanpro/react-icons/bs';
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from 'cmdk';
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
+import { Cmdk } from './cmdk';
 
 export const Navbar = () => {
     const [scrolled, setScrolled] = useState<boolean>(false);
-    const [open, setOpen] = useState(false);
     const routes = ['Home', 'Docs', 'About', 'Notes'];
 
     useEffect(() => {
@@ -16,28 +15,8 @@ export const Navbar = () => {
         return () => window.removeEventListener('scroll', updateScrolledState);
     }, []);
 
-    useEffect(() => {
-        const down = (e: KeyboardEvent) => {
-            if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault();
-                setOpen((open) => !open);
-            }
-        };
-        document.addEventListener('keydown', down);
-        return () => document.removeEventListener('keydown', down);
-    }, []);
-
     return (
         <>
-            <CommandDialog open={open} onOpenChange={setOpen}>
-                <CommandInput placeholder='Search documentation...' />
-                <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading='Wiki'>
-                        <CommandItem>a</CommandItem>
-                    </CommandGroup>
-                </CommandList>
-            </CommandDialog>
             <nav
                 className={cn(
                     'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
@@ -60,15 +39,7 @@ export const Navbar = () => {
                         );
                     })}
                 </div>
-                <button
-                    onClick={() => setOpen(true)}
-                    className='group ml-auto flex cursor-pointer flex-row items-center gap-10 rounded-md border border-white/5 bg-zinc-900/50 py-1 pl-4 pr-2 text-sm font-normal text-zinc-400 backdrop-blur-md transition-all duration-300 hover:bg-zinc-800/60 hover:text-zinc-200'
-                >
-                    <span> Search documentation...</span>
-                    <span className='flex items-center rounded-sm bg-zinc-700/50 px-2 py-0.5 text-[10px] backdrop-blur-sm'>
-                        ⌘ K
-                    </span>
-                </button>
+                <Cmdk />
                 <div className='mx-2 hidden flex-row items-center gap-2 lg:flex'>
                     <a
                         className='flex items-center justify-center rounded-sm p-2 hover:bg-zinc-900'

@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
 import { Layout } from './layouts/layout';
+import { About } from './pages/about';
 import { Docs } from './pages/docs';
 import { Notes } from './pages/notes';
 import { NotFound } from './pages/notfound';
@@ -39,7 +40,7 @@ export const App = () => {
                     {/* Public routes */}
                     <Route path='/' element={<Welcome />} />
                     <Route path='/docs/*' element={<Docs />} />
-
+                    <Route path='/about' element={<About />} />
                     {/* Protected routes */}
                     <Route path='/notes' element={<ProtectedRoute component={<Notes />} />} />
 
