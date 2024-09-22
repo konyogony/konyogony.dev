@@ -4,7 +4,12 @@ import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } 
 import { wikiCodeWrapperIcon } from '../../lib/wiki/wikiCodeWrapperIcon';
 import { CopyButton } from '../custom/copyButton';
 
-export const WikiCodeWrapper = ({ language = '', children }: { language: string; children: ReactNode }) => {
+interface WikiCodeWrapperProps {
+    children: ReactNode;
+    language?: string;
+}
+
+export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProps) => {
     const [codeBlock, setCodeBlock] = useState<string>('');
     const [loading, setLoading] = useState(true);
     let highlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;

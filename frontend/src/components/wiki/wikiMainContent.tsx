@@ -4,22 +4,17 @@ import { WikiBreadcrumbs } from './wikiBreadcrumbs';
 import { WikiMdx } from './wikiMdx';
 import { WikiNavButtons } from './wikiNavButtons';
 
+interface WikiMainContentProps {
+    breadcrumb: string[];
+    currentIndex: number;
+    loading: boolean;
+    structure: FileInfo[] | null;
+    Content: React.FC | null;
+}
+
 export const WikiMainContent = forwardRef(
     (
-        {
-            breadcrumb,
-
-            currentIndex,
-            loading,
-            structure,
-            Content,
-        }: {
-            breadcrumb: string[];
-            loading: boolean;
-            currentIndex: number;
-            structure: FileInfo[] | null;
-            Content: React.FC | null;
-        },
+        { breadcrumb, currentIndex, loading, structure, Content }: WikiMainContentProps,
         ref: ForwardedRef<HTMLDivElement>,
     ) => {
         return (

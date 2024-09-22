@@ -4,15 +4,13 @@ import { FiChevronLeft, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
 
-export const WikiNavButtons = ({
-    structure,
-    loading,
-    currentIndex,
-}: {
+interface WikiNavButtonsProps {
     structure: FileInfo[] | null;
     loading: boolean;
     currentIndex: number;
-}) => {
+}
+
+export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButtonsProps) => {
     return (
         <>
             {!loading ? (

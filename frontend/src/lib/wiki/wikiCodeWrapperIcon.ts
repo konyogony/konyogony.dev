@@ -10,7 +10,16 @@ import {
 } from '@vertisanpro/react-icons/si';
 import { VscJson, VscSymbolFile, VscTerminal } from '@vertisanpro/react-icons/vsc';
 
-export const wikiCodeWrapperIcon = ({ language }: { language: string }): { Icon: IconType; lang: string } => {
+interface WikiCodeWrapperIconProps {
+    language: string;
+}
+
+interface WikiCodeWrapperIconReturn {
+    Icon: IconType;
+    lang: string;
+}
+
+export const wikiCodeWrapperIcon = ({ language }: WikiCodeWrapperIconProps): WikiCodeWrapperIconReturn => {
     switch (language) {
         case 'ts':
             return { Icon: SiTypescript, lang: 'Typescript' } as const;

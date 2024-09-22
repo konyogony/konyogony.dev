@@ -9,7 +9,11 @@ import {
     BreadcrumbSeparator,
 } from '../ui/breadcrumb';
 
-export const WikiBreadcrumbs = ({ breadcrumb }: { breadcrumb: string[] }) => {
+interface WikiBreadcrumbsProps {
+    breadcrumb: string[];
+}
+
+export const WikiBreadcrumbs = ({ breadcrumb }: WikiBreadcrumbsProps) => {
     const breadcrumbElements = useMemo(
         () =>
             breadcrumb.map((b, i) => (

@@ -2,7 +2,13 @@ import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { NavLink } from 'react-router-dom';
 
-export const WikiLink = ({ name, url, line = false }: { name: string; url: string; line?: boolean }) => {
+interface WikiLinkProps {
+    name: string;
+    url: string;
+    line?: boolean;
+}
+
+export const WikiLink = ({ name, url, line = false }: WikiLinkProps) => {
     return (
         <NavLink
             to={url}

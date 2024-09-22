@@ -4,17 +4,19 @@ import { FileInfo } from '@/types';
 import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
 import React from 'react';
 
+interface WikiSecondarySidebarProps {
+    headings: (string | null)[];
+    currentIndex: number;
+    scrollHeight: number;
+    structure: FileInfo[] | null;
+}
+
 export const WikiSecondarySidebar = ({
     headings,
     currentIndex,
     scrollHeight,
     structure,
-}: {
-    headings: (string | null)[];
-    currentIndex: number;
-    scrollHeight: number;
-    structure: FileInfo[] | null;
-}) => {
+}: WikiSecondarySidebarProps) => {
     return (
         <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
             <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>

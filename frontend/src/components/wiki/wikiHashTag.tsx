@@ -2,7 +2,12 @@ import { HiOutlineHashtag } from '@vertisanpro/react-icons/hi';
 import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
 
-export const HashTag = ({ id, variant = 'h1' }: { id: string; variant?: 'h1' | 'h2' | 'h3' }) => {
+interface WikiHashTagProps {
+    id: string;
+    variant?: 'h1' | 'h2' | 'h3';
+}
+
+export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
     const strippedId = id.replace(/\s+/g, '-').replace(/[^\p{L}\p{N}-]/gu, '');
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {

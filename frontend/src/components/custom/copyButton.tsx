@@ -2,7 +2,11 @@ import { FiClipboard } from '@vertisanpro/react-icons/fi';
 import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
 
-export const CopyButton: React.FC<{ text: string }> = ({ text }) => {
+interface CopyButtonProps {
+    text: string;
+}
+
+export const CopyButton: React.FC<CopyButtonProps> = ({ text }) => {
     const clickCopy = () => {
         copy(text);
         toast.success('Code copied to clipboard');

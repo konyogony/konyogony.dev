@@ -1,14 +1,14 @@
 import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
-import { HashTag } from '../custom/hashTag';
 import { WikiCodeWrapper } from './wikiCodeWrapper';
+import { WikiHashTag } from './wikiHashTag';
 
 export const wikiComponents = {
     h1: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
         const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
         return (
             <h1 className={cn('group text-4xl', className)} {...props} id={id}>
-                {children} <HashTag id={id ?? ''} />
+                {children} <WikiHashTag id={id ?? ''} />
             </h1>
         );
     },
@@ -16,7 +16,7 @@ export const wikiComponents = {
         const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
         return (
             <h2 className={cn('group text-2xl', className)} {...props} id={id}>
-                {children} <HashTag id={id ?? ''} variant='h2' />
+                {children} <WikiHashTag id={id ?? ''} variant='h2' />
             </h2>
         );
     },
@@ -24,7 +24,7 @@ export const wikiComponents = {
         const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
         return (
             <h3 className={cn('group text-xl', className)} {...props} id={id}>
-                {children} <HashTag id={id ?? ''} variant='h3' />
+                {children} <WikiHashTag id={id ?? ''} variant='h3' />
             </h3>
         );
     },

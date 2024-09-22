@@ -6,7 +6,12 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { WikiLink } from './wikiLink';
 
-export const WikiFolder = ({ name, children }: { name: string; children: FileInfo[] }) => {
+interface WikiFolderProps {
+    name: string;
+    children: FileInfo[];
+}
+
+export const WikiFolder = ({ name, children }: WikiFolderProps) => {
     const [isOpened, isSetOpened] = useState(false);
     const [isActive, isSetActive] = useState(false);
     const location = useLocation();
