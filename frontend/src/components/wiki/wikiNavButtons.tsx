@@ -11,14 +11,19 @@ interface WikiNavButtonsProps {
 }
 
 export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButtonsProps) => {
-    const nextIndex = structure?.findIndex((v, i) => i > currentIndex && v.visible !== false) || 0;
-    const prevIndex = structure?.findIndex((v, i) => i < currentIndex && v.visible !== false) || 0;
-    console.log('button rendered');
+    if (!structure) return null;
+
+    const nextIndex = structure.findIndex((v, i) => i > currentIndex && v.visible !== false);
+
+    const prevIndex = structure.slice(0, currentIndex).findLastIndex((v) => v.visible !== false);
+
+    console.log('nav buttons rendered');
+    console.log('last index', prevIndex, 'current index', currentIndex, 'next index', nextIndex);
     return (
         <>
             {!loading ? (
                 <div className='not-prose flex w-full flex-row items-center'>
-                    {structure && structure[prevIndex] && (
+                    {prevIndex !== -1 && structure && structure[prevIndex] && (
                         <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
                             <Link to={`${structure[prevIndex].path}`}>
                                 <FiChevronLeft size={14} />
@@ -26,7 +31,7 @@ export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButt
                             </Link>
                         </Button>
                     )}
-                    {structure && structure[nextIndex] && (
+                    {nextIndex !== -1 && structure && structure[nextIndex] && (
                         <Button variant={'outline'} className='ml-auto flex flex-row items-center gap-1' asChild>
                             <Link to={`${structure[nextIndex].path}`}>
                                 {capitalize(structure[nextIndex].name.replaceAll('-', ' '))}

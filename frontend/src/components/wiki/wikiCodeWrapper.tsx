@@ -10,6 +10,8 @@ interface WikiCodeWrapperProps {
 }
 
 export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProps) => {
+    console.log('code wrapper rendered');
+
     const [codeBlock, setCodeBlock] = useState<string>('');
     const [loading, setLoading] = useState(true);
     let highlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;

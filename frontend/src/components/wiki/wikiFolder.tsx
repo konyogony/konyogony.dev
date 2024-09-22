@@ -18,7 +18,7 @@ export const WikiFolder = ({ name, children }: WikiFolderProps) => {
     const [isActive, isSetActive] = useState(false);
     const location = useLocation();
     useEffect(() => {
-        if (children.some((w) => w.path === location.pathname)) {
+        if (children.some((w) => w.path === location.pathname.replace('/docs/', ''))) {
             isSetOpened(true);
             isSetActive(true);
         } else {
