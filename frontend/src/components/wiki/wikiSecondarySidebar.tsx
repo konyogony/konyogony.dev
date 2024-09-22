@@ -1,4 +1,4 @@
-import { wikiScrollToTriggerButton } from '@/config';
+import { wikiConfig } from '@/config';
 import { cn } from '@/lib/utils';
 import { FileInfo } from '@/types';
 import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
@@ -17,6 +17,7 @@ export const WikiSecondarySidebar = ({
     scrollHeight,
     structure,
 }: WikiSecondarySidebarProps) => {
+    console.log('secondary sidebar rendered');
     return (
         <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
             <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
@@ -44,7 +45,7 @@ export const WikiSecondarySidebar = ({
             >
                 Edit this page on GitHub <FiArrowUpRight />
             </a>
-            {scrollHeight > wikiScrollToTriggerButton && (
+            {scrollHeight > wikiConfig.scrollToTriggerButton && (
                 <>
                     {headings.length > 0 && (
                         <a

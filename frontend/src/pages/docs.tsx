@@ -1,9 +1,8 @@
 import { WikiMainContent } from '@/components/wiki/wikiMainContent';
 import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
-import { wikiFallbackPage } from '@/config';
+import { wikiConfig } from '@/config';
 import { capitalize } from '@/lib/capitalize';
-import { wikiStructureSort } from '@/lib/wiki/wikiStructureSort';
 import { FileInfo } from '@/types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -21,9 +20,13 @@ export const Docs = () => {
 
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
+    const config = wikiConfig;
 
     const path = useMemo(
-        () => location.pathname.replace('/docs/', '').replace('/docs', '') || wikiFallbackPage,
+        () =>
+            location.pathname.replace('/docs/', '').replace('/docs', '') ||
+            config.structure.find((s) => s.fallback)?.path ||
+            '',
         [location.pathname],
     );
 
@@ -31,39 +34,45 @@ export const Docs = () => {
 
     useEffect(() => {
         setLoading(true);
+
         const importFile = mdxFiles[`../docs/${path}.mdx`];
-        if (importFile) {
-            importFile()
-                .then((module) => {
-                    setContent(() => (module as { default: React.FC }).default);
-                    setBreadcrumb(path.split('/').map((p) => capitalize(p.replaceAll('-', ' '))));
-                })
-                .catch((err) => console.error('Error loading MDX file:', err))
-                .finally(() => {
-                    setLoading(false);
-                });
-        } else {
+        const configFile = config.structure.find((s) => s.path === path);
+
+        if (!importFile || !configFile || configFile.visible === false) {
             setContent(null);
             setBreadcrumb([]);
             setLoading(false);
+            return;
         }
-    }, [path, mdxFiles]);
+
+        importFile()
+            .then((module) => {
+                setContent(() => (module as { default: React.FC }).default);
+                setBreadcrumb(path.split('/').map((p) => capitalize(p.replaceAll('-', ' '))));
+            })
+            .catch((err) => console.error('Error loading MDX file:', err))
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [path]);
 
     useEffect(() => {
-        const fileArray = Object.entries(mdxFiles).map(([filePath, _]) => {
-            const pathParts = filePath.split('/');
-            const name = pathParts[pathParts.length - 1].replace('.mdx', '');
-            const folder = pathParts.slice(0, -1).join('/').replace('../docs/', '').replace('../docs', '');
-            const path = `/docs${folder ? `/${folder}` : ''}/${name}`;
-            const gitPath = `https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/docs/${folder}${folder !== '/' ? '/' : ''}${name}.mdx`;
-            return { name, folder, path, gitPath };
+        const newStructure: FileInfo[] = config.structure.map((item) => {
+            const [file, ...folders] = item.path.split('/').reverse();
+            const folder = folders.reverse().join('/');
+            return {
+                name: file,
+                folder,
+                path: item.path,
+                gitPath: `https://github.com/konyogony/konyogony.dev/blob/main/frontend/src/docs/${item.path}.mdx`,
+                visible: item.visible,
+                fallback: item.fallback,
+            };
         });
-
-        const folderSet = new Set(fileArray.map((file) => file.folder));
-
-        setStructure(fileArray.sort(wikiStructureSort));
-        setFolders(Array.from(folderSet).sort((a, b) => a.localeCompare(b)));
-    }, [path, mdxFiles]);
+        const allFolders = new Set(newStructure.map((f) => f.folder));
+        setStructure(newStructure);
+        setFolders([...allFolders]);
+    }, [config.structure, path]);
 
     useEffect(() => {
         const [file, ...folders] = path.split('/').reverse();
@@ -73,6 +82,7 @@ export const Docs = () => {
         );
     }, [location.pathname, structure]);
 
+    // This is cringe but works
     useEffect(() => {
         const headings = contentRef.current?.querySelectorAll('h1, h2');
         setHeadings(headings ? Array.from(headings).map((h) => h.textContent) : []);
@@ -120,12 +130,12 @@ export const Docs = () => {
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
             <WikiSidebar folders={folders} structure={structure} />
             <WikiMainContent
-                breadcrumb={breadcrumb}
                 ref={contentRef}
                 currentIndex={currentIndex}
                 loading={loading}
                 structure={structure}
                 Content={Content}
+                breadcrumb={breadcrumb}
             />
             <WikiSecondarySidebar
                 headings={headings}

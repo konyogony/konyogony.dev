@@ -12,6 +12,8 @@ interface WikiFolderProps {
 }
 
 export const WikiFolder = ({ name, children }: WikiFolderProps) => {
+    console.log('folder rendered');
+
     const [isOpened, isSetOpened] = useState(false);
     const [isActive, isSetActive] = useState(false);
     const location = useLocation();
@@ -27,9 +29,11 @@ export const WikiFolder = ({ name, children }: WikiFolderProps) => {
         <>
             {name === '' ? (
                 <div className={'flex w-full flex-col items-start transition-all duration-300'}>
-                    {children.map((w, i) => (
-                        <WikiLink key={i} name={w.name} url={w.path} />
-                    ))}
+                    {children
+                        .filter((w) => w.visible !== false)
+                        .map((w, i) => (
+                            <WikiLink key={i} name={w.name} url={w.path} />
+                        ))}
                 </div>
             ) : (
                 <>
@@ -51,9 +55,11 @@ export const WikiFolder = ({ name, children }: WikiFolderProps) => {
                                 : 'pointer-events-auto max-h-[100vh] opacity-100',
                         )}
                     >
-                        {children.map((w, i) => (
-                            <WikiLink key={i} name={w.name} url={w.path} line={true} />
-                        ))}
+                        {children
+                            .filter((w) => w.visible !== false)
+                            .map((w, i) => (
+                                <WikiLink key={i} name={w.name} url={w.path} line={true} />
+                            ))}
                     </div>
                 </>
             )}

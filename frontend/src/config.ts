@@ -1,2 +1,27 @@
-export const wikiFallbackPage = 'typescript';
-export const wikiScrollToTriggerButton = 500;
+import { WikiConfig } from './types';
+
+export const wikiConfig = {
+    structure: [
+        {
+            path: 'typescript',
+        },
+        {
+            path: 'rust',
+            visible: false,
+        },
+        {
+            path: 'javascript',
+            fallback: true,
+        },
+        {
+            path: 'libraries/flowbite',
+        },
+        {
+            path: 'libraries/shadcn',
+        },
+        {
+            path: 'frameworks/react',
+        },
+    ],
+    scrollToTriggerButton: 500,
+} satisfies WikiConfig;
