@@ -1,8 +1,9 @@
+import { CopyButton } from '@/components/custom/copyButton';
+import { wikiCodeWrapperIcon } from '@/lib/wiki/wikiCodeWrapperIcon';
+import { wikiCodeWrapperSingleton } from '@/lib/wiki/wikiCodeWrapperSingleton';
 import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { ReactNode, useEffect, useState } from 'react';
-import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
-import { wikiCodeWrapperIcon } from '../../lib/wiki/wikiCodeWrapperIcon';
-import { CopyButton } from '../custom/copyButton';
+import { BundledLanguage, BundledTheme, HighlighterGeneric } from 'shiki';
 
 interface WikiCodeWrapperProps {
     children: ReactNode;
@@ -14,24 +15,23 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
 
     const [codeBlock, setCodeBlock] = useState<string>('');
     const [loading, setLoading] = useState(true);
-    let highlighter: HighlighterGeneric<BundledLanguage, BundledTheme> | null = null;
+    const [isMounted, setIsMounted] = useState(false);
+    const [highlighter, setHighlighter] = useState<HighlighterGeneric<BundledLanguage, BundledTheme> | null>(null);
 
     useEffect(() => {
-        let isMounted = true;
+        setIsMounted(true);
 
         const fetchHighlighter = async () => {
             try {
                 setLoading(true);
 
-                highlighter = await createHighlighter({
-                    themes: ['github-dark-dimmed'],
-                    langs: ['ts', 'tsx', 'jsx', 'rs', 'html', 'mdx', 'bash', 'sh', 'js', 'css', language],
-                });
+                setHighlighter(await wikiCodeWrapperSingleton.getInstance());
 
-                const highlightedCode = highlighter.codeToHtml(children?.toString() || '', {
-                    lang: language,
-                    theme: 'github-dark-dimmed',
-                });
+                const highlightedCode =
+                    highlighter?.codeToHtml(children?.toString() || '', {
+                        lang: language,
+                        theme: 'github-dark-dimmed',
+                    }) || '';
 
                 if (isMounted) {
                     setCodeBlock(highlightedCode);
@@ -46,10 +46,10 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
         fetchHighlighter();
 
         return () => {
-            isMounted = false;
+            setIsMounted(false);
             if (highlighter) {
                 highlighter.dispose();
-                highlighter = null;
+                setHighlighter(null);
             }
         };
     }, [language, children]);
