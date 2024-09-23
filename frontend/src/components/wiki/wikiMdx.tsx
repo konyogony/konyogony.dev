@@ -1,7 +1,7 @@
+import { wikiComponents } from '@/components/wiki/wikiComponents';
 import { MDXProvider } from '@mdx-js/react';
 import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { ForwardedRef, forwardRef } from 'react';
-import { wikiComponents } from './wikiComponents';
 
 interface WikiMdxProps {
     loading: boolean;

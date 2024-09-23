@@ -1,10 +1,10 @@
+import { WikiLink } from '@/components/wiki/wikiLink';
 import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
 import { FileInfo } from '@/types';
 import { FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { WikiLink } from './wikiLink';
 
 interface WikiFolderProps {
     name: string;

@@ -3,6 +3,7 @@ import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
 import { wikiConfig } from '@/config';
 import { capitalize } from '@/lib/capitalize';
+import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { FileInfo } from '@/types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -56,18 +57,7 @@ export const Docs = () => {
     }, [path, mdxFiles, config.structure]);
 
     useEffect(() => {
-        const newStructure: FileInfo[] = config.structure.map((item) => {
-            const [file, ...folders] = item.path.split('/').reverse();
-            const folder = folders.reverse().join('/');
-            return {
-                name: file,
-                folder,
-                path: item.path,
-                gitPath: `https://github.com/konyogony/konyogony.dev/blob/main/frontend/src/docs/${item.path}.mdx`,
-                visible: item.visible,
-                fallback: item.fallback,
-            };
-        });
+        const newStructure = wikiGetStructure();
         const allFolders = new Set(newStructure.map((f) => f.folder));
         setStructure(newStructure);
         setFolders([...allFolders]);

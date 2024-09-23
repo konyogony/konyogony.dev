@@ -1,5 +1,5 @@
+import { WikiFolder } from '@/components/wiki/wikiFolder';
 import { FileInfo } from '@/types';
-import { WikiFolder } from './wikiFolder';
 
 interface WikiSidebarProps {
     folders: string[];

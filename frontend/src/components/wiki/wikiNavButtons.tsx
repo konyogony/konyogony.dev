@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/button';
 import { capitalize } from '@/lib/capitalize';
 import { FileInfo } from '@/types';
 import { FiChevronLeft, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { Link } from 'react-router-dom';
-import { Button } from '../ui/button';
 
 interface WikiNavButtonsProps {
     structure: FileInfo[] | null;

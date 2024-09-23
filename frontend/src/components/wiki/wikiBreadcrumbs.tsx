@@ -1,5 +1,3 @@
-import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -7,7 +5,9 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from '../ui/breadcrumb';
+} from '@/components/ui/breadcrumb';
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 interface WikiBreadcrumbsProps {
     breadcrumb: string[];

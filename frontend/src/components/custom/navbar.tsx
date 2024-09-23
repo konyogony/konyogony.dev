@@ -1,9 +1,9 @@
+import { Cmdk } from '@/components/custom/cmdk';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { BsDiscord, BsGithub } from '@vertisanpro/react-icons/bs';
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Button } from '../ui/button';
-import { Cmdk } from './cmdk';
 
 export const Navbar = () => {
     const [scrolled, setScrolled] = useState<boolean>(false);

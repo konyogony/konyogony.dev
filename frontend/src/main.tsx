@@ -1,7 +1,7 @@
+import { App } from '@/app';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './css/app.css';
-import { App } from './app';
+import '@/css/app.css';
 
 window.addEventListener('error', (event) => console.error(event.error));
 
