@@ -4,18 +4,17 @@ import {
     CommandEmpty,
     CommandGroup,
     CommandInput,
+    CommandItem,
     CommandList,
-    CommandSeparator,
 } from '@/components/ui/command';
-// import { docsConfig } from '@/config/docs';
+import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
+import { FileInfo } from '@/types';
 import { type DialogProps } from '@radix-ui/react-dialog';
-// import { RxLaptop, RxMoon, RxSun } from '@vertisanpro/react-icons/rx';
 import { useEffect, useState } from 'react';
-
-// import { useTheme } from '../ui/theme-provider';
 
 export const Cmdk = ({ ...props }: DialogProps) => {
     const [open, setOpen] = useState(false);
+    const [structure, setStructure] = useState<FileInfo[]>([]);
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -38,6 +37,10 @@ export const Cmdk = ({ ...props }: DialogProps) => {
         return () => document.removeEventListener('keydown', down);
     }, []);
 
+    useEffect(() => {
+        setStructure(wikiGetStructure());
+    }, []);
+
     // const runCommand = useCallback((command: () => unknown) => {
     //     setOpen(false);
     //     command();
@@ -49,7 +52,7 @@ export const Cmdk = ({ ...props }: DialogProps) => {
                 variant={'outline'}
                 onClick={() => setOpen(true)}
                 {...props}
-                className='group ml-auto flex cursor-pointer flex-row items-center gap-10 rounded-md border border-white/5 bg-zinc-900/50 py-1 pl-4 pr-2 text-sm font-normal text-zinc-400 backdrop-blur-md transition-all duration-300 hover:bg-zinc-800/60 hover:text-zinc-200'
+                className='group ml-auto hidden cursor-pointer flex-row items-center gap-10 rounded-md border border-white/5 bg-zinc-900/50 py-1 pl-4 pr-2 text-sm font-normal text-zinc-400 backdrop-blur-md transition-all duration-300 hover:bg-zinc-800/60 hover:text-zinc-200 lg:flex'
             >
                 <span> Search documentation...</span>
                 <kbd className='flex flex-row items-center -space-x-0.5 rounded-sm bg-zinc-700/50 px-2 py-0.5 text-[10px] backdrop-blur-sm'>
@@ -61,54 +64,14 @@ export const Cmdk = ({ ...props }: DialogProps) => {
                 <CommandList className='border-white/5'>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading='Documentation'>
-                        {/* {docsConfig.mainNav
-                            .filter((navitem) => !navitem.external)1
-                            .map((navItem) => (
-                                <CommandItem
-                                    key={navItem.href}
-                                    value={navItem.title}
-                                    onSelect={() => {
-                                        runCommand(() => router.push(navItem.href as string));
-                                    }}
-                                >
-                                    <FileIcon className='mr-2 h-4 w-4' />
-                                    {navItem.title}
+                        {structure.map((item) => {
+                            return (
+                                <CommandItem key={item.name} value={item.name}>
+                                    {item.name}
                                 </CommandItem>
-                            ))} */}
+                            );
+                        })}
                     </CommandGroup>
-                    {/* {docsConfig.sidebarNav.map((group) => (
-                        <CommandGroup key={group.title} heading={group.title}>
-                            {group.items.map((navItem) => (
-                                <CommandItem
-                                    key={navItem.href}
-                                    value={navItem.title}
-                                    onSelect={() => {
-                                        runCommand(() => router.push(navItem.href as string));
-                                    }}
-                                >
-                                    <div className='mr-2 flex h-4 w-4 items-center justify-center'>
-                                        <CircleIcon className='h-3 w-3' />
-                                    </div>
-                                    {navItem.title}
-                                </CommandItem>
-                            ))}
-                        </CommandGroup>
-                    ))} */}
-                    <CommandSeparator />
-                    {/* <CommandGroup heading='Theme'>
-                        <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-                            <RxSun size={16} className='mr-2' />
-                            Light
-                        </CommandItem>
-                        <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
-                            <RxMoon size={16} className='mr-2' />
-                            Dark
-                        </CommandItem>
-                        <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
-                            <RxLaptop size={16} className='mr-2' />
-                            System
-                        </CommandItem>
-                    </CommandGroup> */}
                 </CommandList>
             </CommandDialog>
         </>
