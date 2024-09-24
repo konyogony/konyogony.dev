@@ -31,10 +31,7 @@ export const WikiSecondarySidebar = ({ headings, currentIndex, structure }: Wiki
                         {v ? (
                             <a
                                 href={`#${v.trim().toLocaleLowerCase().replaceAll(' ', '-') || v}`}
-                                className={cn(
-                                    'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200',
-                                    // activeHeading === v.toLowerCase().replace(/\s+/g, '-') && 'font-bold text-zinc-50',
-                                )}
+                                className={'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200'}
                             >
                                 {v}
                             </a>

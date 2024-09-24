@@ -4,10 +4,10 @@ import { WikiSidebar } from '@/components/wiki/wikiSidebar';
 import { wikiConfig } from '@/config';
 import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
+import { NotFound } from '@/pages/notfound';
 import { FileInfo } from '@/types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { NotFound } from './notfound';
 
 export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
@@ -17,7 +17,6 @@ export const Docs = () => {
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [headings, setHeadings] = useState<(string | null)[]>([]);
-    // const [activeHeading, setActiveHeading] = useState<string | null>(null);
 
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
@@ -77,34 +76,7 @@ export const Docs = () => {
         setHeadings(headings ? Array.from(headings).map((h) => h.textContent) : []);
     }, [Content]);
 
-    // Observe heading intersections
-    // useEffect(() => {
-    //     const observer = new IntersectionObserver(
-    //         (entries) => {
-    //             entries.forEach((entry) => {
-    //                 if (entry.isIntersecting) {
-    //                     const id = entry.target.id;
-    //                     setActiveHeading(id);
-    //                 }
-    //             });
-    //         },
-    //         {
-    //             rootMargin: '0px 0px -80% 0px',
-    //             threshold: 0.05,
-    //         },
-    //     );
-    //     const currentHeadings = contentRef.current?.querySelectorAll('h1, h2') || [];
-    //     currentHeadings.forEach((heading) => {
-    //         if (heading) {
-    //             observer.observe(heading);
-    //         }
-    //     });
-    //     return () => {
-    //         currentHeadings.forEach((heading) => {
-    //             observer.unobserve(heading);
-    //         });
-    //     };
-    // }, [Content]);
+    // Maybe later I can try to implement ObserverAPI, but hard and no time.
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
