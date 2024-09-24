@@ -1,6 +1,6 @@
 import { WikiLink } from '@/components/wiki/wikiLink';
-import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
+import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { FileInfo } from '@/types';
 import { FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useEffect, useState } from 'react';
@@ -44,7 +44,7 @@ export const WikiFolder = ({ name, children }: WikiFolderProps) => {
                             isActive ? 'font-semibold text-zinc-50' : 'text-zinc-400',
                         )}
                     >
-                        {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
+                        {wikiPrettyText(name)}
                         <FiChevronRight size={14} className={cn('ml-auto mt-[1px]', isOpened && 'rotate-90')} />
                     </button>
                     <div

@@ -2,8 +2,8 @@ import { WikiMainContent } from '@/components/wiki/wikiMainContent';
 import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
 import { wikiConfig } from '@/config';
-import { capitalize } from '@/lib/capitalize';
 import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
+import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { FileInfo } from '@/types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -48,7 +48,7 @@ export const Docs = () => {
         importFile()
             .then((module) => {
                 setContent(() => (module as { default: React.FC }).default);
-                setBreadcrumb(path.split('/').map((p) => capitalize(p.replaceAll('-', ' '))));
+                setBreadcrumb(path.split('/').map((p) => wikiPrettyText(p)));
             })
             .catch((err) => console.error('Error loading MDX file:', err))
             .finally(() => {

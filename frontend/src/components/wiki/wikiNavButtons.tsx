@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { capitalize } from '@/lib/capitalize';
+import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { FileInfo } from '@/types';
 import { FiChevronLeft, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { Link } from 'react-router-dom';
@@ -27,14 +27,14 @@ export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButt
                         <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
                             <Link to={`${structure[prevIndex].path}`}>
                                 <FiChevronLeft size={14} />
-                                {capitalize(structure[prevIndex].name.replaceAll('-', ' '))}
+                                {wikiPrettyText(structure[prevIndex].name)}
                             </Link>
                         </Button>
                     )}
                     {nextIndex !== -1 && structure && structure[nextIndex] && (
                         <Button variant={'outline'} className='ml-auto flex flex-row items-center gap-1' asChild>
                             <Link to={`${structure[nextIndex].path}`}>
-                                {capitalize(structure[nextIndex].name.replaceAll('-', ' '))}
+                                {wikiPrettyText(structure[nextIndex].name)}
                                 <FiChevronRight size={14} />
                             </Link>
                         </Button>

@@ -1,5 +1,5 @@
-import { capitalize } from '@/lib/capitalize';
 import { cn } from '@/lib/utils';
+import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { NavLink } from 'react-router-dom';
 
 interface WikiLinkProps {
@@ -19,7 +19,7 @@ export const WikiLink = ({ name, url, line = false }: WikiLinkProps) => {
                 line && 'border-l-[1.5px] border-white/15 pl-4 hover:border-zinc-400 [&.active]:border-zinc-50',
             )}
         >
-            {capitalize(name.replaceAll('/', '').replaceAll('-', ' '))}
+            {wikiPrettyText(name)}
         </NavLink>
     );
 };
