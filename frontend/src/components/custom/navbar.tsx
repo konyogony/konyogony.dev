@@ -19,14 +19,14 @@ export const Navbar = () => {
         <>
             <nav
                 className={cn(
-                    'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b px-[20%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4',
+                    'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b px-[15%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4 xl:px-[20%]',
                     scrolled ? 'border-white/5 bg-zinc-950/60 backdrop-blur-md' : 'border-transparent bg-transparent',
                 )}
             >
                 <Link to={'/'} className='mr-8 hidden flex-row items-center gap-1 lg:flex'>
                     <span className='text-lg font-bold text-zinc-100'>konyogony.dev</span>
                 </Link>
-                <div className='text-md flex w-full flex-row items-center justify-between font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
+                <div className='text-md mr-2 flex w-full flex-row items-center justify-between font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
                     {routes.map((routeName, i) => {
                         return (
                             <NavLink
