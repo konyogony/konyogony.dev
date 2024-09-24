@@ -24,7 +24,7 @@ export const wikiCodeWrapperIcon = ({ language }: WikiCodeWrapperIconProps): Wik
             return { Icon: <SiTypescript size={16} />, lang: 'Typescript' } as const;
         case 'jsx':
         case 'tsx':
-            return { Icon: <SiReact size={16} />, lang: 'Typescript' } as const;
+            return { Icon: <SiReact size={16} />, lang: 'React' } as const;
         case 'js':
             return { Icon: <SiJavascript size={16} />, lang: 'Javascript' } as const;
         case 'rs':

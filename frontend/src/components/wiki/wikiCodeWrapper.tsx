@@ -14,7 +14,6 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
     console.log('code wrapper rendered');
 
     const [codeBlock, setCodeBlock] = useState<string>('');
-    const [loading, setLoading] = useState(true);
     const [highlighter, setHighlighter] = useState<HighlighterGeneric<BundledLanguage, BundledTheme> | null>(null);
     const [IconComponent, setIconComponent] = useState<React.ReactNode | null>(null);
     const [lang, setLang] = useState<string>('');
@@ -28,6 +27,11 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
                 console.error(e);
             }
         };
+
+        const { Icon, lang } = wikiCodeWrapperIcon({ language });
+        setIconComponent(Icon);
+        setLang(lang);
+
         fetchHighlighter();
     }, []);
 
@@ -37,16 +41,10 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
                 lang: language,
                 theme: 'github-dark-dimmed',
             });
-            const { Icon, lang } = wikiCodeWrapperIcon({ language });
-            setIconComponent(Icon);
-            setLang(lang);
-            setLoading(false);
 
             setCodeBlock(highlightedCode);
-        } else {
-            console.error('Error creating highlighter');
         }
-    }, [language, children, highlighter]);
+    }, [highlighter, children, language]);
 
     return (
         <div className='group relative overflow-clip rounded-lg border border-white/15'>
@@ -54,7 +52,7 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
                 {IconComponent}
                 {lang} <CopyButton text={children?.toString() || ''} />
             </div>
-            {loading ? (
+            {!highlighter ? (
                 <div className='flex h-[20vh] w-full items-center justify-center bg-[#22272e]'>
                     <TbOutlineLoader2 size={20} className='animate-spin-slow' />
                 </div>
