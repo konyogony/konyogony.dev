@@ -1,4 +1,5 @@
 import { Cmdk } from '@/components/custom/cmdk';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { BsDiscord, BsGithub } from '@vertisanpro/react-icons/bs';
@@ -23,8 +24,9 @@ export const Navbar = () => {
                     scrolled ? 'border-white/5 bg-zinc-950/60 backdrop-blur-md' : 'border-transparent bg-transparent',
                 )}
             >
-                <Link to={'/'} className='mr-8 hidden flex-row items-center gap-1 lg:flex'>
+                <Link to={'/'} className='mr-8 hidden flex-row items-center gap-2 lg:flex'>
                     <span className='text-lg font-bold text-zinc-100'>konyogony.dev</span>
+                    <Badge variant='outline'>Beta</Badge>
                 </Link>
                 <div className='text-md mr-2 flex w-full flex-row items-center justify-between font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
                     {routes.map((routeName, i) => {
