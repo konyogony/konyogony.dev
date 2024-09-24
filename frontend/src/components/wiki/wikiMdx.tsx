@@ -10,7 +10,6 @@ interface WikiMdxProps {
 
 export const WikiMdx = forwardRef(({ loading, Content }: WikiMdxProps, ref: ForwardedRef<HTMLDivElement>) => {
     console.log('mdx rendered');
-
     return (
         <div className='my-4 flex h-full w-full flex-col' ref={ref}>
             {loading ? (
@@ -22,9 +21,7 @@ export const WikiMdx = forwardRef(({ loading, Content }: WikiMdxProps, ref: Forw
                 <MDXProvider components={wikiComponents}>
                     <Content />
                 </MDXProvider>
-            ) : (
-                '404'
-            )}
+            ) : null}
         </div>
     );
 });

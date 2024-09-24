@@ -7,6 +7,7 @@ import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { FileInfo } from '@/types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { NotFound } from './notfound';
 
 export const Docs = () => {
     const [Content, setContent] = useState<React.FC | null>(null);
@@ -107,16 +108,22 @@ export const Docs = () => {
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
-            <WikiSidebar folders={folders} structure={structure} />
-            <WikiMainContent
-                ref={contentRef}
-                currentIndex={currentIndex}
-                loading={loading}
-                structure={structure}
-                Content={Content}
-                breadcrumb={breadcrumb}
-            />
-            <WikiSecondarySidebar headings={headings} currentIndex={currentIndex} structure={structure} />
+            {!Content ? (
+                <NotFound />
+            ) : (
+                <>
+                    <WikiSidebar folders={folders} structure={structure} />
+                    <WikiMainContent
+                        ref={contentRef}
+                        currentIndex={currentIndex}
+                        loading={loading}
+                        structure={structure}
+                        Content={Content}
+                        breadcrumb={breadcrumb}
+                    />
+                    <WikiSecondarySidebar headings={headings} currentIndex={currentIndex} structure={structure} />
+                </>
+            )}
         </div>
     );
 };
