@@ -1,33 +1,44 @@
 import { WikiCodeWrapper } from '@/components/wiki/wikiCodeWrapper';
 import { WikiHashTag } from '@/components/wiki/wikiHashTag';
-import { cn } from '@/lib/utils';
 
 export const wikiComponents = {
-    h1: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
+    h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
         const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
         return (
-            <h1 className={cn('group text-4xl', className)} {...props} id={id}>
+            <h1 className={'group text-4xl'} {...props} id={id}>
                 {children} <WikiHashTag id={id ?? ''} />
             </h1>
         );
     },
-    h2: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
+    h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
         const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
         return (
-            <h2 className={cn('group text-2xl', className)} {...props} id={id}>
+            <h2 className={'group text-2xl'} {...props} id={id}>
                 {children} <WikiHashTag id={id ?? ''} variant='h2' />
             </h2>
         );
     },
-    h3: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
+    h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
         const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
         return (
-            <h3 className={cn('group text-xl', className)} {...props} id={id}>
+            <h3 className={'group text-xl'} {...props} id={id}>
                 {children} <WikiHashTag id={id ?? ''} variant='h3' />
             </h3>
         );
     },
+    code: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
+        console.log('code');
+        return (
+            <span
+                {...props}
+                className='rounded-[3.5px] bg-zinc-800 px-1.5 py-[3px] font-[Consolas] text-sm font-medium'
+            >
+                {children}
+            </span>
+        );
+    },
     pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => {
+        console.log(111, children);
         const codeElement = children as React.ReactElement<React.PropsWithChildren<{ className: string }>>;
         const language = codeElement.props.className?.replace('language-', '') || '';
         return (
