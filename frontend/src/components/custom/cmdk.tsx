@@ -11,7 +11,7 @@ import {
 import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { FileInfo } from '@/types';
-import { type DialogProps } from '@radix-ui/react-dialog';
+import { DialogDescription, DialogTitle, type DialogProps } from '@radix-ui/react-dialog';
 import { RxFile } from '@vertisanpro/react-icons/rx';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -66,6 +66,8 @@ export const Cmdk = ({ ...props }: DialogProps) => {
                 </kbd>
             </Button>
             <CommandDialog open={open} onOpenChange={setOpen}>
+                <DialogTitle className='sr-only' />
+                <DialogDescription className='sr-only' />
                 <CommandInput placeholder='Search documentation...' />
                 <CommandList className='border-white/5'>
                     <CommandEmpty>No results found.</CommandEmpty>
@@ -88,7 +90,6 @@ export const Cmdk = ({ ...props }: DialogProps) => {
                                 );
                             })}
                     </CommandGroup>
-                    <CommandSeparator />
                 </CommandList>
             </CommandDialog>
         </>
