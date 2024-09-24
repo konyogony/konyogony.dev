@@ -6,7 +6,6 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-    CommandSeparator,
 } from '@/components/ui/command';
 import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';

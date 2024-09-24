@@ -1,7 +1,6 @@
 import { WikiCodeWrapper } from '@/components/wiki/wikiCodeWrapper';
 import { WikiHashTag } from '@/components/wiki/wikiHashTag';
 import { cn } from '@/lib/utils';
-import { ReactNode } from 'react';
 
 export const wikiComponents = {
     h1: ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {

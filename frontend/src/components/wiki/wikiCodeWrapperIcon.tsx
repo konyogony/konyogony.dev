@@ -1,4 +1,3 @@
-import { IconType } from '@vertisanpro/react-icons';
 import {
     SiHtml5,
     SiJavascript,
