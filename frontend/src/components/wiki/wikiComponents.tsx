@@ -29,7 +29,7 @@ export const wikiComponents = {
         );
     },
     pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => {
-        const codeElement = children as React.ReactElement<{ className: string; children: ReactNode }>;
+        const codeElement = children as React.ReactElement<React.PropsWithChildren<{ className: string }>>;
         const language = codeElement.props.className?.replace('language-', '') || '';
         return (
             <WikiCodeWrapper language={language} {...props}>

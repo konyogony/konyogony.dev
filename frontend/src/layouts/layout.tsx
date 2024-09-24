@@ -2,11 +2,7 @@ import { Navbar } from '@/components/custom/navbar';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from 'sonner';
 
-interface LayoutProps {
-    children: React.ReactNode;
-}
-
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: React.PropsWithChildren) => {
     return (
         <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
             <div className='relative flex min-h-screen w-full flex-col gap-2 bg-zinc-950'>

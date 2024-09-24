@@ -2,15 +2,14 @@ import { CopyButton } from '@/components/custom/copyButton';
 import { wikiCodeWrapperIcon } from '@/components/wiki/wikiCodeWrapperIcon';
 import { wikiCodeWrapperSingleton } from '@/lib/wiki/wikiCodeWrapperSingleton';
 import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BundledLanguage, BundledTheme, HighlighterGeneric } from 'shiki';
 
 interface WikiCodeWrapperProps {
-    children: ReactNode;
     language?: string;
 }
 
-export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProps) => {
+export const WikiCodeWrapper = ({ language = '', children }: React.PropsWithChildren<WikiCodeWrapperProps>) => {
     console.log('code wrapper rendered');
 
     const [codeBlock, setCodeBlock] = useState<string>('');
@@ -28,8 +27,8 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
             }
         };
 
-        const { Icon, lang } = wikiCodeWrapperIcon({ language });
-        setIconComponent(Icon);
+        const { icon, lang } = wikiCodeWrapperIcon({ language });
+        setIconComponent(icon as unknown as React.ReactNode);
         setLang(lang);
 
         fetchHighlighter();
@@ -41,6 +40,10 @@ export const WikiCodeWrapper = ({ language = '', children }: WikiCodeWrapperProp
                 lang: language,
                 theme: 'github-dark-dimmed',
             });
+
+            const { icon, lang } = wikiCodeWrapperIcon({ language });
+            setIconComponent(icon as unknown as React.ReactNode);
+            setLang(lang);
 
             setCodeBlock(highlightedCode);
         }
