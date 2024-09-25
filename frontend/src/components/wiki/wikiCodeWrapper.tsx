@@ -11,8 +11,6 @@ interface WikiCodeWrapperProps {
 }
 
 export const WikiCodeWrapper = ({ language = '', children }: React.PropsWithChildren<WikiCodeWrapperProps>) => {
-    console.log('code wrapper rendered');
-
     const [codeBlock, setCodeBlock] = useState<string>('');
     const [highlighter, setHighlighter] = useState<HighlighterGeneric<BundledLanguage, BundledTheme> | null>(null);
     const [IconComponent, setIconComponent] = useState<JSX.Element | null>(null);

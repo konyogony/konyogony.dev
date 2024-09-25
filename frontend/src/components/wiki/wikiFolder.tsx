@@ -12,8 +12,6 @@ interface WikiFolderProps {
 }
 
 export const WikiFolder = ({ name, children }: WikiFolderProps) => {
-    console.log('folder rendered');
-
     const [isOpened, isSetOpened] = useState(false);
     const [isActive, isSetActive] = useState(false);
     const location = useLocation();

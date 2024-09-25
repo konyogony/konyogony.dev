@@ -1,5 +1,4 @@
 import { wikiConfig } from '@/config';
-import { cn } from '@/lib/utils';
 import { FileInfo } from '@/types';
 import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -11,8 +10,6 @@ interface WikiSecondarySidebarProps {
 }
 
 export const WikiSecondarySidebar = ({ headings, currentIndex, structure }: WikiSecondarySidebarProps) => {
-    console.log('secondary sidebar rendered');
-
     const [scrollHeight, setScrollHeight] = useState(0);
 
     useEffect(() => {

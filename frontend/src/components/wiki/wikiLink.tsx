@@ -9,7 +9,6 @@ interface WikiLinkProps {
 }
 
 export const WikiLink = ({ name, url, line = false }: WikiLinkProps) => {
-    console.log('link rendered');
 
     return (
         <NavLink

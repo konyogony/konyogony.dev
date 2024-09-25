@@ -8,8 +8,6 @@ interface WikiHashTagProps {
 }
 
 export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
-    console.log('hashtag rendered');
-
     const strippedId = id.replace(/\s+/g, '-').replace(/[^\p{L}\p{N}-]/gu, '');
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {

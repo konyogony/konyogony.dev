@@ -27,7 +27,6 @@ export const wikiComponents = {
         );
     },
     code: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        console.log('code');
         return (
             <span
                 {...props}
@@ -38,7 +37,6 @@ export const wikiComponents = {
         );
     },
     pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => {
-        console.log(111, children);
         const codeElement = children as React.ReactElement<React.PropsWithChildren<{ className: string }>>;
         const language = codeElement.props.className?.replace('language-', '') || '';
         return (

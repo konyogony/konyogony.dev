@@ -14,8 +14,6 @@ interface WikiBreadcrumbsProps {
 }
 
 export const WikiBreadcrumbs = ({ breadcrumb }: WikiBreadcrumbsProps) => {
-    console.log('breadcrumbs rendered');
-
     const breadcrumbElements = useMemo(
         () =>
             breadcrumb.map((b, i) => (

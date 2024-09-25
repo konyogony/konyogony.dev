@@ -17,7 +17,6 @@ export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButt
 
     const prevIndex = structure.slice(0, currentIndex).findLastIndex((v) => v.visible !== false);
 
-    console.log('nav buttons rendered');
     console.log('last index', prevIndex, 'current index', currentIndex, 'next index', nextIndex);
     return (
         <>
