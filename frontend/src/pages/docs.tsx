@@ -92,6 +92,7 @@ export const Docs = () => {
                         structure={structure}
                         Content={Content}
                         breadcrumb={breadcrumb}
+                        folders={folders}
                     />
                     <WikiSecondarySidebar headings={headings} currentIndex={currentIndex} structure={structure} />
                 </>
