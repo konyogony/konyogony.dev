@@ -1,8 +1,28 @@
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 1024);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    if (isMobile) {
+        return null;
+    }
+
     const paths = [
         'M-380 -189C-380 -189 -312 216 152 343C616 470 684 875 684 875',
         'M-373 -197C-373 -197 -305 208 159 335C623 462 691 867 691 867',
