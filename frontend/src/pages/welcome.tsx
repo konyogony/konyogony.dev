@@ -1,5 +1,6 @@
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { Button } from '@/components/ui/button';
+import { Spotlight } from '@/components/ui/spotlight';
 import { FiArrowRight, FiChevronDown } from '@vertisanpro/react-icons/fi';
 import { RxMagnifyingGlass } from '@vertisanpro/react-icons/rx';
 import {
@@ -16,19 +17,29 @@ import {
 export const Welcome = () => {
     return (
         <>
-            <div className='relative flex h-[55vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-dot-white/[0.2] lg:h-[75vh] lg:gap-4 lg:bg-dot-white/0'>
+            <div className='relative flex h-[80vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-grid-white/[0.04] lg:h-[75vh] lg:gap-4 lg:bg-grid-white/0'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
-                <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-300 to-zinc-100 bg-clip-text text-transparent lg:gap-2'>
+
+                <Spotlight className='left-20 top-16 lg:hidden' fill='white' />
+
+                <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-300 to-zinc-100 bg-clip-text text-transparent lg:gap-2 lg:px-0'>
                     <span className='text-4xl font-bold tracking-wide lg:text-7xl'>Meet kony_ogony,</span>
-                    <span className='text-base font-medium lg:text-xl'>
-                        a junior full-stack developer, who does cool stuff!
+                    <span className='flex flex-row gap-0 text-base font-medium lg:text-xl'>
+                        a junior full-stack developer
+                        <span className='hidden lg:block'>, who does cool stuff!</span>
                     </span>
                 </div>
                 <div className='z-40 flex flex-row items-center gap-4'>
-                    <Button className='flex flex-row items-center gap-1'>
+                    <Button className='flex flex-row items-center gap-1 lg:hidden' size='sm'>
                         <span>Contact me</span> <FiArrowRight />
                     </Button>
-                    <Button className='flex flex-row items-center gap-1' variant={'secondary'}>
+                    <Button className='flex flex-row items-center gap-1 lg:hidden' size='sm' variant={'secondary'}>
+                        <span>Learn more</span> <RxMagnifyingGlass size={16} />
+                    </Button>
+                    <Button className='hidden flex-row items-center gap-1 lg:flex'>
+                        <span>Contact me</span> <FiArrowRight />
+                    </Button>
+                    <Button className='hidden flex-row items-center gap-1 lg:flex' variant={'secondary'}>
                         <span>Learn more</span> <RxMagnifyingGlass size={16} />
                     </Button>
                 </div>
@@ -64,6 +75,7 @@ export const Welcome = () => {
                 >
                     <FiChevronDown size={18} />
                 </a>
+
                 <BackgroundBeams className='hidden transform-gpu motion-reduce:hidden lg:flex' />
             </div>
             <div className='flex flex-col items-center gap-2' id='work'>

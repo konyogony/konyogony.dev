@@ -20,15 +20,17 @@ export const Navbar = () => {
         <>
             <nav
                 className={cn(
-                    'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b px-[15%] py-8 transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:py-4 xl:px-[20%]',
-                    scrolled ? 'border-white/5 bg-zinc-950/60 backdrop-blur-md' : 'border-transparent bg-transparent',
+                    'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b border-white/5 bg-zinc-950/40 px-[15%] py-8 backdrop-blur-md transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:border-transparent lg:bg-transparent lg:py-4 lg:backdrop-blur-none xl:px-[20%]',
+                    scrolled
+                        ? 'lg:border-white/5 lg:bg-zinc-950/60 lg:backdrop-blur-md'
+                        : 'lg:border-transparent lg:bg-transparent',
                 )}
             >
                 <Link to={'/'} className='mr-8 hidden flex-row items-center gap-2 lg:flex'>
                     <span className='text-lg font-bold text-zinc-100'>konyogony.dev</span>
                     <Badge variant='outline'>Beta</Badge>
                 </Link>
-                <div className='text-md mr-2 flex w-full flex-row items-center justify-between font-medium lg:w-fit lg:justify-normal lg:gap-8 lg:text-sm'>
+                <div className='mr-2 flex w-full flex-row items-center justify-between text-sm font-medium lg:w-fit lg:justify-normal lg:gap-8'>
                     {routes.map((routeName, i) => {
                         return (
                             <NavLink
