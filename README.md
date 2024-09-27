@@ -87,13 +87,13 @@ server {
     -   [ ] Portfolio
     -   [ ] Projects
     -   [ ] Links
--   [ ] Docs page
+-   [x] Docs page - 2.5 weeks
     -   [x] Sidebar
     -   [x] MDX Support
     -   [x] Hashtags
     -   [x] ScrollToTop
     -   [x] Cmdk
-    -   [ ] Mobile
+    -   [x] Mobile
     -   [x] Code
 -   [ ] Discord Bot Page
     -   [ ] About
