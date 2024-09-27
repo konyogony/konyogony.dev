@@ -27,7 +27,7 @@ export const WikiBreadcrumbs = ({ breadcrumb }: WikiBreadcrumbsProps) => {
         [breadcrumb],
     );
     return (
-        <Breadcrumb className='not-prose flex w-full'>
+        <Breadcrumb className='not-prose mt-8 flex w-full px-[4vh] lg:px-0'>
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>

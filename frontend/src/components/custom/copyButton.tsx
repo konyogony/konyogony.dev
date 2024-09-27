@@ -15,7 +15,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ text }) => {
     return (
         <button
             onClick={clickCopy}
-            className='ml-auto text-zinc-400 opacity-0 transition-all duration-150 hover:!text-zinc-200 group-hover:opacity-100'
+            className='ml-auto text-zinc-400 transition-all duration-150 hover:!text-zinc-200 lg:opacity-0 lg:group-hover:opacity-100'
         >
             <FiClipboard size={18} />
         </button>

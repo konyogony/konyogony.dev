@@ -17,6 +17,7 @@ export const Docs = () => {
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [headings, setHeadings] = useState<(string | null)[]>([]);
+    const [showNotFound, setShowNotFound] = useState(false);
 
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
@@ -38,22 +39,22 @@ export const Docs = () => {
         const importFile = mdxFiles[`../docs/${path}.mdx`];
         const configFile = config.structure.find((s) => s.path === path);
 
-        if (!importFile || !configFile || configFile.visible === false) {
+        if (importFile && configFile?.visible !== false) {
+            importFile()
+                .then((module) => {
+                    setContent(() => (module as { default: React.FC }).default);
+                    setBreadcrumb(path.split('/').map((p) => wikiPrettyText(p)));
+                })
+                .catch((err) => console.error('Error loading MDX file:', err))
+                .finally(() => {
+                    setLoading(false);
+                });
+        } else {
             setContent(null);
             setBreadcrumb([]);
             setLoading(false);
-            return;
+            setShowNotFound(true);
         }
-
-        importFile()
-            .then((module) => {
-                setContent(() => (module as { default: React.FC }).default);
-                setBreadcrumb(path.split('/').map((p) => wikiPrettyText(p)));
-            })
-            .catch((err) => console.error('Error loading MDX file:', err))
-            .finally(() => {
-                setLoading(false);
-            });
     }, [path, mdxFiles, config.structure]);
 
     useEffect(() => {
@@ -80,7 +81,7 @@ export const Docs = () => {
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
-            {!Content ? (
+            {showNotFound ? (
                 <NotFound />
             ) : (
                 <>

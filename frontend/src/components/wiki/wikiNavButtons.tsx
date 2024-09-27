@@ -21,7 +21,7 @@ export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButt
     return (
         <>
             {!loading ? (
-                <div className='not-prose flex w-full flex-row items-center'>
+                <div className='not-prose flex w-full flex-row items-center px-[4vh] lg:px-0'>
                     {prevIndex !== -1 && structure && structure[prevIndex] && (
                         <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
                             <Link to={`${structure[prevIndex].path}`}>

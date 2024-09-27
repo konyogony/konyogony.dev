@@ -10,7 +10,7 @@ interface WikiMdxProps {
 
 export const WikiMdx = forwardRef(({ loading, Content }: WikiMdxProps, ref: ForwardedRef<HTMLDivElement>) => {
     return (
-        <div className='my-4 flex h-full w-full flex-col' ref={ref}>
+        <div className='my-4 flex h-full w-full flex-col px-[4vh] lg:px-0' ref={ref}>
             {loading ? (
                 <div className='flex h-screen w-full flex-row items-center justify-center gap-2 lg:opacity-0'>
                     <TbOutlineLoader2 className='animate-spin-slow' size={20} />
