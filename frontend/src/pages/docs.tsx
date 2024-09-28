@@ -6,7 +6,7 @@ import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { NotFound } from '@/pages/notfound';
 import { FileInfo } from '@/types';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const Docs = () => {
@@ -17,7 +17,6 @@ export const Docs = () => {
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [headings, setHeadings] = useState<(string | null)[]>([]);
-    const [showNotFound, setShowNotFound] = useState(false);
 
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
@@ -53,7 +52,6 @@ export const Docs = () => {
             setContent(null);
             setBreadcrumb([]);
             setLoading(false);
-            setShowNotFound(true);
         }
     }, [path, mdxFiles, config.structure]);
 
@@ -81,7 +79,7 @@ export const Docs = () => {
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
-            {showNotFound ? (
+            {!Content ? (
                 <NotFound />
             ) : (
                 <>
@@ -101,3 +99,5 @@ export const Docs = () => {
         </div>
     );
 };
+
+// Credit to nextjs.org as I have borrow ideas and design from them <3

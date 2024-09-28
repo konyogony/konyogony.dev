@@ -24,7 +24,7 @@ export const wikiCodeWrapperIcon = ({ language }: WikiCodeWrapperIconProps): Wik
             return { icon: <SiTypescript />, lang: 'Typescript' };
         case 'jsx':
         case 'tsx':
-            return { icon: <SiReact />, lang: 'Typescript' };
+            return { icon: <SiReact />, lang: 'React' };
         case 'js':
             return { icon: <SiJavascript />, lang: 'Javascript' };
         case 'rs':
@@ -34,7 +34,7 @@ export const wikiCodeWrapperIcon = ({ language }: WikiCodeWrapperIconProps): Wik
         case 'mdx':
             return { icon: <SiMdx />, lang: 'MDX' };
         case 'css':
-            return { icon: <SiTailwindcss />, lang: 'CSS' };
+            return { icon: <SiTailwindcss />, lang: 'Tailwind' };
         case 'json':
             return { icon: <VscJson />, lang: 'JSON' };
         case 'bash':

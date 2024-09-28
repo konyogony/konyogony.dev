@@ -33,23 +33,57 @@ export const App = () => {
         return null;
     };
 
+    interface route {
+        path: string;
+        element: JSX.Element;
+        protected?: boolean;
+    }
+
+    const routes: route[] = [
+        {
+            path: '/',
+            element: <Welcome />,
+        },
+        {
+            path: '/docs/*',
+            element: <Docs />,
+        },
+        {
+            path: '/about',
+            element: <About />,
+        },
+        {
+            path: '/notes',
+            element: <Notes />,
+            protected: true,
+        },
+        {
+            path: '/social/:service',
+            element: <RedirectSocial />,
+        },
+        {
+            path: '404',
+            element: <NotFound />,
+        },
+        {
+            path: '*',
+            element: <NotFound />,
+        },
+    ];
+
     return (
         <BrowserRouter>
             <Layout>
                 <Routes>
-                    {/* Public routes */}
-                    <Route path='/' element={<Welcome />} />
-                    <Route path='/docs/*' element={<Docs />} />
-                    <Route path='/about' element={<About />} />
-                    {/* Protected routes */}
-                    <Route path='/notes' element={<ProtectedRoute component={<Notes />} />} />
-
-                    {/* Social redirect */}
-                    <Route path='/social/:service' element={<RedirectSocial />} />
-
-                    {/* Not found */}
-                    <Route path='404' element={<NotFound />} />
-                    <Route path='*' element={<NotFound />} />
+                    {routes.map((v, i) => {
+                        return (
+                            <Route
+                                key={i}
+                                path={v.path}
+                                element={v.protected ? <ProtectedRoute component={v.element} /> : v.element}
+                            />
+                        );
+                    })}
                 </Routes>
             </Layout>
         </BrowserRouter>

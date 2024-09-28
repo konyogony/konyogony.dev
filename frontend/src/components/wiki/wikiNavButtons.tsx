@@ -21,22 +21,28 @@ export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButt
     return (
         <>
             {!loading ? (
-                <div className='not-prose flex w-full flex-row items-center px-[4vh] lg:px-0'>
+                <div className='not-prose flex w-full flex-row items-center px-[4vh] pt-4 lg:px-0'>
                     {prevIndex !== -1 && structure && structure[prevIndex] && (
-                        <Button variant={'outline'} className='mr-auto flex flex-row items-center gap-1' asChild>
-                            <Link to={`${structure[prevIndex].path}`}>
-                                <FiChevronLeft size={14} />
-                                {wikiPrettyText(structure[prevIndex].name)}
-                            </Link>
-                        </Button>
+                        <div className='mr-auto flex flex-col items-end'>
+                            <span className='text-sm font-light'>Previous</span>
+                            <Button variant={'link'} className='flex flex-row items-center gap-1 px-0' asChild>
+                                <Link to={`${structure[prevIndex].path}`}>
+                                    <FiChevronLeft size={14} />
+                                    {wikiPrettyText(structure[prevIndex].name)}
+                                </Link>
+                            </Button>
+                        </div>
                     )}
                     {nextIndex !== -1 && structure && structure[nextIndex] && (
-                        <Button variant={'outline'} className='ml-auto flex flex-row items-center gap-1' asChild>
-                            <Link to={`${structure[nextIndex].path}`}>
-                                {wikiPrettyText(structure[nextIndex].name)}
-                                <FiChevronRight size={14} />
-                            </Link>
-                        </Button>
+                        <div className='ml-auto flex flex-col items-start'>
+                            <span className='text-sm font-light'>Next</span>
+                            <Button variant={'link'} className='flex flex-row items-center gap-1 px-0' asChild>
+                                <Link to={`${structure[nextIndex].path}`}>
+                                    {wikiPrettyText(structure[nextIndex].name)}
+                                    <FiChevronRight size={14} />
+                                </Link>
+                            </Button>
+                        </div>
                     )}
                 </div>
             ) : null}

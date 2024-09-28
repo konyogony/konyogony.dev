@@ -12,6 +12,7 @@ export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {
         copy(path);
+        window.location.href = path;
         toast.success('URL copied to clipboard');
     };
     return (
