@@ -1,28 +1,32 @@
-import { WikiConfig } from '@/types';
+import { WikiConfig } from './types';
 
-// This is so simple
-export const wikiConfig = {
+export const wikiConfig: WikiConfig = {
     structure: [
         {
-            path: 'typescript',
-        },
-        {
-            path: 'rust',
-            visible: false,
-        },
-        {
-            path: 'javascript',
+            path: 'about',
             fallback: true,
+            visible: true,
         },
+        // {
+        //     path: 'rust',
+        //     visible: false,
+        // },
+        // {
+        //     path: 'javascript',
+        //     fallback: true,
+        // },
         {
-            path: 'libraries/flowbite',
+            path: 'all-about-arch/installing-arch',
         },
-        {
-            path: 'libraries/shadcn',
-        },
-        {
-            path: 'frameworks/react',
-        },
+        // {
+        //     path: 'libraries/flowbite',
+        // },
+        // {
+        //     path: 'libraries/shadcn',
+        // },
+        // {
+        //     path: 'frameworks/react',
+        // },
     ],
     scrollToTriggerButton: 500,
-} satisfies WikiConfig;
+} as const;
