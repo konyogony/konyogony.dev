@@ -16,10 +16,10 @@ export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
         toast.success('URL copied to clipboard');
     };
     return (
-        <button onClick={() => clickCopy()} id={strippedId} className='hidden cursor-copy lg:inline'>
+        <button onClick={() => clickCopy()} id={'hashtag'} className='hidden cursor-copy lg:inline'>
             <HiOutlineHashtag
                 size={variant === 'h1' ? 26 : variant === 'h2' ? 20 : 18}
-                className='text-transparent transition-all duration-300 hover:!text-zinc-200 group-hover:text-zinc-200/60'
+                className='text-transparent transition-all duration-300 hover:!text-zinc-200 focus:outline-none focus:ring-0 group-hover:text-zinc-200/60'
             />
         </button>
     );

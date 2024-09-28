@@ -11,6 +11,11 @@ body {
     @apply bg-zinc-950 text-zinc-200;
 }
 
+:focus {
+    opacity: 100;
+    outline: none;
+}
+
 @layer base {
     :root {
         --radius: 0.75rem;

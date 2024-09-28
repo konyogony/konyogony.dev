@@ -40,7 +40,7 @@ export const WikiFolder = ({ name, children, mobile = false }: WikiFolderProps) 
                         onClick={() => isSetOpened(!isOpened)}
                         className={cn(
                             'flex w-full flex-row items-center py-2 font-normal transition-all duration-300 hover:text-zinc-200',
-                            isActive ? 'font-semibold text-zinc-50' : 'text-zinc-400',
+                            isActive ? 'text-zinc-50' : 'text-zinc-400',
                             mobile ? 'text-base' : 'text-sm',
                         )}
                     >

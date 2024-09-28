@@ -27,10 +27,16 @@ export const WikiSecondarySidebar = ({ headings, currentIndex, structure }: Wiki
                     <React.Fragment key={i}>
                         {v ? (
                             <a
-                                href={`#${v.trim().toLocaleLowerCase().replaceAll(' ', '-') || v}`}
+                                href={`#${
+                                    v
+                                        .trim()
+                                        .toLocaleLowerCase()
+                                        .replace(/\s+/g, '-')
+                                        .replace(/[^\p{L}\p{N}-]/gu, '') || v
+                                }`}
                                 className={'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200'}
                             >
-                                {v}
+                                {v.length > 30 ? v.slice(0, 30) + '...' : v}
                             </a>
                         ) : null}
                     </React.Fragment>

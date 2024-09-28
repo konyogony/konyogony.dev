@@ -30,7 +30,7 @@ export const wikiComponents = {
         return (
             <span
                 {...props}
-                className='rounded-[3.5px] bg-zinc-800 px-1.5 py-[3px] font-[Consolas] text-sm font-medium'
+                className='mx-0.5 rounded-[3.5px] bg-zinc-800 px-1.5 py-[3px] font-[Consolas] text-sm font-medium text-zinc-50'
             >
                 {children}
             </span>

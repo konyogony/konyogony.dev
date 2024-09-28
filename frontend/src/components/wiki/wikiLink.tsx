@@ -21,7 +21,7 @@ export const WikiLink = ({ name, url, line = false, mobile = false }: WikiLinkPr
             onClick={() => sidebar.setIsOpen()}
             className={cn(
                 'flex w-full py-2 font-normal text-zinc-400 transition-all duration-300 hover:text-zinc-200 [&.active]:font-semibold [&.active]:text-zinc-50',
-                line && 'border-l-[1.5px] border-white/15 pl-4 hover:border-zinc-400 [&.active]:border-zinc-50',
+                line && 'border-l-[1px] border-white/15 pl-4 hover:border-zinc-400 [&.active]:border-zinc-50',
                 mobile ? 'text-base' : 'text-sm',
             )}
         >

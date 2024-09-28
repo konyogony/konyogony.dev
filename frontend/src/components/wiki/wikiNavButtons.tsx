@@ -21,7 +21,7 @@ export const WikiNavButtons = ({ structure, loading, currentIndex }: WikiNavButt
     return (
         <>
             {!loading ? (
-                <div className='not-prose flex w-full flex-row items-center px-[4vh] pt-4 lg:px-0'>
+                <div className='not-prose flex w-full flex-row items-center border-t border-white/10 px-[4vh] pt-4 lg:px-0'>
                     {prevIndex !== -1 && structure && structure[prevIndex] && (
                         <div className='mr-auto flex flex-col items-end'>
                             <span className='text-sm font-light'>Previous</span>
