@@ -18,6 +18,7 @@ export const Docs = () => {
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [headings, setHeadings] = useState<(string | null)[]>([]);
+    const [openedFolders, setOpenedFolders] = useState<{ [key: string]: boolean }>({});
 
     const location = useLocation();
     const contentRef = useRef<HTMLDivElement>(null);
@@ -32,6 +33,13 @@ export const Docs = () => {
     );
 
     const mdxFiles = useMemo(() => import.meta.glob('../docs/**/*.mdx'), []);
+
+    const toggleFolder = (folderName: string) => {
+        setOpenedFolders((prev) => ({
+            ...prev,
+            [folderName]: !prev[folderName],
+        }));
+    };
 
     useEffect(() => {
         setLoading(true);

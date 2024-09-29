@@ -10,59 +10,58 @@ interface WikiFolderProps {
     name: string;
     children: FileInfo[];
     mobile?: boolean;
+    isOpened: boolean;
+    onToggle: (folderName: string) => void;
 }
 
-export const WikiFolder = ({ name, children, mobile = false }: WikiFolderProps) => {
-    const [isOpened, isSetOpened] = useState(false);
-    const [isActive, isSetActive] = useState(false);
+export const WikiFolder = ({ name, children, mobile = false, isOpened, onToggle }: WikiFolderProps) => {
+    const [isActive, setActive] = useState(false);
     const location = useLocation();
+
     useEffect(() => {
-        if (children.some((w) => w.path === location.pathname.replace('/docs/', ''))) {
-            isSetOpened(true);
-            isSetActive(true);
-        } else {
-            isSetActive(false);
-        }
+        const isActivePath = children.some((child) => child.path === location.pathname.replace('/docs/', ''));
+        setActive(isActivePath);
     }, [children, location]);
+
+    const handleToggle = () => {
+        onToggle(name);
+    };
+
     return (
-        <>
-            {name === '' ? (
-                <div className={'flex w-full flex-col items-start transition-all duration-300'}>
-                    {children
-                        .filter((w) => w.visible !== false)
-                        .map((w, i) => (
-                            <WikiLink key={i} name={w.name} url={w.path} mobile={mobile} />
-                        ))}
-                </div>
-            ) : (
+        <div className='flex w-full flex-col items-start'>
+            {name ? (
                 <>
                     <button
-                        onClick={() => isSetOpened(!isOpened)}
+                        onClick={handleToggle}
                         className={cn(
-                            'flex w-full flex-row items-center py-2 font-normal transition-all duration-300 hover:text-zinc-200',
+                            'flex w-full items-center py-2 font-normal transition-all duration-300 hover:text-zinc-200',
                             isActive ? 'text-zinc-50' : 'text-zinc-400',
                             mobile ? 'text-base' : 'text-sm',
                         )}
                     >
                         {wikiPrettyText(name)}
-                        <FiChevronRight size={14} className={cn('ml-auto mt-[1px]', isOpened && 'rotate-90')} />
+                        <FiChevronRight size={14} className={cn('ml-auto', isOpened && 'rotate-90')} />
                     </button>
                     <div
                         className={cn(
                             'ml-1 flex w-full flex-col items-start transition-all duration-300',
-                            !isOpened
-                                ? 'pointer-events-none max-h-0 opacity-0'
-                                : 'pointer-events-auto max-h-[100vh] opacity-100',
+                            !isOpened ? 'max-h-0 opacity-0' : 'max-h-[100vh] opacity-100',
                         )}
                     >
                         {children
-                            .filter((w) => w.visible !== false)
-                            .map((w, i) => (
-                                <WikiLink key={i} name={w.name} url={w.path} line={true} mobile={mobile} />
+                            .filter((child) => child.visible !== false)
+                            .map((child, index) => (
+                                <WikiLink key={index} name={child.name} url={child.path} line={true} mobile={mobile} />
                             ))}
                     </div>
                 </>
+            ) : (
+                children
+                    .filter((child) => child.visible !== false)
+                    .map((child, index) => <WikiLink key={index} name={child.name} url={child.path} mobile={mobile} />)
             )}
-        </>
+        </div>
     );
 };
+
+// TODO: Make it open if active
