@@ -45,7 +45,9 @@ export const WikiFolder = ({ name, children, mobile = false, isOpened, onToggle 
                     <div
                         className={cn(
                             'ml-1 flex w-full flex-col items-start transition-all duration-300',
-                            !isOpened ? 'max-h-0 opacity-0' : 'max-h-[100vh] opacity-100',
+                            !isOpened
+                                ? 'pointer-events-none max-h-0 opacity-0'
+                                : 'pointer-events-auto max-h-[100vh] opacity-100',
                         )}
                     >
                         {children
