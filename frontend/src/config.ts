@@ -1,4 +1,4 @@
-import { WikiConfig } from './types';
+import { WikiConfig } from '@/types';
 
 export const wikiConfig: WikiConfig = {
     structure: [

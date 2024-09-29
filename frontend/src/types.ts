@@ -17,3 +17,9 @@ export interface WikiConfig {
     structure: FileInfoUser[];
     scrollToTriggerButton: number;
 }
+
+export interface Route {
+    path: string;
+    element: JSX.Element;
+    protected?: boolean;
+}

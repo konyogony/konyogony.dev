@@ -6,6 +6,7 @@ import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { NotFound } from '@/pages/notfound';
 import { FileInfo } from '@/types';
+import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -44,7 +45,10 @@ export const Docs = () => {
                     setContent(() => (module as { default: React.FC }).default);
                     setBreadcrumb(path.split('/').map((p) => wikiPrettyText(p)));
                 })
-                .catch((err) => console.error('Error loading MDX file:', err))
+                .catch((err) => {
+                    console.error('Error loading MDX file:', err);
+                    setContent(null);
+                })
                 .finally(() => {
                     setLoading(false);
                 });
@@ -75,25 +79,43 @@ export const Docs = () => {
         setHeadings(headings ? Array.from(headings).map((h) => h.textContent) : []);
     }, [Content]);
 
-    // Maybe later I can try to implement ObserverAPI, but hard and no time.
+    const wikiSidebarProps = {
+        folders,
+        structure,
+        openedFolders,
+        onToggleFolder: toggleFolder,
+    };
+
+    const WikiMainContentProps = {
+        breadcrumb,
+        currentIndex,
+        loading,
+        structure,
+        Content,
+        folders,
+        openedFolders,
+        onToggleFolder: toggleFolder,
+    };
+
+    const WikiSecondarySidebarProps = {
+        headings,
+        currentIndex,
+        structure,
+    };
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
-            {!Content ? (
+            {loading ? (
+                <div className='flex h-[80vh] w-full items-center justify-center bg-zinc-950'>
+                    <TbOutlineLoader2 size={24} className='animate-spin-slow' />
+                </div>
+            ) : !Content ? (
                 <NotFound />
             ) : (
                 <>
-                    <WikiSidebar folders={folders} structure={structure} />
-                    <WikiMainContent
-                        ref={contentRef}
-                        currentIndex={currentIndex}
-                        loading={loading}
-                        structure={structure}
-                        Content={Content}
-                        breadcrumb={breadcrumb}
-                        folders={folders}
-                    />
-                    <WikiSecondarySidebar headings={headings} currentIndex={currentIndex} structure={structure} />
+                    <WikiSidebar {...wikiSidebarProps} />
+                    <WikiMainContent {...WikiMainContentProps} />
+                    <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
                 </>
             )}
         </div>
@@ -101,3 +123,4 @@ export const Docs = () => {
 };
 
 // Credit to nextjs.org as I have borrow ideas and design from them <3
+// +rep chatgpt

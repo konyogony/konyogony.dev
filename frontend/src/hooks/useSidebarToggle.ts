@@ -9,7 +9,7 @@ interface useSidebarToggleStore {
 export const useSidebarToggle = create(
     persist<useSidebarToggleStore>(
         (set, get) => ({
-            isOpen: false,
+            isOpen: true,
             setIsOpen: () => {
                 set({ isOpen: !get().isOpen });
             },

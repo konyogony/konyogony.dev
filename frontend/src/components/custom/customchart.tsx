@@ -1,5 +1,3 @@
-'use client';
-
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import * as React from 'react';
 import { CartesianGrid, Line, LineChart, XAxis } from 'recharts';
@@ -115,15 +113,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function CustomChart() {
-    const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>('desktop');
-
-    const total = React.useMemo(
-        () => ({
-            desktop: chartData.reduce((acc, curr) => acc + curr.desktop, 0),
-            mobile: chartData.reduce((acc, curr) => acc + curr.mobile, 0),
-        }),
-        [],
-    );
+    const [activeChart] = React.useState<keyof typeof chartConfig>('desktop');
 
     return (
         <ChartContainer config={chartConfig} className='aspect-auto h-[250px] w-full'>
