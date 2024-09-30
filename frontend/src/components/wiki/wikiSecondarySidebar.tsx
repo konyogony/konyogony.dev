@@ -4,12 +4,12 @@ import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
 import React, { useEffect, useMemo, useState } from 'react';
 
 interface WikiSecondarySidebarProps {
-    headings: (string | null)[];
     currentIndex: number;
     structure: FileInfo[] | null;
+    headings: (string | null)[];
 }
 
-export const WikiSecondarySidebar = ({ headings, currentIndex, structure }: WikiSecondarySidebarProps) => {
+export const WikiSecondarySidebar = ({ currentIndex, structure, headings }: WikiSecondarySidebarProps) => {
     const [scrollHeight, setScrollHeight] = useState(0);
 
     useEffect(() => {

@@ -14,7 +14,7 @@ interface WikiMainContentProps {
     Content: React.FC | null;
     folders: string[];
     openedFolders: { [key: string]: boolean };
-    onToggleFolder: (folderName: string) => void;
+    toggleFolder: (folderName: string) => void;
 }
 
 export const WikiMainContent = forwardRef(
@@ -27,7 +27,7 @@ export const WikiMainContent = forwardRef(
             Content,
             folders,
             openedFolders,
-            onToggleFolder,
+            toggleFolder,
         }: WikiMainContentProps,
         ref: ForwardedRef<HTMLDivElement>,
     ) => {
@@ -38,9 +38,8 @@ export const WikiMainContent = forwardRef(
                     folders={folders}
                     structure={structure}
                     openedFolders={openedFolders}
-                    onToggleFolder={onToggleFolder}
+                    onToggleFolder={toggleFolder}
                 />
-
                 <WikiBreadcrumbs breadcrumb={breadcrumb} />
                 <WikiMdx loading={loading} ref={ref} Content={Content} />
                 <WikiNavButtons structure={structure} loading={loading} currentIndex={currentIndex} />

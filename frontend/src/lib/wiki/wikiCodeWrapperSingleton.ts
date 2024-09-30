@@ -29,3 +29,5 @@ export class wikiCodeWrapperSingleton {
         return wikiCodeWrapperSingleton.instancePromise;
     };
 }
+
+// I can change this later to be a hook, but for now it's fine

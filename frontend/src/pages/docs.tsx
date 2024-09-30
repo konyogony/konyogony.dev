@@ -1,100 +1,43 @@
 import { WikiMainContent } from '@/components/wiki/wikiMainContent';
 import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
-import { wikiConfig } from '@/config';
-import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
-import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
+import { useContent } from '@/hooks/useContent';
+import { useHeadings } from '@/hooks/useHeadings';
+import { useOpenedFolders } from '@/hooks/useOpenedFolders';
+import { useStructure } from '@/hooks/useStructure';
 import { NotFound } from '@/pages/notfound';
-import { FileInfo } from '@/types';
 import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 
 export const Docs = () => {
-    const [Content, setContent] = useState<React.FC | null>(null);
-    const [loading, setLoading] = useState(true);
     const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
-    const [structure, setStructure] = useState<FileInfo[] | null>(null);
-    const [folders, setFolders] = useState<string[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [headings, setHeadings] = useState<(string | null)[]>([]);
-    const [openedFolders, setOpenedFolders] = useState<{ [key: string]: boolean }>({});
 
-    const location = useLocation();
+    const { Content, loading, error } = useContent(setBreadcrumb);
+    const { folders, structure, currentIndex } = useStructure();
+    const { openedFolders, toggleFolder } = useOpenedFolders();
+    const { headings, setHeadings } = useHeadings();
+
     const contentRef = useRef<HTMLDivElement>(null);
-    const config = wikiConfig;
-
-    const path = useMemo(
-        () =>
-            location.pathname.replace('/docs/', '').replace('/docs', '') ||
-            config.structure.find((s) => s.fallback)?.path ||
-            '',
-        [location.pathname, config.structure],
-    );
-
-    const mdxFiles = useMemo(() => import.meta.glob('../docs/**/*.mdx'), []);
-
-    const toggleFolder = (folderName: string) => {
-        setOpenedFolders((prev) => ({
-            ...prev,
-            [folderName]: !prev[folderName],
-        }));
-    };
 
     useEffect(() => {
-        setLoading(true);
-
-        const importFile = mdxFiles[`../docs/${path}.mdx`];
-        const configFile = config.structure.find((s) => s.path === path);
-
-        if (importFile && configFile?.visible !== false) {
-            importFile()
-                .then((module) => {
-                    setContent(() => (module as { default: React.FC }).default);
-                    setBreadcrumb(path.split('/').map((p) => wikiPrettyText(p)));
-                })
-                .catch((err) => {
-                    console.error('Error loading MDX file:', err);
-                    setContent(null);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } else {
-            setContent(null);
-            setBreadcrumb([]);
-            setLoading(false);
+        if (contentRef.current && Content) {
+            console.log(1);
+            const headings = contentRef.current.querySelectorAll('h1, h2');
+            if (headings) {
+                setHeadings(Array.from(headings).map((h) => h.textContent));
+            }
         }
-    }, [path, mdxFiles, config.structure]);
-
-    useEffect(() => {
-        const newStructure = wikiGetStructure();
-        const allFolders = new Set(newStructure.map((f) => f.folder));
-        setStructure(newStructure);
-        setFolders([...allFolders]);
-    }, [config.structure]);
-
-    useEffect(() => {
-        const [file, ...folders] = path.split('/').reverse();
-        const folder = folders.reverse().join('/');
-        setCurrentIndex(
-            structure?.findIndex((f) => (folder ? f.name === file && f.folder === folder : f.name === file)) || 0,
-        );
-    }, [path, structure]);
-
-    useEffect(() => {
-        const headings = contentRef.current?.querySelectorAll('h1, h2');
-        setHeadings(headings ? Array.from(headings).map((h) => h.textContent) : []);
-    }, [Content]);
+    }, [Content, loading]);
 
     const wikiSidebarProps = {
         folders,
         structure,
         openedFolders,
-        onToggleFolder: toggleFolder,
+        toggleFolder,
     };
 
     const WikiMainContentProps = {
+        contentRef,
         breadcrumb,
         currentIndex,
         loading,
@@ -102,14 +45,22 @@ export const Docs = () => {
         Content,
         folders,
         openedFolders,
-        onToggleFolder: toggleFolder,
+        toggleFolder,
+        setHeadings,
     };
 
     const WikiSecondarySidebarProps = {
-        headings,
         currentIndex,
         structure,
+        headings,
     };
+
+    if (error) {
+        console.log(error);
+        return <NotFound />;
+    }
+
+    console.log(2, headings);
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
