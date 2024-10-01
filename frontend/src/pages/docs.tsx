@@ -6,7 +6,6 @@ import { useHeadings } from '@/hooks/useHeadings';
 import { useOpenedFolders } from '@/hooks/useOpenedFolders';
 import { useStructure } from '@/hooks/useStructure';
 import { NotFound } from '@/pages/notfound';
-import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { useEffect, useRef, useState } from 'react';
 
 export const Docs = () => {
@@ -64,19 +63,9 @@ export const Docs = () => {
 
     return (
         <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
-            {loading ? (
-                <div className='flex h-[80vh] w-full items-center justify-center bg-zinc-950'>
-                    <TbOutlineLoader2 size={24} className='animate-spin-slow' />
-                </div>
-            ) : !Content ? (
-                <NotFound />
-            ) : (
-                <>
-                    <WikiSidebar {...wikiSidebarProps} />
-                    <WikiMainContent {...WikiMainContentProps} />
-                    <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
-                </>
-            )}
+            <WikiSidebar {...wikiSidebarProps} />
+            <WikiMainContent {...WikiMainContentProps} />
+            <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
         </div>
     );
 };

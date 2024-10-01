@@ -13,6 +13,42 @@ import {
     SiTypescript,
     SiVite,
 } from '@vertisanpro/react-icons/si';
+import { Link } from 'react-router-dom';
+
+const icons = [
+    {
+        icon: SiActix,
+        link: 'https://actix.rs/',
+    },
+    {
+        icon: SiReact,
+        link: 'https://reactjs.org/',
+    },
+    {
+        icon: SiRust,
+        link: 'https://www.rust-lang.org/',
+    },
+    {
+        icon: SiShadcnui,
+        link: 'https://ui.shadcn.com/',
+    },
+    {
+        icon: SiTypescript,
+        link: 'https://www.typescriptlang.org/',
+    },
+    {
+        icon: SiVite,
+        link: 'https://vitejs.dev/',
+    },
+    {
+        icon: SiTailwindcss,
+        link: 'https://tailwindcss.com/',
+    },
+    {
+        icon: SiSurrealdb,
+        link: 'https://surrealdb.com/',
+    },
+];
 
 export const Welcome = () => {
     return (
@@ -39,35 +75,18 @@ export const Welcome = () => {
                     <Button className='hidden flex-row items-center gap-1 lg:flex'>
                         <span>Contact me</span> <FiArrowRight />
                     </Button>
-                    <Button className='hidden flex-row items-center gap-1 lg:flex' variant={'secondary'}>
-                        <span>Learn more</span> <RxMagnifyingGlass size={16} />
+                    <Button className='hidden flex-row items-center gap-1 lg:flex' variant={'secondary'} asChild>
+                        <Link to={'/docs'}>
+                            <span>Learn more</span> <RxMagnifyingGlass size={16} />
+                        </Link>
                     </Button>
                 </div>
                 <div className='z-40 flex flex-row items-center gap-4'>
-                    <a href='https://ui.shadcn.com/' target='_blank' rel='noreferrer'>
-                        <SiShadcnui className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://react.dev/' target='_blank' rel='noreferrer'>
-                        <SiReact className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://tailwindcss.com/' target='_blank' rel='noreferrer'>
-                        <SiTailwindcss className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://www.typescriptlang.org/' target='_blank' rel='noreferrer'>
-                        <SiTypescript className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-                        <SiVite className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://actix.rs/' target='_blank' rel='noreferrer'>
-                        <SiActix className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://www.rust-lang.org' target='_blank' rel='noreferrer'>
-                        <SiRust className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
-                    <a href='https://surrealdb.com/' target='_blank' rel='noreferrer'>
-                        <SiSurrealdb className='h-4 w-4 lg:h-5 lg:w-5' />
-                    </a>
+                    {icons.map((v, i) => (
+                        <a href={v.link} target='_blank' rel='noreferrer' key={i}>
+                            <v.icon className='h-4 w-4 lg:h-5 lg:w-5' />
+                        </a>
+                    ))}
                 </div>
                 <a
                     href='#work'
