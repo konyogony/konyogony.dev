@@ -1,3 +1,4 @@
+import { Page } from '@/components/custom/page';
 import { WikiMainContent } from '@/components/wiki/wikiMainContent';
 import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
@@ -62,13 +63,15 @@ export const Docs = () => {
     console.log(2, headings);
 
     return (
-        <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
-            <WikiSidebar {...wikiSidebarProps} />
-            <WikiMainContent {...WikiMainContentProps} />
-            <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
-        </div>
+        <Page>
+            <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
+                <WikiSidebar {...wikiSidebarProps} />
+                <WikiMainContent {...WikiMainContentProps} />
+                <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
+            </div>
+        </Page>
     );
 };
 
-// Credit to nextjs.org as I have borrow ideas and design from them <3
+// Thanks https://github.com/vercel/next.js
 // +rep chatgpt
