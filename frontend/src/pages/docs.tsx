@@ -14,7 +14,6 @@ export const Docs = () => {
 
     const { Content, loading, error } = useContent(setBreadcrumb);
     const { folders, structure, currentIndex } = useStructure();
-    const { openedFolders, toggleFolder } = useOpenedFolders();
     const { headings, setHeadings } = useHeadings();
 
     const contentRef = useRef<HTMLDivElement>(null);
@@ -32,8 +31,6 @@ export const Docs = () => {
     const wikiSidebarProps = {
         folders,
         structure,
-        openedFolders,
-        toggleFolder,
     };
 
     const WikiMainContentProps = {
@@ -44,8 +41,6 @@ export const Docs = () => {
         structure,
         Content,
         folders,
-        openedFolders,
-        toggleFolder,
         setHeadings,
     };
 

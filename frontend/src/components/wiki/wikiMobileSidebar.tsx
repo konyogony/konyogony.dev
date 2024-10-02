@@ -7,11 +7,9 @@ import { useStore } from 'zustand';
 interface WikiMobileSidebarProps {
     folders: string[];
     structure: FileInfo[] | null;
-    openedFolders: { [key: string]: boolean };
-    onToggleFolder: (folderName: string) => void;
 }
 
-export const WikiMobileSidebar = ({ folders, structure, openedFolders, onToggleFolder }: WikiMobileSidebarProps) => {
+export const WikiMobileSidebar = ({ folders, structure }: WikiMobileSidebarProps) => {
     const sidebar = useStore(useSidebarToggle);
 
     if (!sidebar) return null;
@@ -38,13 +36,7 @@ export const WikiMobileSidebar = ({ folders, structure, openedFolders, onToggleF
                 <span className='py-2 text-base font-bold text-zinc-50'>Documentation</span>
                 {folders &&
                     folders.map((v, i) => (
-                        <WikiFolder
-                            key={i}
-                            name={v}
-                            mobile={true}
-                            isOpened={openedFolders[v]}
-                            onToggle={onToggleFolder}
-                        >
+                        <WikiFolder key={i} name={v} mobile={true}>
                             {structure ? structure.filter((w) => w.folder === v) : []}
                         </WikiFolder>
                     ))}

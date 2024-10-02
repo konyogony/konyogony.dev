@@ -1,17 +1,31 @@
-import { useState } from 'react';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
-export const useOpenedFolders = () => {
-    const [openedFolders, setOpenedFolders] = useState<{ [key: string]: boolean }>({});
+interface UseOpenedFoldersStore {
+    openedFolders: { [key: string]: boolean };
+    toggleFolder: (folderName: string) => void;
+    isFolderOpen: (folderName: string) => boolean;
+}
 
-    const toggleFolder = (folderName: string) => {
-        setOpenedFolders((prev) => ({
-            ...prev,
-            [folderName]: !prev[folderName],
-        }));
-    };
-
-    return {
-        openedFolders,
-        toggleFolder,
-    };
-};
+export const useOpenedFolders = create(
+    persist<UseOpenedFoldersStore>(
+        (set, get) => ({
+            openedFolders: {},
+            toggleFolder: (folderName) => {
+                set((prev) => ({
+                    openedFolders: {
+                        ...prev.openedFolders,
+                        [folderName]: !prev.openedFolders[folderName],
+                    },
+                }));
+            },
+            isFolderOpen: (folderName) => {
+                return !!get().openedFolders[folderName];
+            },
+        }),
+        {
+            name: 'openedFolders',
+            storage: createJSONStorage(() => localStorage),
+        },
+    ),
+);

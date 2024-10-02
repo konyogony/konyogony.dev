@@ -15,22 +15,11 @@ interface WikiMainContentProps {
     structure: FileInfo[] | null;
     Content: React.FC | null;
     folders: string[];
-    openedFolders: { [key: string]: boolean };
-    toggleFolder: (folderName: string) => void;
 }
 
 export const WikiMainContent = forwardRef(
     (
-        {
-            breadcrumb,
-            currentIndex,
-            loading,
-            structure,
-            Content,
-            folders,
-            openedFolders,
-            toggleFolder,
-        }: WikiMainContentProps,
+        { breadcrumb, currentIndex, loading, structure, Content, folders }: WikiMainContentProps,
         ref: ForwardedRef<HTMLDivElement>,
     ) => {
         return (
@@ -44,12 +33,7 @@ export const WikiMainContent = forwardRef(
                 ) : (
                     <>
                         <WikiMobileNavbar />
-                        <WikiMobileSidebar
-                            folders={folders}
-                            structure={structure}
-                            openedFolders={openedFolders}
-                            onToggleFolder={toggleFolder}
-                        />
+                        <WikiMobileSidebar folders={folders} structure={structure} />
                         <WikiBreadcrumbs breadcrumb={breadcrumb} />
                         <WikiMdx loading={loading} ref={ref} Content={Content} />
                         <WikiNavButtons structure={structure} loading={loading} currentIndex={currentIndex} />
