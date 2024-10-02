@@ -19,8 +19,14 @@ export const WikiFolder = ({ name, children, mobile = false, isOpened, onToggle 
     const location = useLocation();
 
     useEffect(() => {
-        const isActivePath = children.some((child) => child.path === location.pathname.replace('/docs/', ''));
-        setActive(isActivePath);
+        const currentChild = children.find((child) => child.path === location.pathname.replace('/docs/', ''));
+        if (currentChild) {
+            if (!isOpened) {
+                onToggle(name);
+            } else {
+                setActive(false);
+            }
+        }
     }, [children, location]);
 
     const handleToggle = () => {
@@ -65,5 +71,3 @@ export const WikiFolder = ({ name, children, mobile = false, isOpened, onToggle 
         </div>
     );
 };
-
-// TODO: Make it open if active

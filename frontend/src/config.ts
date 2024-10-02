@@ -7,6 +7,9 @@ export const wikiConfig: WikiConfig = {
             fallback: true,
             visible: true,
         },
+        {
+            path: 'behind-the-scenes/commit-guidelines',
+        },
         // {
         //     path: 'rust',
         //     visible: false,

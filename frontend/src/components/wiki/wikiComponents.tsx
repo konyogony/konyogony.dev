@@ -30,9 +30,9 @@ export const wikiComponents = {
         return (
             <span
                 {...props}
-                className='mx-0.5 rounded-[3.5px] bg-zinc-800 px-1.5 py-[3px] font-[Consolas] text-sm font-medium text-zinc-50'
+                className='mx-0.5 my-2 rounded-[3.5px] bg-zinc-800 px-1.5 py-1 font-[Consolas] text-sm font-semibold text-zinc-50'
             >
-                {children}
+                <span className='not-prose'>{children}</span>
             </span>
         );
     },
@@ -43,6 +43,18 @@ export const wikiComponents = {
             <WikiCodeWrapper language={language} {...props}>
                 {codeElement.props.children}
             </WikiCodeWrapper>
+        );
+    },
+    blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => {
+        return (
+            <span
+                className={
+                    'my-2 flex border-l-2 border-zinc-600 py-2.5 pl-4 text-base font-semibold italic text-zinc-100'
+                }
+                {...props}
+            >
+                <span className='not-prose'>{children}</span>
+            </span>
         );
     },
 };
