@@ -85,3 +85,5 @@ export const App = () => {
         </BrowserRouter>
     );
 };
+
+// TODO: Fix navbar dissapearing when loading

@@ -61,7 +61,7 @@ export const WikiCodeWrapper = ({ language = '', children }: React.PropsWithChil
             ) : (
                 <article
                     dangerouslySetInnerHTML={{ __html: codeBlock }}
-                    className='codeBlock bg-zinc-950 text-sm lg:text-base'
+                    className='codeBlock customScrollbar bg-zinc-950 text-sm lg:text-base'
                 />
             )}
         </div>

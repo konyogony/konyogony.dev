@@ -68,3 +68,23 @@ code > .line:not(:last-child)::before {
         transform: rotate(360deg);
     }
 }
+
+.customScrollbar {
+    @apply overflow-auto;
+}
+
+.customScrollbar::-webkit-scrollbar {
+    @apply size-2;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-zinc-600;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+.customScrollbar::-webkit-scrollbar {
+    @apply hidden;
+}
