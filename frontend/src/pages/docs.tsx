@@ -16,17 +16,7 @@ export const Docs = () => {
     const { folders, structure, currentIndex } = useStructure();
     const { headings, setHeadings } = useHeadings();
 
-    const contentRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (contentRef.current && Content) {
-            console.log(1);
-            const headings = contentRef.current.querySelectorAll('h1, h2');
-            if (headings) {
-                setHeadings(Array.from(headings).map((h) => h.textContent));
-            }
-        }
-    }, [Content, loading]);
+    const ref = useRef<HTMLDivElement>(null);
 
     const wikiSidebarProps = {
         folders,
@@ -34,28 +24,35 @@ export const Docs = () => {
     };
 
     const WikiMainContentProps = {
-        contentRef,
+        ref,
         breadcrumb,
         currentIndex,
         loading,
         structure,
         Content,
         folders,
+
         setHeadings,
     };
 
     const WikiSecondarySidebarProps = {
+        loading,
         currentIndex,
         structure,
         headings,
     };
 
     if (error) {
-        console.log(error);
+        console.error(error);
         return <NotFound />;
     }
 
-    console.log(2, headings);
+    useEffect(() => {
+        if (Content && !loading && ref.current) {
+            const headings = ref.current.querySelectorAll('h1, h2');
+            setHeadings(Array.from(headings).map((h) => h.textContent));
+        }
+    }, [loading]);
 
     return (
         <Page>
