@@ -14,6 +14,7 @@ import {
     SiTypescript,
     SiVite,
 } from '@vertisanpro/react-icons/si';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 const icons = [
@@ -52,12 +53,18 @@ const icons = [
 ];
 
 export const Welcome = () => {
+    const spotlightElement = useMemo(() => <Spotlight className='left-20 top-16 lg:hidden' fill='white' />, []);
+    const backgroundElement = useMemo(
+        () => <BackgroundBeams className='hidden transform-gpu motion-reduce:hidden lg:flex' />,
+        [],
+    );
     return (
         <Page>
             <div className='relative flex h-[80vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-grid-white/[0.04] lg:h-[75vh] lg:gap-4 lg:bg-grid-white/0'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
 
-                <Spotlight className='left-20 top-16 lg:hidden' fill='white' />
+                {spotlightElement}
+                {backgroundElement}
 
                 <div className='z-40 flex flex-col items-center bg-gradient-to-t from-zinc-300 to-zinc-100 bg-clip-text text-transparent lg:gap-2 lg:px-0'>
                     <span className='text-4xl font-bold tracking-wide lg:text-7xl'>Meet kony_ogony,</span>
@@ -95,13 +102,10 @@ export const Welcome = () => {
                 >
                     <FiChevronDown size={18} />
                 </a>
-
-                <BackgroundBeams className='hidden transform-gpu motion-reduce:hidden lg:flex' />
             </div>
             <div className='flex flex-col items-center gap-2' id='work'>
                 <span className='text-2xl font-semibold'>Some of my work</span>
             </div>
-
             <div className='h-[200rem]' />
         </Page>
     );

@@ -1,15 +1,17 @@
 import { wikiConfig } from '@/config';
 import { FileInfo } from '@/types';
 import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
+import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import React, { useEffect, useMemo, useState } from 'react';
 
 interface WikiSecondarySidebarProps {
+    loading: boolean;
     currentIndex: number;
     structure: FileInfo[] | null;
     headings: (string | null)[];
 }
 
-export const WikiSecondarySidebar = ({ currentIndex, structure, headings }: WikiSecondarySidebarProps) => {
+export const WikiSecondarySidebar = ({ currentIndex, structure, headings, loading }: WikiSecondarySidebarProps) => {
     const [scrollHeight, setScrollHeight] = useState(0);
 
     useEffect(() => {
@@ -75,9 +77,17 @@ export const WikiSecondarySidebar = ({ currentIndex, structure, headings }: Wiki
     return (
         <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
             <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
-            {headingsElement}
-            <div className='my-2 h-[1px] w-3/4 bg-white/10' />
-            {editElement}
+            {loading ? (
+                <div className='flex h-[20vh] w-full items-center justify-center'>
+                    <TbOutlineLoader2 size={24} className='animate-spin-slow' />
+                </div>
+            ) : (
+                <>
+                    {headingsElement}
+                    <div className='my-2 h-[1px] w-3/4 bg-white/10' />
+                    {editElement}
+                </>
+            )}
             {scrollHeight > wikiConfig.scrollToTriggerButton && <>{backToTopElement}</>}
         </div>
     );
