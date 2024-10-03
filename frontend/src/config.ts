@@ -10,26 +10,14 @@ export const wikiConfig: WikiConfig = {
         {
             path: 'behind-the-scenes/commit-guidelines',
         },
-        // {
-        //     path: 'rust',
-        //     visible: false,
-        // },
-        // {
-        //     path: 'javascript',
-        //     fallback: true,
-        // },
+        {
+            path: 'behind-the-scenes/custom-wiki',
+        },
         {
             path: 'all-about-arch/installing-arch',
         },
-        // {
-        //     path: 'libraries/flowbite',
-        // },
-        // {
-        //     path: 'libraries/shadcn',
-        // },
-        // {
-        //     path: 'frameworks/react',
-        // },
     ],
     scrollToTriggerButton: 500,
 } as const;
+
+// This could be done in a much better way but the I wouldbe just overcomplicating stuff.
