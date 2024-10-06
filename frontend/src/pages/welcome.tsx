@@ -1,4 +1,4 @@
-import { BackgroundBeams } from '@/components/ui/background-beams';
+import { BackgroundBeams } from '@/components/ui/backgroundBeams';
 import { Button } from '@/components/ui/button';
 import { Spotlight } from '@/components/ui/spotlight';
 import { FiArrowRight, FiChevronDown } from '@vertisanpro/react-icons/fi';
