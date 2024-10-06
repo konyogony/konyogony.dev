@@ -1,9 +1,9 @@
 import { WikiMainContent } from '@/components/wiki/wikiMainContent';
 import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
-import { useContent } from '@/hooks/useContent';
-import { useHeadings } from '@/hooks/useHeadings';
-import { useStructure } from '@/hooks/useStructure';
+import { useContent } from '@/hooks/wiki/useContent';
+import { useHeadings } from '@/hooks/wiki/useHeadings';
+import { useStructure } from '@/hooks/wiki/useStructure';
 import { useEffect, useRef, useState } from 'react';
 
 export const Docs = () => {

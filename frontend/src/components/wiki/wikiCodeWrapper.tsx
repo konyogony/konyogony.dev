@@ -1,4 +1,4 @@
-import { CopyButton } from '@/components/custom/copyButton';
+import { CopyButton } from '@/components/copyButton';
 import { wikiCodeWrapperIcon } from '@/components/wiki/wikiCodeWrapperIcon';
 import { wikiCodeWrapperSingleton } from '@/lib/wiki/wikiCodeWrapperSingleton';
 import { IconContext } from '@vertisanpro/react-icons';

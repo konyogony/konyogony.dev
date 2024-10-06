@@ -1,6 +1,6 @@
 import { wikiConfig } from '@/config';
-import { useFiles } from '@/hooks/useFiles';
-import { usePath } from '@/hooks/usePath';
+import { useFiles } from '@/hooks/wiki/useFiles';
+import { usePath } from '@/hooks/wiki/usePath';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { useEffect, useState } from 'react';
 

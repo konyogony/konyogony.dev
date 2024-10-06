@@ -1,4 +1,4 @@
-import { FallbackProvider } from '@/components/custom/fallbackProvider';
+import { FallbackProvider } from '@/components/fallbackProvider';
 import { Layout } from '@/layouts/layout';
 import { Route as RouteType } from '@/types';
 import { lazy } from 'react';

@@ -1,5 +1,5 @@
 import { wikiConfig } from '@/config';
-import { usePath } from '@/hooks/usePath';
+import { usePath } from '@/hooks/wiki/usePath';
 import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { FileInfo } from '@/types';
 import { useEffect, useState } from 'react';

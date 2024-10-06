@@ -1,4 +1,4 @@
-import { Cmdk } from '@/components/custom/cmdk';
+import { Cmdk } from '@/components/cmdk';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

@@ -1,4 +1,4 @@
-import { FallbackContext, FallbackType } from '@/components/custom/fallbackProvider';
+import { FallbackContext, FallbackType } from '@/components/fallbackProvider';
 import { useCallback, useContext } from 'react';
 
 export const usePage = () => {

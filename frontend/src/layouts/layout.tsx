@@ -1,6 +1,6 @@
-import { Navbar } from '@/components/custom/navbar';
-import { Page } from '@/components/custom/page';
-import { ThemeProvider } from '@/components/ui/theme-provider';
+import { Navbar } from '@/components/navbar';
+import { Page } from '@/components/page';
+import { ThemeProvider } from '@/components/ui/themeProvider';
 import { Toaster } from 'sonner';
 
 export const Layout = ({ children }: React.PropsWithChildren) => {

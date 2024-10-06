@@ -1,4 +1,3 @@
-import { Page } from '@/components/custom/page';
 import { Button } from '@/components/ui/button';
 import { FiArrowRight, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useNavigate } from 'react-router-dom';
