@@ -1,17 +1,24 @@
 import { wikiConfig } from '@/config';
+import { cn } from '@/lib/utils';
 import { FileInfo } from '@/types';
 import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
-import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import React, { useEffect, useMemo, useState } from 'react';
 
 interface WikiSecondarySidebarProps {
     loading: boolean;
     currentIndex: number;
     structure: FileInfo[] | null;
-    headings: (string | null)[];
+    headings: ({ text: string; level: number } | null)[];
+    error: string | null;
 }
 
-export const WikiSecondarySidebar = ({ currentIndex, structure, headings, loading }: WikiSecondarySidebarProps) => {
+export const WikiSecondarySidebar = ({
+    currentIndex,
+    structure,
+    headings,
+    loading,
+    error,
+}: WikiSecondarySidebarProps) => {
     const [scrollHeight, setScrollHeight] = useState(0);
 
     useEffect(() => {
@@ -30,15 +37,19 @@ export const WikiSecondarySidebar = ({ currentIndex, structure, headings, loadin
                         {v ? (
                             <a
                                 href={`#${
-                                    v
+                                    v.text
                                         .trim()
                                         .toLocaleLowerCase()
                                         .replace(/\s+/g, '-')
-                                        .replace(/[^\p{L}\p{N}-]/gu, '') || v
+                                        .replace(/[^\p{L}\p{N}-]/gu, '')
+                                        .replace(/\./g, '') || v
                                 }`}
-                                className={'py-1 text-sm font-light text-zinc-400 hover:text-zinc-200'}
+                                className={cn('py-1 text-sm font-light text-zinc-400 hover:text-zinc-200', {
+                                    'pl-0': v.level === 1,
+                                    'pl-4': v.level === 2,
+                                })}
                             >
-                                {v.length > 30 ? v.slice(0, 30) + '...' : v}
+                                {v.text.length > 30 ? v.text.slice(0, 30) + '...' : v.text}
                             </a>
                         ) : null}
                     </React.Fragment>
@@ -65,7 +76,7 @@ export const WikiSecondarySidebar = ({ currentIndex, structure, headings, loadin
     const backToTopElement: JSX.Element = useMemo(
         () => (
             <a
-                href={`#${headings[0]?.trim().toLocaleLowerCase().replaceAll(' ', '-') || headings[0]}`}
+                href={`#${headings[0]?.text.trim().toLocaleLowerCase().replaceAll(' ', '-') || headings[0]}`}
                 className='my-2 flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
             >
                 Back to top <FiArrowUp />
@@ -74,14 +85,14 @@ export const WikiSecondarySidebar = ({ currentIndex, structure, headings, loadin
         [headings],
     );
 
+    if (error) {
+        return null;
+    }
+
     return (
-        <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-end lg:flex'>
-            <span className='-ml-1 py-2 text-sm font-bold text-zinc-50'>On this page</span>
-            {loading ? (
-                <div className='flex h-[20vh] w-full items-center justify-center'>
-                    <TbOutlineLoader2 size={24} className='animate-spin-slow' />
-                </div>
-            ) : (
+        <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-start lg:flex'>
+            <span className='py-2 text-sm font-bold text-zinc-50'>On this page</span>
+            {!loading && (
                 <>
                     {headingsElement}
                     <div className='my-2 h-[1px] w-3/4 bg-white/10' />

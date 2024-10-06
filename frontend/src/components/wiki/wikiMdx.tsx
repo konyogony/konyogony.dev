@@ -1,22 +1,15 @@
 import { wikiComponents } from '@/components/wiki/wikiComponents';
 import { MDXProvider } from '@mdx-js/react';
-import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
 import { ForwardedRef, forwardRef } from 'react';
 
 interface WikiMdxProps {
-    loading: boolean;
     Content: React.FC | null;
 }
 
-export const WikiMdx = forwardRef(({ loading, Content }: WikiMdxProps, ref: ForwardedRef<HTMLDivElement>) => {
+export const WikiMdx = forwardRef(({ Content }: WikiMdxProps, ref: ForwardedRef<HTMLDivElement>) => {
     return (
         <div className='my-4 flex h-full w-full flex-col px-[4vh] lg:px-0' ref={ref}>
-            {loading ? (
-                <div className='flex h-screen w-full flex-row items-center justify-center gap-2 lg:opacity-0'>
-                    <TbOutlineLoader2 className='animate-spin-slow' size={20} />
-                    Loading, please wait...
-                </div>
-            ) : Content ? (
+            {Content ? (
                 <MDXProvider components={wikiComponents}>
                     <Content />
                 </MDXProvider>

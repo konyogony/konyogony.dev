@@ -1,4 +1,3 @@
-import { Page } from '@/components/custom/page';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { Button } from '@/components/ui/button';
 import { Spotlight } from '@/components/ui/spotlight';
@@ -59,7 +58,7 @@ export const Welcome = () => {
         [],
     );
     return (
-        <Page>
+        <>
             <div className='relative flex h-[80vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-grid-white/[0.04] lg:h-[75vh] lg:gap-4 lg:bg-grid-white/0'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
 
@@ -107,6 +106,6 @@ export const Welcome = () => {
                 <span className='text-2xl font-semibold'>Some of my work</span>
             </div>
             <div className='h-[200rem]' />
-        </Page>
+        </>
     );
 };

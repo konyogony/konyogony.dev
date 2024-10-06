@@ -8,7 +8,12 @@ interface WikiHashTagProps {
 }
 
 export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
-    const strippedId = id.replace(/\s+/g, '-').replace(/[^\p{L}\p{N}-]/gu, '');
+    const strippedId = id
+        .trim()
+        .toLocaleLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\p{L}\p{N}-]/gu, '')
+        .replace(/\./g, '');
     const path = window.location.href.split('#')[0] + '#' + strippedId;
     const clickCopy = () => {
         copy(path);

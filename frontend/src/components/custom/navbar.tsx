@@ -35,8 +35,10 @@ export const Navbar = () => {
                         return (
                             <NavLink
                                 key={i}
-                                to={routeName === 'Home' ? '/' : routeName.toLowerCase()}
-                                className={'duration-400 text-zinc-400 transition-all [&.active]:text-zinc-100'}
+                                to={routeName === 'Home' ? '/' : `/${routeName.toLowerCase()}`}
+                                className={
+                                    'text-zinc-400 transition-all duration-150 hover:text-zinc-300 [&.active]:text-zinc-50'
+                                }
                             >
                                 {routeName}
                             </NavLink>

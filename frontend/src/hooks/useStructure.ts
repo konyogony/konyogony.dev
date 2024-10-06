@@ -4,7 +4,7 @@ import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
 import { FileInfo } from '@/types';
 import { useEffect, useState } from 'react';
 
-export const useStructure = () => {
+export const useStructure = ({ error }: { error: string | null }) => {
     const [structure, setStructure] = useState<FileInfo[] | null>(null);
     const [folders, setFolders] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,6 +19,9 @@ export const useStructure = () => {
     }, [wikiConfig.structure]);
 
     useEffect(() => {
+        if (error) {
+            return;
+        }
         const [file, ...folders] = path.split('/').reverse();
         const folder = folders.reverse().join('/');
         setCurrentIndex(

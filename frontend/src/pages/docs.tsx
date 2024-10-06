@@ -1,18 +1,16 @@
-import { Page } from '@/components/custom/page';
 import { WikiMainContent } from '@/components/wiki/wikiMainContent';
 import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
 import { WikiSidebar } from '@/components/wiki/wikiSidebar';
 import { useContent } from '@/hooks/useContent';
 import { useHeadings } from '@/hooks/useHeadings';
 import { useStructure } from '@/hooks/useStructure';
-import { NotFound } from '@/pages/notfound';
 import { useEffect, useRef, useState } from 'react';
 
 export const Docs = () => {
     const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
 
     const { Content, loading, error } = useContent(setBreadcrumb);
-    const { folders, structure, currentIndex } = useStructure();
+    const { folders, structure, currentIndex } = useStructure({ error });
     const { headings, setHeadings } = useHeadings();
 
     const ref = useRef<HTMLDivElement>(null);
@@ -39,28 +37,30 @@ export const Docs = () => {
         currentIndex,
         structure,
         headings,
+        error,
     };
-
-    if (error) {
-        console.error(error);
-        return <NotFound />;
-    }
 
     useEffect(() => {
         if (Content && !loading && ref.current) {
-            const headings = ref.current.querySelectorAll('h1, h2');
-            setHeadings(Array.from(headings).map((h) => h.textContent));
+            const headingsElements = ref.current.querySelectorAll('h1, h2');
+            const headings = Array.from(headingsElements).map((h) => ({
+                text: h.textContent || '',
+                level: parseInt(h.tagName.replace('H', ''), 10),
+            }));
+            setHeadings(headings);
         }
-    }, [loading]);
+    }, [Content, loading, ref]);
+
+    error && console.error(error);
 
     return (
-        <Page>
+        <>
             <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
                 <WikiSidebar {...wikiSidebarProps} />
                 <WikiMainContent {...WikiMainContentProps} />
                 <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
             </div>
-        </Page>
+        </>
     );
 };
 

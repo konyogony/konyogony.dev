@@ -3,7 +3,13 @@ import { WikiHashTag } from '@/components/wiki/wikiHashTag';
 
 export const wikiComponents = {
     h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
+        const id = children
+            ?.toString()
+            .trim()
+            .toLocaleLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\p{L}\p{N}-]/gu, '')
+            .replace(/\./g, '');
         return (
             <h1 className={'group text-4xl'} {...props} id={id}>
                 {children} <WikiHashTag id={id ?? ''} />
@@ -11,7 +17,13 @@ export const wikiComponents = {
         );
     },
     h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
+        const id = children
+            ?.toString()
+            .trim()
+            .toLocaleLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\p{L}\p{N}-]/gu, '')
+            .replace(/\./g, '');
         return (
             <h2 className={'group text-2xl'} {...props} id={id}>
                 {children} <WikiHashTag id={id ?? ''} variant='h2' />
@@ -19,7 +31,13 @@ export const wikiComponents = {
         );
     },
     h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-        const id = children?.toString().toLowerCase().replace(/\s+/g, '-');
+        const id = children
+            ?.toString()
+            .trim()
+            .toLocaleLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\p{L}\p{N}-]/gu, '')
+            .replace(/\./g, '');
         return (
             <h3 className={'group text-xl'} {...props} id={id}>
                 {children} <WikiHashTag id={id ?? ''} variant='h3' />

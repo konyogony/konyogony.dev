@@ -1,10 +1,15 @@
 import { FallbackProvider } from '@/components/custom/fallbackProvider';
 import { Layout } from '@/layouts/layout';
-import { NotFound } from '@/pages/notfound';
 import { Route as RouteType } from '@/types';
 import { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import 'nprogress/nprogress.css';
+
+// import { About } from './pages/about';
+// import { Docs } from './pages/docs';
+// import { Notes } from './pages/notes';
+// import { NotFound } from './pages/notfound';
+// import { Welcome } from './pages/welcome';
 
 const ProtectedRoute = ({ component }: { component: JSX.Element }) => {
     console.log('Protected route');
@@ -31,6 +36,7 @@ const Welcome = lazy(() => import('./pages/welcome').then((module) => ({ default
 const About = lazy(() => import('./pages/about').then((module) => ({ default: module.About })));
 const Notes = lazy(() => import('./pages/notes').then((module) => ({ default: module.Notes })));
 const Docs = lazy(() => import('./pages/docs').then((module) => ({ default: module.Docs })));
+const NotFound = lazy(() => import('./pages/notfound').then((module) => ({ default: module.NotFound })));
 
 const routes: RouteType[] = [
     {
@@ -68,19 +74,21 @@ export const App = () => {
     return (
         <BrowserRouter>
             <FallbackProvider>
-                <Layout>
-                    <Routes>
-                        {routes.map((v, i) => {
-                            return (
-                                <Route
-                                    key={i}
-                                    path={v.path}
-                                    element={v.protected ? <ProtectedRoute component={v.element} /> : v.element}
-                                />
-                            );
-                        })}
-                    </Routes>
-                </Layout>
+                <Routes>
+                    {routes.map((v, i) => {
+                        return (
+                            <Route
+                                path={v.path}
+                                key={i}
+                                element={
+                                    <Layout>
+                                        {v.protected ? <ProtectedRoute component={v.element} /> : v.element}
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
             </FallbackProvider>
         </BrowserRouter>
     );

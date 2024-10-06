@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export const NotFound = () => {
     const navigate = useNavigate();
     return (
-        <Page>
+        <>
             <div className='relative m-0 flex h-[80vh] w-full flex-col items-center justify-center overflow-y-hidden bg-dot-white/[0.2]'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]' />
                 <span className='text-[12vh] font-bold text-zinc-100'>404</span>
@@ -20,6 +20,6 @@ export const NotFound = () => {
                     Back to Home <FiArrowRight />
                 </Button>
             </div>
-        </Page>
+        </>
     );
 };
