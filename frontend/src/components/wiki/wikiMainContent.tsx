@@ -3,7 +3,7 @@ import { WikiMdx } from '@/components/wiki/wikiMdx';
 import { WikiMobileNavbar } from '@/components/wiki/wikiMobileNavbar';
 import { WikiMobileSidebar } from '@/components/wiki/wikiMobileSidebar';
 import { WikiNavButtons } from '@/components/wiki/wikiNavButtons';
-import { NotFound } from '@/pages/notfound';
+import NotFound from '@/pages/notfound';
 import { FileInfo } from '@/types';
 import { ForwardedRef, forwardRef } from 'react';
 

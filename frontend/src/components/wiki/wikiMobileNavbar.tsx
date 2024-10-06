@@ -1,4 +1,4 @@
-import { useSidebarToggle } from '@/hooks/useSidebarToggle';
+import { useSidebarToggle } from '@/hooks/wiki/useSidebarToggle';
 import { cn } from '@/lib/utils';
 import { FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useStore } from 'zustand';

@@ -1,18 +1,11 @@
-import { FallbackContext, FallbackType } from '@/components/fallbackProvider';
+import { FallbackContext } from '@/components/fallbackProvider';
 import { useCallback, useContext } from 'react';
 
-export const usePage = () => {
-    const { updateFallback } = useContext(FallbackContext);
-
-    const onLoad = useCallback(
-        (component: FallbackType | undefined) => {
-            if (component === undefined) component = null;
-            updateFallback(component);
-        },
-        [updateFallback],
-    );
+const usePage = () => {
+    const { update } = useContext(FallbackContext);
+    const onLoad = useCallback((component: React.ReactNode) => update(component), [update]);
 
     return { onLoad };
 };
 
-// Thanks https://github.com/HanMoeHtet/route-level-code-split
+export default usePage;

@@ -51,7 +51,7 @@ const icons = [
     },
 ];
 
-export const Welcome = () => {
+const Welcome = () => {
     const spotlightElement = useMemo(() => <Spotlight className='left-20 top-16 lg:hidden' fill='white' />, []);
     const backgroundElement = useMemo(
         () => <BackgroundBeams className='hidden transform-gpu motion-reduce:hidden lg:flex' />,
@@ -109,3 +109,5 @@ export const Welcome = () => {
         </>
     );
 };
+
+export default Welcome;

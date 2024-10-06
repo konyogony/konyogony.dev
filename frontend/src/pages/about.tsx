@@ -2,7 +2,7 @@ import { Chart2 } from '@/components/charts2';
 import { CustomChart } from '@/components/customChart';
 import { MyChart } from '@/components/myChart';
 
-export const About = () => {
+const About = () => {
     return (
         <>
             <MyChart />
@@ -11,3 +11,5 @@ export const About = () => {
         </>
     );
 };
+
+export default About;

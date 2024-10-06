@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { FiArrowRight, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-export const NotFound = () => {
+const NotFound = () => {
     const navigate = useNavigate();
     return (
         <>
@@ -22,3 +22,5 @@ export const NotFound = () => {
         </>
     );
 };
+
+export default NotFound;

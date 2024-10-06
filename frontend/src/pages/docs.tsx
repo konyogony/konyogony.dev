@@ -6,7 +6,7 @@ import { useHeadings } from '@/hooks/wiki/useHeadings';
 import { useStructure } from '@/hooks/wiki/useStructure';
 import { useEffect, useRef, useState } from 'react';
 
-export const Docs = () => {
+const Docs = () => {
     const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
 
     const { Content, loading, error } = useContent(setBreadcrumb);
@@ -63,6 +63,8 @@ export const Docs = () => {
         </>
     );
 };
+
+export default Docs;
 
 // Thanks https://github.com/vercel/next.js
 // +rep chatgpt
