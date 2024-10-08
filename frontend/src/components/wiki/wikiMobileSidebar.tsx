@@ -1,5 +1,5 @@
 import { WikiFolder } from '@/components/wiki/wikiFolder';
-import { useSidebarToggle } from '@/hooks/useSidebarToggle';
+import { useSidebarToggle } from '@/hooks/wiki/useSidebarToggle';
 import { cn } from '@/lib/utils';
 import { FileInfo } from '@/types';
 import { useStore } from 'zustand';

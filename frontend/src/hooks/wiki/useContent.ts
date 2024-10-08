@@ -15,7 +15,7 @@ export const useContent = (setBreadcrumbData: (data: string[]) => void) => {
     useEffect(() => {
         setLoading(true);
 
-        const importFile = mdxFiles[`../docs/${path}.mdx`];
+        const importFile = mdxFiles[`../../docs/${path}.mdx`];
         const configFile = wikiConfig.structure.find((s) => s.path === path);
 
         if (importFile && configFile?.visible !== false) {

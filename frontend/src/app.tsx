@@ -1,11 +1,16 @@
 import { Layout } from '@/layouts/layout';
 import { Route as RouteType } from '@/types';
-import { lazy } from 'react';
+// import { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import FallbackProvider from './components/fallbackProvider';
-import ProgressBar from './components/progressbar';
+// import FallbackProvider from './components/fallbackProvider';
+// import ProgressBar from './components/progressbar';
 import { ThemeProvider } from './components/ui/themeProvider';
+import About from './pages/about';
+import Docs from './pages/docs';
+import Notes from './pages/notes';
+import NotFound from './pages/notfound';
+import Welcome from './pages/welcome';
 
 const ProtectedRoute = ({ component }: { component: JSX.Element }) => {
     console.log('Protected route');
@@ -28,11 +33,11 @@ const RedirectSocial = () => {
     }
 };
 
-const Welcome = lazy(() => import('./pages/welcome'));
-const About = lazy(() => import('./pages/about'));
-const Notes = lazy(() => import('./pages/notes'));
-const Docs = lazy(() => import('./pages/docs'));
-const NotFound = lazy(() => import('./pages/notfound'));
+// const Welcome = lazy(() => import('./pages/welcome'));
+// const About = lazy(() => import('./pages/about'));
+// const Notes = lazy(() => import('./pages/notes'));
+// const Docs = lazy(() => import('./pages/docs'));
+// const NotFound = lazy(() => import('./pages/notfound'));
 
 const routes: RouteType[] = [
     {
@@ -70,26 +75,28 @@ export const App = () => {
     return (
         <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
             <Toaster theme={'dark'} richColors />
-            <ProgressBar />
+            {/* <ProgressBar /> */}
 
             <BrowserRouter>
-                <Routes>
-                    <Route element={<Layout />}>
+                <Layout>
+                    <Routes>
+                        {/* <Route element={<Layout />}> */}
                         {routes.map((v, i) => {
                             return (
                                 <Route
                                     path={v.path}
                                     key={i}
                                     element={
-                                        <FallbackProvider>
-                                            {v.protected ? <ProtectedRoute component={v.element} /> : v.element}
-                                        </FallbackProvider>
+                                        // {<FallbackProvider>
+                                        v.protected ? <ProtectedRoute component={v.element} /> : v.element
                                     }
+                                    // </FallbackProvider>}
                                 />
                             );
                         })}
-                    </Route>
-                </Routes>
+                        {/* </Route> */}
+                    </Routes>
+                </Layout>
             </BrowserRouter>
         </ThemeProvider>
     );

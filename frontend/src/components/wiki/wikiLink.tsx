@@ -1,4 +1,4 @@
-import { useSidebarToggle } from '@/hooks/useSidebarToggle';
+import { useSidebarToggle } from '@/hooks/wiki/useSidebarToggle';
 import { cn } from '@/lib/utils';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { NavLink } from 'react-router-dom';

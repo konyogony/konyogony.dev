@@ -1,5 +1,5 @@
 import { WikiLink } from '@/components/wiki/wikiLink';
-import { useOpenedFolders } from '@/hooks/useOpenedFolders';
+import { useOpenedFolders } from '@/hooks/wiki/useOpenedFolders';
 import { cn } from '@/lib/utils';
 import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
 import { FileInfo } from '@/types';
