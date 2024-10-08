@@ -16,11 +16,11 @@ The code would look like this:
 // We first declare array of all routes.
 const routes = [
     {
-        path: '/',
+        path: "/",
         element: <Welcome />,
     },
     {
-        path: '/docs/*', // Have to put the '/*' so that it would pick up all routes starting with /docs
+        path: "/docs/*", // Have to put the '/*' so that it would pick up all routes starting with /docs
         element: <Docs />,
     },
 ];
@@ -36,7 +36,13 @@ export const App = () => {
                         <Route
                             key={i}
                             path={v.path}
-                            element={v.protected ? <ProtectedRoute component={v.element} /> : v.element}
+                            element={
+                                v.protected ? (
+                                    <ProtectedRoute component={v.element} />
+                                ) : (
+                                    v.element
+                                )
+                            }
                         />
                     );
                 })}
@@ -49,17 +55,16 @@ export const App = () => {
 ## Rendering
 
 The `Docs` component is responsible for: rendering sidebars, mdx content and collecting all headings.
-It works the following way:
 
 ```tsx
-import { WikiMainContent } from '@/components/wiki/wikiMainContent';
-import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
-import { WikiSidebar } from '@/components/wiki/wikiSidebar';
-import { useContent } from '@/hooks/useContent';
-import { useHeadings } from '@/hooks/useHeadings';
-import { useStructure } from '@/hooks/useStructure';
-import { NotFound } from '@/pages/notfound';
-import { useEffect, useRef, useState } from 'react';
+import { WikiMainContent } from "@/components/wiki/wikiMainContent";
+import { WikiSecondarySidebar } from "@/components/wiki/wikiSecondarySidebar";
+import { WikiSidebar } from "@/components/wiki/wikiSidebar";
+import { useContent } from "@/hooks/useContent";
+import { useHeadings } from "@/hooks/useHeadings";
+import { useStructure } from "@/hooks/useStructure";
+import { NotFound } from "@/pages/notfound";
+import { useEffect, useRef, useState } from "react";
 
 export const Docs = () => {
     const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
@@ -100,14 +105,14 @@ export const Docs = () => {
 
     useEffect(() => {
         if (Content && !loading && ref.current) {
-            const headings = ref.current.querySelectorAll('h1, h2');
+            const headings = ref.current.querySelectorAll("h1, h2");
             setHeadings(Array.from(headings).map((h) => h.textContent));
         }
     }, [loading]);
 
     return (
         <>
-            <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
+            <div className="relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20">
                 <WikiSidebar {...wikiSidebarProps} />
                 <WikiMainContent {...WikiMainContentProps} />
                 <WikiSecondarySidebar {...WikiSecondarySidebarProps} />

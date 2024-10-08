@@ -5,9 +5,9 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+} from "@/components/ui/breadcrumb";
+import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 interface WikiBreadcrumbsProps {
     breadcrumb: string[];
@@ -27,17 +27,17 @@ export const WikiBreadcrumbs = ({ breadcrumb }: WikiBreadcrumbsProps) => {
         [breadcrumb],
     );
     return (
-        <Breadcrumb className='not-prose mt-8 flex w-full px-[4vh] lg:px-0'>
+        <Breadcrumb className="not-prose mt-8 flex w-full px-[4vh] lg:px-0">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link to={'/'}>Home</Link>
+                        <Link to={"/"}>Home</Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link to={'/docs'}>Docs</Link>
+                        <Link to={"/docs"}>Docs</Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 {breadcrumbElements}

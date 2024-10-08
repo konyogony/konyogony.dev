@@ -3,11 +3,11 @@ module.exports = {
         browser: true,
     },
     globals: {
-        foo: 'readonly',
+        foo: "readonly",
     },
     settings: {},
     rules: {
-        eqeqeq: 'warn',
-        'import/no-cycle': 'error',
+        eqeqeq: "warn",
+        "import/no-cycle": "error",
     },
 };
