@@ -19,7 +19,7 @@ export const getFromBackend = async (url: string) =>
         })
         .catch((e) => console.error('Failed to fetch GET:', e));
 
-export const postToBackend = async (url: string, data: any) =>
+export const postToBackend = async <T>(url: string, data: T) =>
     axios
         .post(backendUrl + url, data)
         .then((response) => {

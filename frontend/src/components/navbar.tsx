@@ -25,7 +25,7 @@ const Navbar = () => {
     return (
         <nav
             className={cn(
-                'fixed top-0 z-[70] flex w-full transform-gpu flex-col items-start gap-2 border-b border-white/10 bg-zinc-950/40 px-[15%] py-8 backdrop-blur-md transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:border-transparent lg:bg-transparent lg:py-4 lg:backdrop-blur-none xl:px-[20%]',
+                'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b border-white/10 bg-zinc-950/40 px-[15%] py-8 backdrop-blur-md transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:border-transparent lg:bg-transparent lg:py-4 lg:backdrop-blur-none xl:px-[20%]',
                 scrolled
                     ? 'lg:border-white/5 lg:bg-zinc-950/60 lg:backdrop-blur-md'
                     : 'lg:border-transparent lg:bg-transparent',
@@ -53,7 +53,7 @@ const Navbar = () => {
                 })}
             </div>
             <Cmdk />
-            <div className='mx-2 hidden flex-row items-center gap-2 lg:flex'>
+            <div className='mx-2 ml-auto hidden flex-row items-center gap-2 lg:flex'>
                 <a
                     className='flex items-center justify-center rounded-sm p-2 hover:bg-zinc-900'
                     href='https://github.com/konyogony'
