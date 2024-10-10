@@ -1,4 +1,4 @@
-import { BackgroundBeams } from '@/components/backgroundBeams';
+import { BackgroundBeams } from '@/components/background-beams';
 import { Button } from '@/components/button';
 import { Spotlight } from '@/components/spotlight';
 import { FiArrowRight, FiChevronDown } from '@vertisanpro/react-icons/fi';
@@ -59,7 +59,7 @@ const Home = () => {
     );
     return (
         <>
-            <div className='bg-grid-white/[0.04] lg:bg-grid-white/0 relative flex h-[80vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 lg:h-[75vh] lg:gap-4'>
+            <div className='relative flex h-[80vh] w-full flex-col items-center justify-center gap-6 border-b border-white/5 bg-grid-white/[0.04] lg:h-[75vh] lg:gap-4 lg:bg-grid-white/0'>
                 <div className='pointer-events-none absolute inset-0 bg-zinc-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] lg:hidden' />
 
                 {spotlightElement}

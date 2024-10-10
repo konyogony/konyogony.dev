@@ -1,13 +1,10 @@
 import Navbar from '@/components/navbar';
+import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@/css/app.css';
-import { ThemeProvider } from '@/components/themeProvider';
 
-const inter = Inter({
-    subsets: ['latin'],
-    display: 'swap',
-});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'konyogony.dev',
