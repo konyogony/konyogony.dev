@@ -27,9 +27,9 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "src/app/docs/page.tsx",
+        "src/pages/docs/[...slug].tsx",
         "../frontend/app/layout.tsx",
-        "src/app/docs/page.tsx"
+        "src/pages/docs/[...slug].tsx"
     ],
     "exclude": ["node_modules"]
 }

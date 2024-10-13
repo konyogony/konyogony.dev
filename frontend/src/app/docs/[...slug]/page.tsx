@@ -1,9 +1,13 @@
+import { use } from 'react';
+
 interface DocsWikiProps {
-    params: { slug: string[] };
+    params: Promise<{ slug: string[] }>;
 }
 
 const DocsWiki = ({ params }: DocsWikiProps) => {
-    return <div>docs, slug: {params.slug.join('/')}</div>;
+    const { slug } = use(params);
+
+    return <div>docs, slug: {slug.join('/')}</div>;
 };
 
 export default DocsWiki;
