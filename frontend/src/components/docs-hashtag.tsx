@@ -1,3 +1,5 @@
+'use client';
+
 import { HiOutlineHashtag } from '@vertisanpro/react-icons/hi';
 import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';

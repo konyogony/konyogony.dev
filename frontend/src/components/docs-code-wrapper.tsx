@@ -1,7 +1,7 @@
 'use client';
 
 import { CopyButton } from '@/components/copy-button';
-import { wikiCodeWrapperIcon } from '@/components/wiki-code-wrapper-icon';
+import { wikiCodeWrapperIcon } from '@/components/docs-code-wrapper-icon';
 import { CodeWrapperSingleton } from '@/lib/code-wrapper-singleton';
 import { IconContext } from '@vertisanpro/react-icons';
 import { TbOutlineLoader2 } from '@vertisanpro/react-icons/tb';
