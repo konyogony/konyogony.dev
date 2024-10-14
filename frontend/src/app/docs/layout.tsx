@@ -1,4 +1,4 @@
-'use client';
+import Sidebar from '@/components/sidebar';
 
 interface DocsLayoutProps {
     children: React.ReactNode;
@@ -7,7 +7,7 @@ interface DocsLayoutProps {
 const DocsLayout = ({ children }: DocsLayoutProps) => {
     return (
         <>
-            <div>sidebar</div>
+            <Sidebar />
             {children}
         </>
     );
