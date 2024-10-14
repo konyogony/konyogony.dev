@@ -1,10 +1,10 @@
 import { BundledLanguage, BundledTheme, createHighlighter, HighlighterGeneric } from 'shiki';
 
-export class wikiCodeWrapperSingleton {
+export class CodeWrapperSingleton {
     private static instancePromise: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>> | null = null;
 
     private static createInstance = () => {
-        wikiCodeWrapperSingleton.instancePromise = createHighlighter({
+        CodeWrapperSingleton.instancePromise = createHighlighter({
             themes: ['github-dark-dimmed'],
             langs: ['ts', 'tsx', 'jsx', 'rs', 'html', 'mdx', 'bash', 'sh', 'js', 'css'],
         })
@@ -13,20 +13,20 @@ export class wikiCodeWrapperSingleton {
             })
             .catch((e) => {
                 console.error('Error creating highlighter instance:', e);
-                wikiCodeWrapperSingleton.instancePromise = null;
+                CodeWrapperSingleton.instancePromise = null;
                 throw e;
             });
 
-        return wikiCodeWrapperSingleton.instancePromise;
+        return CodeWrapperSingleton.instancePromise;
     };
 
     private constructor() {}
 
     public static getInstance = async () => {
-        if (!wikiCodeWrapperSingleton.instancePromise) {
-            await wikiCodeWrapperSingleton.createInstance();
+        if (!CodeWrapperSingleton.instancePromise) {
+            await CodeWrapperSingleton.createInstance();
         }
-        return wikiCodeWrapperSingleton.instancePromise;
+        return CodeWrapperSingleton.instancePromise;
     };
 }
 

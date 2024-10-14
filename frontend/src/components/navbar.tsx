@@ -3,7 +3,7 @@
 import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
 import Cmdk from '@/components/cmdk';
-import prettifyText from '@/lib/prettifyText';
+import prettifyText from '@/lib/prettify-text';
 import { cn } from '@/lib/utils';
 import { BsDiscord, BsGithub } from '@vertisanpro/react-icons/bs';
 import Link from 'next/link';

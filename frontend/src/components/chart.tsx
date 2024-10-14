@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { createContext, forwardRef, useContext, useId, useMemo } from 'react';
 import * as RechartsPrimitive from 'recharts';

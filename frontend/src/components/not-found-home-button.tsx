@@ -1,8 +1,8 @@
 'use client';
 
+import { Button } from '@/components/button';
 import { FiArrowRight, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useRouter } from 'next/navigation';
-import { Button } from './button';
 
 const NotFoundHomeButton = () => {
     const navigator = useRouter();
