@@ -1,4 +1,4 @@
-import NotFoundHomeButton from '@/components/not-found-home-button';
+import { NotFoundHomeButton } from '@/components/not-found-home-button';
 
 const NotFound = () => {
     return (

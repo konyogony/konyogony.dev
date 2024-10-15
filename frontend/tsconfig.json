@@ -29,7 +29,7 @@
         ".next/types/**/*.ts",
         "src/pages/docs/[...slug].tsx",
         "../frontend/app/layout.tsx",
-        "src/pages/docs/[...slug].tsx"
+        "next.config.mjs"
     ],
     "exclude": ["node_modules"]
 }

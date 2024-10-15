@@ -16,12 +16,17 @@ export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
         .replace(/\s+/g, '-')
         .replace(/[^\p{L}\p{N}-]/gu, '')
         .replace(/\./g, '');
-    const path = window.location.href.split('#')[0] + '#' + strippedId;
+
+    const path = typeof window !== 'undefined' ? window.location.href.split('#')[0] + '#' + strippedId : '';
+
     const clickCopy = () => {
-        copy(path);
-        window.location.href = path;
-        toast.success('URL copied to clipboard');
+        if (typeof window !== 'undefined') {
+            copy(path);
+            window.location.href = path;
+            toast.success('URL copied to clipboard');
+        }
     };
+
     return (
         <button onClick={() => clickCopy()} id={'hashtag'} className='hidden cursor-copy lg:inline'>
             <HiOutlineHashtag

@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const Navbar = () => {
+export const Navbar = () => {
     const [scrolled, setScrolled] = useState<boolean>(false);
     const routes = ['Home', 'Docs', 'About', 'Notes'];
 
@@ -25,7 +25,7 @@ const Navbar = () => {
     return (
         <nav
             className={cn(
-                'fixed top-0 z-50 flex w-full transform-gpu flex-col items-start gap-2 border-b border-white/10 bg-zinc-950/40 px-[15%] py-8 backdrop-blur-md transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:border-transparent lg:bg-transparent lg:py-4 lg:backdrop-blur-none xl:px-[20%]',
+                'fixed top-0 z-[70] flex w-full transform-gpu flex-col items-start gap-2 border-b border-white/10 bg-zinc-950/40 px-[15%] py-8 backdrop-blur-md transition-all duration-300 lg:flex-row lg:items-center lg:gap-0 lg:border-transparent lg:bg-transparent lg:py-4 lg:backdrop-blur-none xl:px-[20%]',
                 scrolled
                     ? 'lg:border-white/5 lg:bg-zinc-950/60 lg:backdrop-blur-md'
                     : 'lg:border-transparent lg:bg-transparent',
@@ -77,5 +77,3 @@ const Navbar = () => {
         </nav>
     );
 };
-
-export default Navbar;

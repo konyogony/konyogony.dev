@@ -51,7 +51,7 @@ export const WikiCodeWrapper = ({ language = '', children }: React.PropsWithChil
     }, [highlighter, children, language]);
 
     return (
-        <div className='group relative overflow-clip rounded-lg border border-white/15'>
+        <div className='group relative w-full overflow-clip rounded-lg border border-white/15'>
             <div className='flex w-full flex-row items-center gap-2 border-b border-white/15 bg-[#1a1e24] px-4 py-2.5 text-sm font-normal text-zinc-200'>
                 <IconContext.Provider value={{ size: '16px' }}>{IconComponent}</IconContext.Provider>
                 {lang} <CopyButton text={children?.toString() || ''} />

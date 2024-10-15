@@ -4,7 +4,7 @@ import { Button } from '@/components/button';
 import { FiArrowRight, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import { useRouter } from 'next/navigation';
 
-const NotFoundHomeButton = () => {
+export const NotFoundHomeButton = () => {
     const navigator = useRouter();
 
     return (
@@ -18,5 +18,3 @@ const NotFoundHomeButton = () => {
         </>
     );
 };
-
-export default NotFoundHomeButton;
