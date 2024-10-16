@@ -1,7 +1,7 @@
+import { DocsNode } from '@/types';
 import { DocsLink } from './docs-link';
-import { Node } from './sidebar';
 
-export const DocsFolder = ({ node }: { node: Node }) => {
+export const DocsFolder = ({ node }: { node: DocsNode }) => {
     return (
         <div className='flex flex-col'>
             {node.nodes ? (
