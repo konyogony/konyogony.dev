@@ -1,8 +1,8 @@
-import { wikiConfig } from '@/config';
-import { cn } from '@/lib/utils';
-import { FileInfo } from '@/types';
-import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
-import React, { useEffect, useMemo, useState } from 'react';
+import { wikiConfig } from "@/config";
+import { cn } from "@/lib/utils";
+import { FileInfo } from "@/types";
+import { FiArrowUp, FiArrowUpRight } from "@vertisanpro/react-icons/fi";
+import React, { useEffect, useMemo, useState } from "react";
 
 interface WikiSecondarySidebarProps {
     loading: boolean;
@@ -25,8 +25,8 @@ export const WikiSecondarySidebar = ({
         const handleScroll = () => {
             setScrollHeight(window.scrollY);
         };
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
     }, [scrollHeight]);
 
     const headingsElement: JSX.Element = useMemo(
@@ -40,49 +40,54 @@ export const WikiSecondarySidebar = ({
                                     v.text
                                         .trim()
                                         .toLocaleLowerCase()
-                                        .replace(/\s+/g, '-')
-                                        .replace(/[^\p{L}\p{N}-]/gu, '')
-                                        .replace(/\./g, '') || v
+                                        .replace(/\s+/g, "-")
+                                        .replace(/[^\p{L}\p{N}-]/gu, "")
+                                        .replace(/\./g, "") || v
                                 }`}
-                                className={cn('py-1 text-sm font-light text-zinc-400 hover:text-zinc-200', {
-                                    'pl-0': v.level === 1,
-                                    'pl-4': v.level === 2,
-                                })}
+                                className={cn(
+                                    "py-1 text-sm font-light text-zinc-400 hover:text-zinc-200",
+                                    {
+                                        "pl-0": v.level === 1,
+                                        "pl-4": v.level === 2,
+                                    }
+                                )}
                             >
-                                {v.text.length > 30 ? v.text.slice(0, 30) + '...' : v.text}
+                                {v.text.length > 30
+                                    ? v.text.slice(0, 30) + "..."
+                                    : v.text}
                             </a>
                         ) : null}
                     </React.Fragment>
                 ))}
             </>
         ),
-        [headings],
+        [headings]
     );
 
     const editElement: JSX.Element = useMemo(
         () => (
             <a
-                href={structure ? structure[currentIndex].gitPath : '/404'}
-                rel='noopener noreferrer'
-                target='_blank'
-                className='flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
+                href={structure ? structure[currentIndex].gitPath : "/404"}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200"
             >
                 Edit this page on GitHub <FiArrowUpRight />
             </a>
         ),
-        [structure, currentIndex],
+        [structure, currentIndex]
     );
 
     const backToTopElement: JSX.Element = useMemo(
         () => (
-            <a
-                href={`#${headings[0]?.text.trim().toLocaleLowerCase().replaceAll(' ', '-') || headings[0]}`}
-                className='my-2 flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
+            <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="my-2 flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200"
             >
                 Back to top <FiArrowUp />
-            </a>
+            </button>
         ),
-        [headings],
+        [headings]
     );
 
     if (error) {
@@ -90,16 +95,20 @@ export const WikiSecondarySidebar = ({
     }
 
     return (
-        <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-start lg:flex'>
-            <span className='py-2 text-sm font-bold text-zinc-50'>On this page</span>
+        <div className="sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-start lg:flex">
+            <span className="py-2 text-sm font-bold text-zinc-50">
+                On this page
+            </span>
             {!loading && (
                 <>
                     {headingsElement}
-                    <div className='my-2 h-[1px] w-3/4 bg-white/10' />
+                    <div className="my-2 h-[1px] w-3/4 bg-white/10" />
                     {editElement}
                 </>
             )}
-            {scrollHeight > wikiConfig.scrollToTriggerButton && <>{backToTopElement}</>}
+            {scrollHeight > wikiConfig.scrollToTriggerButton && (
+                <>{backToTopElement}</>
+            )}
         </div>
     );
 };
