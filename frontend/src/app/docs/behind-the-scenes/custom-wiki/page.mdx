@@ -1,0 +1,122 @@
+export const metadata = {
+    title: 'Docs | Custom Wiki (outdated)',
+    author: 'kony_ogony',
+};
+
+# Custom wiki
+
+This wiki is custom builtr doesnt use any libraries except for [mdxjs-rollup](https://mdxjs.com/packages/rollup/) and [react-router](https://reactrouter.com/en/main).
+I have decided to make my own wiki to gain more experience about dynamic rendering, heavy customisation and higher level understand of how it works.
+
+## Routing
+
+Whenever you visit the route `/docs` followed by anything and renders my `Docs` component where it passes on the url.
+The code would look like this:
+
+```tsx
+// App.tsx
+
+// Assume we have imported Welcome and Docs
+
+// We first declare array of all routes.
+const routes = [
+    {
+        path: '/',
+        element: <Welcome />,
+    },
+    {
+        path: '/docs/*', // Have to put the '/*' so that it would pick up all routes starting with /docs
+        element: <Docs />,
+    },
+];
+
+export const App = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/*... other components */}
+                {routes.map((v, i) => {
+                    // Map all routes
+                    return (
+                        <Route
+                            key={i}
+                            path={v.path}
+                            element={v.protected ? <ProtectedRoute component={v.element} /> : v.element}
+                        />
+                    );
+                })}
+            </Routes>
+        </BrowserRouter>
+    );
+};
+```
+
+## Rendering
+
+The `Docs` component is responsible for: rendering sidebars, mdx content and collecting all headings.
+
+```tsx
+import { WikiMainContent } from '@/components/wiki/wikiMainContent';
+import { WikiSecondarySidebar } from '@/components/wiki/wikiSecondarySidebar';
+import { WikiSidebar } from '@/components/wiki/wikiSidebar';
+import { useContent } from '@/hooks/useContent';
+import { useHeadings } from '@/hooks/useHeadings';
+import { useStructure } from '@/hooks/useStructure';
+import { NotFound } from '@/pages/notfound';
+import { useEffect, useRef, useState } from 'react';
+
+export const Docs = () => {
+    const [breadcrumb, setBreadcrumb] = useState<string[]>([]);
+
+    const { Content, loading, error } = useContent(setBreadcrumb);
+    const { folders, structure, currentIndex } = useStructure();
+    const { headings, setHeadings } = useHeadings();
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    const wikiSidebarProps = {
+        folders,
+        structure,
+    };
+
+    const WikiMainContentProps = {
+        ref,
+        breadcrumb,
+        currentIndex,
+        loading,
+        structure,
+        Content,
+        folders,
+        setHeadings,
+    };
+
+    const WikiSecondarySidebarProps = {
+        loading,
+        currentIndex,
+        structure,
+        headings,
+    };
+
+    if (error) {
+        console.error(error);
+        return <NotFound />;
+    }
+
+    useEffect(() => {
+        if (Content && !loading && ref.current) {
+            const headings = ref.current.querySelectorAll('h1, h2');
+            setHeadings(Array.from(headings).map((h) => h.textContent));
+        }
+    }, [loading]);
+
+    return (
+        <>
+            <div className='relative my-32 flex w-full flex-row justify-center gap-10 overflow-x-clip lg:my-20'>
+                <WikiSidebar {...wikiSidebarProps} />
+                <WikiMainContent {...WikiMainContentProps} />
+                <WikiSecondarySidebar {...WikiSecondarySidebarProps} />
+            </div>
+        </>
+    );
+};
+```

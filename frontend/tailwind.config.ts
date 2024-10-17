@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import typogrophy from '@tailwindcss/typography';
 import svgToDataUri from 'mini-svg-data-uri';
 import type { Config } from 'tailwindcss';
@@ -49,8 +50,8 @@ export default {
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {
-    let allColors = flattenColorPalette(theme('colors'));
-    let newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]));
+    const allColors = flattenColorPalette(theme('colors'));
+    const newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]));
 
     addBase({
         ':root': newVars,

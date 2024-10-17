@@ -1,4 +1,6 @@
-import { Button } from '@/components/ui/button';
+'use client';
+
+import { Button } from '@/components/button';
 import {
     CommandDialog,
     CommandEmpty,
@@ -6,19 +8,19 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from '@/components/ui/command';
-import { wikiGetStructure } from '@/lib/wiki/wikiGetStructure';
-import { wikiPrettyText } from '@/lib/wiki/wikiPrettyText';
-import { FileInfo } from '@/types';
+} from '@/components/command';
+import { flattenStructure } from '@/lib/flatten-structure';
+import { prettifyText } from '@/lib/prettify-text';
+import { structure } from '@/types';
 import { DialogDescription, DialogTitle, type DialogProps } from '@radix-ui/react-dialog';
 import { RxFile } from '@vertisanpro/react-icons/rx';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export const Cmdk = ({ ...props }: DialogProps) => {
     const [open, setOpen] = useState(false);
-    const [structure, setStructure] = useState<FileInfo[]>([]);
-    const navigate = useNavigate();
+    const fileStructure = flattenStructure(structure);
+    const navigator = useRouter();
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -41,10 +43,6 @@ export const Cmdk = ({ ...props }: DialogProps) => {
         return () => document.removeEventListener('keydown', down);
     }, []);
 
-    useEffect(() => {
-        setStructure(wikiGetStructure());
-    }, []);
-
     const runCommand = useCallback((command: () => unknown) => {
         setOpen(false);
         command();
@@ -53,7 +51,7 @@ export const Cmdk = ({ ...props }: DialogProps) => {
     return (
         <>
             <Button
-                variant={'outline'}
+                variant='outline'
                 onClick={() => setOpen(true)}
                 {...props}
                 className='group ml-auto hidden w-32 cursor-pointer flex-row items-center overflow-clip rounded-md border border-white/5 bg-zinc-900/50 px-2 py-1 text-sm font-normal text-zinc-400 backdrop-blur-md transition-all duration-300 hover:bg-zinc-800/60 hover:text-zinc-200 lg:flex xl:w-fit xl:gap-10'
@@ -71,23 +69,17 @@ export const Cmdk = ({ ...props }: DialogProps) => {
                 <CommandList className='border-white/5'>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading='Documentation'>
-                        {structure
-                            .filter((i) => i.visible !== false)
-                            .map((item) => {
-                                return (
-                                    <CommandItem
-                                        key={item.name}
-                                        value={item.name}
-                                        onSelect={() => {
-                                            runCommand(() => navigate(`/docs/${item.path}`));
-                                        }}
-                                        className='flex flex-row items-center gap-1'
-                                    >
-                                        <RxFile size={16} />
-                                        {wikiPrettyText(item.name)}
-                                    </CommandItem>
-                                );
-                            })}
+                        {fileStructure.result.map((v, i) => (
+                            <CommandItem
+                                key={i}
+                                value={v.name}
+                                onSelect={() => runCommand(() => navigator.push(v.path))}
+                                className='flex flex-row items-center gap-1'
+                            >
+                                <RxFile size={16} />
+                                {prettifyText(v.name)}
+                            </CommandItem>
+                        ))}
                     </CommandGroup>
                 </CommandList>
             </CommandDialog>

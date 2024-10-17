@@ -1,25 +1,39 @@
-export interface FileInfo {
+export interface DocsNode {
     name: string;
-    folder: string;
-    path: string;
-    gitPath: string;
-    visible?: boolean;
-    fallback?: boolean;
+    path?: string;
+    nodes?: DocsNode[];
 }
 
-export interface FileInfoUser {
-    path: string;
-    visible?: boolean;
-    fallback?: boolean;
-}
-
-export interface WikiConfig {
-    structure: FileInfoUser[];
-    scrollToTriggerButton: number;
-}
-
-export interface Route {
-    path: string;
-    element: JSX.Element;
-    protected?: boolean;
-}
+// Each node always has a name. If node doesnt have a path and had nodes, it is a folder.
+export const structure: DocsNode[] = [
+    {
+        name: 'official-documentation',
+        path: '/docs',
+    },
+    {
+        name: 'about',
+        path: '/docs/about',
+    },
+    {
+        name: 'all-about-arch',
+        nodes: [
+            {
+                name: 'installing-arch',
+                path: '/docs/all-about-arch/installing-arch',
+            },
+        ],
+    },
+    {
+        name: 'behind-the-scenes',
+        nodes: [
+            {
+                name: 'commit-guidelines',
+                path: '/docs/behind-the-scenes/commit-guidelines',
+            },
+            {
+                name: 'custom-wiki',
+                path: '/docs/behind-the-scenes/custom-wiki',
+            },
+        ],
+    },
+];
