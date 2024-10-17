@@ -2,8 +2,8 @@
 
 import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
-import Cmdk from '@/components/cmdk';
-import prettifyText from '@/lib/prettify-text';
+import { Cmdk } from '@/components/cmdk';
+import { prettifyText } from '@/lib/prettify-text';
 import { cn } from '@/lib/utils';
 import { BsDiscord, BsGithub } from '@vertisanpro/react-icons/bs';
 import Link from 'next/link';
@@ -53,7 +53,7 @@ export const Navbar = () => {
                 })}
             </div>
             <Cmdk />
-            <div className='mx-2 ml-auto hidden flex-row items-center gap-2 lg:flex'>
+            <div className='mx-2 hidden flex-row items-center gap-2 lg:flex'>
                 <a
                     className='flex items-center justify-center rounded-sm p-2 hover:bg-zinc-900'
                     href='https://github.com/konyogony'

@@ -1,18 +1,14 @@
 'use client';
 
 import { flattenStructure } from '@/lib/flatten-structure';
-import prettifyText from '@/lib/prettify-text';
-import { DocsNode } from '@/types';
+import { prettifyText } from '@/lib/prettify-text';
+import { structure } from '@/types';
 import { FiChevronLeft, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface DocsNavProps {
-    structure: DocsNode[];
-}
-
-const DocsNav = ({ structure }: DocsNavProps) => {
+const DocsNav = () => {
     const [paths, setPaths] = useState<{
         prev: { path: string; name: string } | null;
         next: { path: string; name: string } | null;
@@ -30,17 +26,23 @@ const DocsNav = ({ structure }: DocsNavProps) => {
     }, [pathname, structure]);
 
     return (
-        <div className='flex w-full flex-row items-center'>
+        <div className='not-prose flex w-full flex-row items-center'>
             {paths.prev && (
-                <Link href={paths.prev.path} className='flex flex-row items-center'>
-                    <FiChevronLeft size={14} />
-                    {prettifyText(paths.prev.name)}
+                <Link href={paths.prev.path} className='flex w-fit flex-col items-end'>
+                    <span className='text-sm text-zinc-500'>Previous</span>
+                    <div className='flex flex-row items-center text-zinc-300 decoration-dotted transition-all duration-200 hover:text-blue-600 hover:underline'>
+                        <FiChevronLeft size={16} />
+                        {prettifyText(paths.prev.name)}
+                    </div>
                 </Link>
             )}
             {paths.next && (
-                <Link href={paths.next.path} className='ml-auto flex flex-row items-center'>
-                    {prettifyText(paths.next.name)}
-                    <FiChevronRight size={14} />
+                <Link href={paths.next.path} className='ml-auto flex w-fit flex-col items-start'>
+                    <span className='text-sm text-zinc-500'>Next</span>
+                    <div className='flex flex-row items-center text-zinc-300 decoration-dotted transition-all duration-200 hover:text-blue-600 hover:underline'>
+                        {prettifyText(paths.next.name)}
+                        <FiChevronRight size={16} />
+                    </div>
                 </Link>
             )}
         </div>

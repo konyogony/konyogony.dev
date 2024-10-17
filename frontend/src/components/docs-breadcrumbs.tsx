@@ -7,7 +7,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from '@/components/breadcrumb';
-import prettifyText from '@/lib/prettify-text';
+import { prettifyText } from '@/lib/prettify-text';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
@@ -16,7 +16,7 @@ const DocsBreadcrumbs = () => {
     const pathname = usePathname();
     const path = pathname.split('/').filter((p) => p !== '');
     return (
-        <Breadcrumb className='not-prose mt-8 flex w-full px-[4vh] lg:px-0'>
+        <Breadcrumb className='not-prose text mt-8 flex w-full'>
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
