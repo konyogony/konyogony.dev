@@ -12,7 +12,6 @@ const SocialRedirect = ({ params }: SocialProps) => {
     useEffect(() => {
         params.then(({ service }) => {
             setService(service);
-            console.log(service);
         });
     }, [params]);
 

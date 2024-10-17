@@ -1,5 +1,5 @@
-import { WikiCodeWrapper } from './docs-code-wrapper';
-import { WikiHashTag } from './docs-hashtag';
+import { WikiCodeWrapper } from '@/components/docs-code-wrapper';
+import { WikiHashTag } from '@/components/docs-hashtag';
 
 export const mdxComponents = {
     h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {

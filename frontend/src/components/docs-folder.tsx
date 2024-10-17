@@ -1,5 +1,5 @@
+import { DocsLink } from '@/components/docs-link';
 import { DocsNode } from '@/types';
-import { DocsLink } from './docs-link';
 
 export const DocsFolder = ({ node }: { node: DocsNode }) => {
     return (

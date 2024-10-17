@@ -1,6 +1,6 @@
+import { DocsFolder } from '@/components/docs-folder';
+import { DocsLink } from '@/components/docs-link';
 import { DocsNode } from '@/types';
-import { DocsFolder } from './docs-folder';
-import { DocsLink } from './docs-link';
 
 interface SidebarProps {
     structure: DocsNode[];

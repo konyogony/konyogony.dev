@@ -1,9 +1,14 @@
+import DocsBreadcrumbs from '@/components/docs-breadcrumbs';
 import { SecondarySidebar } from '@/components/docs-secondary-sidebar';
 import { Sidebar } from '@/components/docs-sidebar';
 import { DocsNode } from '@/types';
 
 // Each node always has a name. If node doesnt have a path and had nodes, it is a folder.
 const structure: DocsNode[] = [
+    {
+        name: 'official-documentation',
+        path: '/docs',
+    },
     {
         name: 'about',
         path: '/docs/about',
@@ -41,6 +46,7 @@ const DocsLayout = ({ children }: DocsLayoutProps) => {
         <div className='relative flex flex-row justify-center space-x-8 py-24'>
             <Sidebar structure={structure} />
             <div className='prose prose-zinc prose-invert flex h-fit w-screen flex-shrink-0 flex-col items-start prose-headings:my-2 prose-headings:mt-4 prose-headings:w-full prose-headings:border-b prose-headings:border-white/15 prose-headings:pb-1.5 prose-a:decoration-dotted hover:prose-a:text-blue-500 prose-ol:my-0 prose-ul:my-0 prose-hr:border-white/20 lg:max-w-[40%] lg:px-0'>
+                <DocsBreadcrumbs />
                 {children}
             </div>
             <SecondarySidebar />

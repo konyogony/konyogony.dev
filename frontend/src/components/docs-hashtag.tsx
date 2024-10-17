@@ -2,7 +2,6 @@
 
 import { HiOutlineHashtag } from '@vertisanpro/react-icons/hi';
 import copy from 'copy-to-clipboard';
-import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 
 interface WikiHashTagProps {
@@ -11,7 +10,6 @@ interface WikiHashTagProps {
 }
 
 export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
-    const pathname = usePathname();
     const strippedId = id
         .trim()
         .toLocaleLowerCase()
@@ -21,8 +19,6 @@ export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
 
     const path = typeof window !== 'undefined' ? window.location.href.replace(/#.*$/, '') + '#' + strippedId : '';
 
-    // const path = typeof window !== 'undefined' ? window.location.href.split('#')[0] + '#' + strippedId : '';
-
     const clickCopy = () => {
         if (typeof window !== 'undefined') {
             copy(path);
@@ -30,7 +26,6 @@ export const WikiHashTag = ({ id, variant = 'h1' }: WikiHashTagProps) => {
             toast.success('URL copied to clipboard');
         }
     };
-    console.log(pathname, strippedId, path);
     return (
         <button onClick={() => clickCopy()} id={'hashtag'} className='hidden cursor-copy lg:inline'>
             <HiOutlineHashtag
