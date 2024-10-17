@@ -59,7 +59,7 @@ export const mdxComponents = {
         const language = codeElement.props.className?.replace('language-', '') || '';
         return (
             <WikiCodeWrapper language={language} {...props}>
-                {codeElement.props.children}
+                {codeElement.props.children as string}
             </WikiCodeWrapper>
         );
     },
