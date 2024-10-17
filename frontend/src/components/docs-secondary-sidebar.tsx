@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { FiArrowUp } from '@vertisanpro/react-icons/fi';
+import { FiArrowUp, FiArrowUpRight } from '@vertisanpro/react-icons/fi';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -68,6 +68,14 @@ export const SecondarySidebar = () => {
                 </a>
             ))}
             <div className='my-2 h-[1px] w-3/4 bg-white/10' />
+            <a
+                href={`https://github.com/konyogony/konyogony.dev/tree/main/frontend/src/app/${pathname}/page.mdx`}
+                rel='noopener noreferrer'
+                target='_blank'
+                className='flex flex-row items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
+            >
+                Edit this page on GitHub <FiArrowUpRight />
+            </a>
             {scrollHeight > 300 && (
                 <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
