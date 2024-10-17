@@ -21,26 +21,26 @@ interface WikiCodeWrapperIconReturn {
 export const wikiCodeWrapperIcon = ({ language }: WikiCodeWrapperIconProps): WikiCodeWrapperIconReturn => {
     switch (language) {
         case 'ts':
-            return { icon: <SiTypescript />, lang: 'Typescript' };
+            return { icon: <SiTypescript size={16} />, lang: 'Typescript' };
         case 'jsx':
         case 'tsx':
-            return { icon: <SiReact />, lang: 'React' };
+            return { icon: <SiReact size={16} />, lang: 'React' };
         case 'js':
-            return { icon: <SiJavascript />, lang: 'Javascript' };
+            return { icon: <SiJavascript size={16} />, lang: 'Javascript' };
         case 'rs':
-            return { icon: <SiRust />, lang: 'Rust' };
+            return { icon: <SiRust size={16} />, lang: 'Rust' };
         case 'html':
-            return { icon: <SiHtml5 />, lang: 'HTML' };
+            return { icon: <SiHtml5 size={16} />, lang: 'HTML' };
         case 'mdx':
-            return { icon: <SiMdx />, lang: 'MDX' };
+            return { icon: <SiMdx size={16} />, lang: 'MDX' };
         case 'css':
-            return { icon: <SiTailwindcss />, lang: 'Tailwind' };
+            return { icon: <SiTailwindcss size={16} />, lang: 'Tailwind' };
         case 'json':
-            return { icon: <VscJson />, lang: 'JSON' };
+            return { icon: <VscJson size={16} />, lang: 'JSON' };
         case 'bash':
         case 'sh':
-            return { icon: <VscTerminal />, lang: 'Terminal' };
+            return { icon: <VscTerminal size={16} />, lang: 'Terminal' };
         default:
-            return { icon: <VscSymbolFile />, lang: 'File' };
+            return { icon: <VscSymbolFile size={16} />, lang: 'File' };
     }
 };

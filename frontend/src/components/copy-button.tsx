@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import { FiCheck, FiClipboard } from '@vertisanpro/react-icons/fi';
 import copy from 'copy-to-clipboard';
