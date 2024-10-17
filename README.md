@@ -12,9 +12,8 @@ First experience with Rust for backend.
 -   `curl -sSf https://install.surrealdb.com | sh`
 -   `curl -fsSL https://bun.sh/install | bash`
 
-2. Install packages using:
-   `cd frontend & bun install`
-3. Start frontend & backend using one command: `./start.sh`
+2. Install packages using `cd frontend & bun install`
+3. Start frontend using `bun dev` or build the project for smoother experience using `bun run build` and then `bun run start`
 
 ## SSL Installation Guide
 
@@ -75,25 +74,26 @@ server {
 ```
 
 9. Run `systemcl enable nginx` and `systemcl start nginx` to enable automatic start on boot. Check for errors
-10. Frontend should be now up and running on https://localhost!
+10. Frontend should be now up and running on https://localhost
 
 ## Roadmap
 
 ### Frontend
 
 -   [x] Move to Vite
+-   [x] Move to Next.js
 -   [ ] Home Page
     -   [ ] About
     -   [ ] Portfolio
     -   [ ] Projects
     -   [ ] Links
--   [x] Docs page - 2.5 weeks
+-   [ ] Docs page - 4+ weeks (inclding moving 3 times)
     -   [x] Sidebar
     -   [x] MDX Support
     -   [x] Hashtags
     -   [x] ScrollToTop
     -   [x] Cmdk
-    -   [x] Mobile
+    -   [] Mobile
     -   [x] Code
 -   [ ] Discord Bot Page
     -   [ ] About
@@ -102,12 +102,11 @@ server {
     -   [ ] Change layout
     -   [ ] Fix login system
 -   [ ] Notes App
--   [ ] Useful Info Page (e.g. `/extras#boot-into-windows`)
-    -   [ ] Use some Wiki lib
+-   [x] ~~Useful Info Page (e.g. `/extras#boot-into-windows`)~~  --> Docs
 -   [x] Make social redirect (e.g. `/social/spotify`)
 
 ### Backend
-
+-   [x] Move to SurrealDB 2.0
 -   [ ] Change to RocksDB
 -   [ ] Auth working
     -   [x] Get access-token
