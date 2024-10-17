@@ -16,25 +16,20 @@ export const DocsLink = ({ name, path, title = false }: WikiLinkProps) => {
 
     return (
         <>
-            {!title ? (
+            {title ? (
+                <span className={'flex w-full py-1.5 pt-3 text-sm font-bold text-zinc-50 transition-all duration-300'}>
+                    {prettifyText(name)}
+                </span>
+            ) : (
                 <Link
                     href={path || ''}
                     className={cn(
                         'flex w-full py-1.5 text-sm font-normal text-zinc-400 transition-all duration-300 hover:underline',
-                        pathname === path && 'text-zinc-100',
+                        pathname === path && 'font-medium text-zinc-100',
                     )}
                 >
-                    {prettifyText(name || '')}
+                    {prettifyText(name)}
                 </Link>
-            ) : (
-                <span
-                    className={cn(
-                        'flex w-full py-1.5 pt-3 text-sm font-bold text-zinc-50 transition-all duration-300',
-                        pathname === path && 'text-zinc-100',
-                    )}
-                >
-                    {prettifyText(name || '')}
-                </span>
             )}
         </>
     );
