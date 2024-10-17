@@ -4,7 +4,6 @@ import DocsBreadcrumbs from '@/components/docs-breadcrumbs';
 import DocsNav from '@/components/docs-nav';
 import { SecondarySidebar } from '@/components/docs-secondary-sidebar';
 import { Sidebar } from '@/components/docs-sidebar';
-import { DocsNode } from '@/types';
 
 interface DocsLayoutProps {
     children: React.ReactNode;

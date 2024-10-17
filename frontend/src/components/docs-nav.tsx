@@ -23,7 +23,7 @@ const DocsNav = () => {
             prev: currentIndex > 0 ? flatStructure[currentIndex - 1] : null,
             next: currentIndex < flatStructure.length - 1 ? flatStructure[currentIndex + 1] : null,
         });
-    }, [pathname, structure]);
+    }, [pathname]);
 
     return (
         <div className='not-prose flex w-full flex-row items-center'>

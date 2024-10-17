@@ -90,15 +90,16 @@ impl UserRepository {
     }
 
     pub async fn create(&self, user: User) -> surrealdb::Result<Vec<User>> {
-        let res: Vec<User> = self.db.create(&self.table).content(&user).await?;
-        Ok(res)
-    }
+            let res: Option<User> = self.db.create(&self.table).content(user).await?;
+            let res: Vec<User> = res.into_iter().collect();
+            Ok(res)
+        }
 
     pub async fn update_user(&self, id: String, user: User) -> surrealdb::Result<User> {
         let res = self
             .db
             .update((&self.table, id.to_string()))
-            .content(&user)
+            .content(user.clone())
             .await?;
         match res {
             Some(user) => Ok(user),
