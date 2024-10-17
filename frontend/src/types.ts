@@ -1,5 +1,5 @@
 export interface DocsNode {
     name: string;
-    path: string;
+    path?: string;
     nodes?: DocsNode[];
 }

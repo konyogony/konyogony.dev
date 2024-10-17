@@ -2,6 +2,7 @@ import { SecondarySidebar } from '@/components/docs-secondary-sidebar';
 import { Sidebar } from '@/components/docs-sidebar';
 import { DocsNode } from '@/types';
 
+// Each node always has a name. If node doesnt have a path and had nodes, it is a folder.
 const structure: DocsNode[] = [
     {
         name: 'about',
@@ -9,7 +10,6 @@ const structure: DocsNode[] = [
     },
     {
         name: 'all-about-arch',
-        path: '/docs/all-about-arch',
         nodes: [
             {
                 name: 'installing-arch',
@@ -19,7 +19,6 @@ const structure: DocsNode[] = [
     },
     {
         name: 'behind-the-scenes',
-        path: '/docs/behind-the-scenes',
         nodes: [
             {
                 name: 'commit-guidelines',

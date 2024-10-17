@@ -1,13 +1,17 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { FiArrowUp } from '@vertisanpro/react-icons/fi';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export const SecondarySidebar = () => {
     const [headings, setHeadings] = useState<HTMLHeadingElement[]>([]);
     const [activeHeading, setActiveHeading] = useState<string>('');
+    const [scrollHeight, setScrollHeight] = useState(0);
+    const pathname = usePathname();
 
-    useEffect(() => {
+    const updateHeadings = () => {
         const headingElements = Array.from(document.querySelectorAll('h1, h2, h3')) as HTMLHeadingElement[];
         headingElements.forEach((heading, index) => {
             if (!heading.id) {
@@ -34,7 +38,19 @@ export const SecondarySidebar = () => {
         return () => {
             observer.disconnect();
         };
-    }, []);
+    };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollHeight(window.scrollY);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [scrollHeight]);
+
+    useEffect(() => {
+        updateHeadings();
+    }, [pathname]);
 
     return (
         <div className='sticky top-24 hidden h-fit w-fit min-w-[20vh] flex-shrink-0 flex-col items-start lg:flex'>
@@ -42,19 +58,24 @@ export const SecondarySidebar = () => {
             {headings.map((heading, i) => (
                 <a
                     href={`#${heading.id}`}
-                    className={`py-1 text-sm font-light ${activeHeading === heading.id ? 'text-zinc-200' : 'text-zinc-400'} hover:text-zinc-200`}
+                    className={cn(
+                        'py-1 text-sm font-normal transition-all duration-300 hover:text-zinc-200',
+                        activeHeading === heading.id ? 'text-zinc-50' : 'text-zinc-400',
+                    )}
                     key={i}
                 >
                     {heading.innerText.length > 30 ? `${heading.innerText.slice(0, 30)}...` : heading.innerText}
                 </a>
             ))}
             <div className='my-2 h-[1px] w-3/4 bg-white/10' />
-            <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className='my-2 flex items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
-            >
-                Back to top <FiArrowUp />
-            </button>
+            {scrollHeight > 300 && (
+                <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className='my-1 flex items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200'
+                >
+                    Back to top <FiArrowUp />
+                </button>
+            )}
         </div>
     );
 };

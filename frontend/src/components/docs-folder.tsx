@@ -6,7 +6,7 @@ export const DocsFolder = ({ node }: { node: DocsNode }) => {
         <div className='flex flex-col'>
             {node.nodes ? (
                 <>
-                    <DocsLink name={node.name} path={node.path} title={true} />
+                    <DocsLink name={node.name} title={true} />
                     <div className='flex flex-col'>
                         {node.nodes.map((node) => (
                             <DocsFolder node={node} key={node.name} />
@@ -14,7 +14,7 @@ export const DocsFolder = ({ node }: { node: DocsNode }) => {
                     </div>
                 </>
             ) : (
-                <DocsLink name={node.name} path={node.path} />
+                <DocsLink name={node.name} path={node.path || ''} />
             )}
         </div>
     );
