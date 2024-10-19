@@ -9,9 +9,9 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/command';
+import { structure } from '@/config';
 import { flattenStructure } from '@/lib/flatten-structure';
 import { prettifyText } from '@/lib/prettify-text';
-import { structure } from '@/types';
 import { DialogDescription, DialogTitle, type DialogProps } from '@radix-ui/react-dialog';
 import { RxFile } from '@vertisanpro/react-icons/rx';
 import { useRouter } from 'next/navigation';

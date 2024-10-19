@@ -1,6 +1,6 @@
 import { DocsFolder } from '@/components/docs-folder';
 import { DocsLink } from '@/components/docs-link';
-import { structure } from '@/types';
+import { structure } from '@/config';
 
 export const Sidebar = () => {
     return (

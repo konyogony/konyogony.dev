@@ -1,8 +1,8 @@
 'use client';
 
+import { structure } from '@/config';
 import { flattenStructure } from '@/lib/flatten-structure';
 import { prettifyText } from '@/lib/prettify-text';
-import { structure } from '@/types';
 import { FiChevronLeft, FiChevronRight } from '@vertisanpro/react-icons/fi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
