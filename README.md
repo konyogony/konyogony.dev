@@ -1,7 +1,8 @@
 # konyogony.dev (WIP)
+## On hold, until [Doxium](https://github.com/konyogony/doxium) is finished
 
 Personal website to host my portofolio, DB and future API's. \
-Built using Vite, Shadcn and Tailwind for frontend. Actix-web and SurrealDB for backend and Github's OAuth2. \
+Built using Next, Shadcn and Tailwind for frontend. Actix-web and SurrealDB for backend and Github's OAuth2. \
 First experience with Rust for backend.
 
 ## Main Installation Guide
