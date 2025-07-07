@@ -135,34 +135,38 @@ export const useTerminal = () => {
                     t.colSpan === active.colSpan &&
                     t.rowStart + t.rowSpan === active.rowStart,
             );
-            let mergeWith: KittyTerminalData | undefined, merged: KittyTerminalData | undefined;
+
+            let mergeWith: KittyTerminalData | undefined;
+            let merged: KittyTerminalData | undefined;
+
             if (top) {
                 mergeWith = top;
-                const newRS = top.rowSpan + active.rowSpan;
-                merged = { ...top, rowSpan: newRS, shape: top.colSpan > newRS ? 'horizontal' : 'vertical' };
+                const newRowSpan = top.rowSpan + active.rowSpan;
+                merged = { ...top, rowSpan: newRowSpan, shape: top.colSpan > newRowSpan ? 'horizontal' : 'vertical' };
             } else if (right) {
                 mergeWith = right;
-                const newCS = active.colSpan + right.colSpan;
+                const newColSpan = active.colSpan + right.colSpan;
                 merged = {
-                    ...active,
-                    colSpan: newCS,
-                    id: right.id,
-                    shape: newCS > active.rowSpan ? 'horizontal' : 'vertical',
+                    ...right,
+                    colSpan: newColSpan,
+                    colStart: active.colStart,
+                    shape: newColSpan > right.rowSpan ? 'horizontal' : 'vertical',
                 };
             } else if (bottom) {
                 mergeWith = bottom;
-                const newRS = active.rowSpan + bottom.rowSpan;
+                const newRowSpan = active.rowSpan + bottom.rowSpan;
                 merged = {
-                    ...active,
-                    rowSpan: newRS,
-                    id: bottom.id,
-                    shape: active.colSpan > newRS ? 'horizontal' : 'vertical',
+                    ...bottom,
+                    rowSpan: newRowSpan,
+                    rowStart: active.rowStart,
+                    shape: bottom.colSpan > newRowSpan ? 'horizontal' : 'vertical',
                 };
             } else if (left) {
                 mergeWith = left;
-                const newCS = left.colSpan + active.colSpan;
-                merged = { ...left, colSpan: newCS, shape: newCS > left.rowSpan ? 'horizontal' : 'vertical' };
+                const newColSpan = left.colSpan + active.colSpan;
+                merged = { ...left, colSpan: newColSpan, shape: newColSpan > left.rowSpan ? 'horizontal' : 'vertical' };
             }
+
             if (mergeWith && merged) {
                 const list = prev.filter((t) => t.id !== activeId && t.id !== mergeWith!.id);
                 list.push(merged);
@@ -210,6 +214,7 @@ export const useTerminal = () => {
                 setActiveId(neighbors[0].id);
                 return newList.sort((a, b) => a.rowStart - b.rowStart || a.colStart - b.colStart);
             };
+
             let neighbors = prev.filter(
                 (t) =>
                     t.colStart + t.colSpan === active.colStart &&
@@ -218,6 +223,7 @@ export const useTerminal = () => {
             );
             if (neighbors.length > 0 && neighbors.reduce((sum, n) => sum + n.rowSpan, 0) === active.rowSpan)
                 return performResize(neighbors, 'left');
+
             neighbors = prev.filter(
                 (t) =>
                     t.rowStart + t.rowSpan === active.rowStart &&
@@ -226,6 +232,7 @@ export const useTerminal = () => {
             );
             if (neighbors.length > 0 && neighbors.reduce((sum, n) => sum + n.colSpan, 0) === active.colSpan)
                 return performResize(neighbors, 'top');
+
             neighbors = prev.filter(
                 (t) =>
                     t.colStart === active.colStart + active.colSpan &&
@@ -234,6 +241,7 @@ export const useTerminal = () => {
             );
             if (neighbors.length > 0 && neighbors.reduce((sum, n) => sum + n.rowSpan, 0) === active.rowSpan)
                 return performResize(neighbors, 'right');
+
             neighbors = prev.filter(
                 (t) =>
                     t.rowStart === active.rowStart + active.rowSpan &&
