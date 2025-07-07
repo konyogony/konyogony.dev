@@ -5,3 +5,12 @@ export type ToasterPosition =
     | 'bottom-left'
     | 'bottom-center'
     | 'bottom-right';
+
+export interface KittyTerminalData {
+    id: number;
+    colSpan: number;
+    colStart: number;
+    rowSpan: number;
+    rowStart: number;
+    shape: 'horizontal' | 'vertical';
+}
