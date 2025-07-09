@@ -1,15 +1,12 @@
-import { KittyTerminalData } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
-export const KittyTerminalComponent = ({
-    rowStart,
-    colStart,
-    rowSpan,
-    colSpan,
-    id,
-    onHover,
-    isActive,
-}: KittyTerminalData & { isActive: boolean; onHover: (id: number) => void }) => {
+interface KittyTerminalProps {
+    id: number;
+    isActive: boolean;
+    onHover: (id: number) => void;
+}
+
+export const KittyTerminalComponent = ({ id, isActive, onHover }: KittyTerminalProps) => {
     return (
         <section
             className={cn(
@@ -18,19 +15,12 @@ export const KittyTerminalComponent = ({
             )}
             data-id={id}
             tabIndex={0}
-            style={{
-                gridColumnStart: colStart,
-                gridColumnEnd: colStart + colSpan,
-                gridRowStart: rowStart,
-                gridRowEnd: rowStart + rowSpan,
-            }}
-            onMouseEnter={() => onHover(id)}
+            onMouseOver={() => onHover(id)}
             onFocus={() => onHover(id)}
             id={id.toString()}
         >
-            <pre className='overflow-x-auto px-4 py-2 font-mono text-sm leading-4 whitespace-pre text-blue-300'>
-                {`
-╭─kony@ogony ~ 
+            <pre className='overflow-x-auto px-4 py-2 font-mono text-sm leading-4 whitespace-pre text-blue-300 select-none'>
+                {`╭─kony@ogony ~ 
 ╰─$ ${id}`}
             </pre>
         </section>
