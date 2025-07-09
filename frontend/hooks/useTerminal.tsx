@@ -1,30 +1,36 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-
-interface Node {
-    type: 'leaf' | 'container';
-    id: number;
-}
-
-export interface LeafNode extends Node {
-    type: 'leaf';
-    id: number;
-}
-
-export interface ContainerNode extends Node {
-    type: 'container';
-    id: number;
-    splitDirection: 'horizontal' | 'vertical';
-    splitRatio: number;
-    childA: LayoutNode;
-    childB: LayoutNode;
-}
-
-export type LayoutNode = LeafNode | ContainerNode;
+import { LayoutNode, ContainerNode, LeafNode, Nullable } from '@/lib/types';
 
 const MIN_RELATIVE_WIDTH = 1 / 8;
 const MIN_RELATIVE_HEIGHT = 1 / 4;
 
-const findAndReplaceInTree = (root: LayoutNode | null, targetId: number, newNode: LayoutNode): LayoutNode | null => {
+export interface Layout {
+    node: LayoutNode;
+    size: {
+        width: number;
+        height: number;
+    };
+}
+
+export interface ResizeInfo {
+    startPos: { x: number; y: number };
+    verticalResize: Nullable<{
+        parent: ContainerNode;
+        initialRatio: number;
+        containerRect: Nullable<DOMRect>;
+    }>;
+    horizontalResize: Nullable<{
+        parent: ContainerNode;
+        initialRatio: number;
+        containerRect: Nullable<DOMRect>;
+    }>;
+}
+
+const findAndReplaceInTree = (
+    root: Nullable<LayoutNode>,
+    targetId: number,
+    newNode: LayoutNode,
+): Nullable<LayoutNode> => {
     if (!root) return null;
     if (root.id === targetId) return newNode;
     if (root.type === 'leaf') return root;
@@ -42,7 +48,7 @@ const findAndReplaceInTree = (root: LayoutNode | null, targetId: number, newNode
     return root;
 };
 
-const findParent = (root: LayoutNode | null, childId: number): ContainerNode | null => {
+const findParent = (root: Nullable<LayoutNode>, childId: number): Nullable<ContainerNode> => {
     if (!root) return null;
     if (root.type === 'leaf') return null;
     if (root.childA.id === childId || root.childB.id === childId) {
@@ -52,10 +58,10 @@ const findParent = (root: LayoutNode | null, childId: number): ContainerNode | n
 };
 
 const findNodeAndComputeSize = (
-    root: LayoutNode | null,
+    root: Nullable<LayoutNode>,
     targetId: number,
     currentSize = { width: 1.0, height: 1.0 },
-): { node: LayoutNode; size: { width: number; height: number } } | null => {
+): Nullable<Layout> => {
     if (!root) return null;
     if (root.id === targetId) {
         return { node: root, size: currentSize };
@@ -80,53 +86,46 @@ const findNodeAndComputeSize = (
     return null;
 };
 
-const findLeftmostLeaf = (node: LayoutNode | null): LeafNode | null => {
+const findLeftmostLeaf = (node: Nullable<LayoutNode>): Nullable<LeafNode> => {
     if (!node) return null;
     return node.type === 'leaf' ? node : findLeftmostLeaf(node.childA);
 };
 
-const findRightmostLeaf = (node: LayoutNode | null): LeafNode | null => {
+const findRightmostLeaf = (node: Nullable<LayoutNode>): Nullable<LeafNode> => {
     if (!node) return null;
     return node.type === 'leaf' ? node : findRightmostLeaf(node.childB);
 };
 
-const findTopmostLeaf = (node: LayoutNode | null): LeafNode | null => {
+const findTopmostLeaf = (node: Nullable<LayoutNode>): Nullable<LeafNode> => {
     if (!node) return null;
     return node.type === 'leaf' ? node : findTopmostLeaf(node.childA);
 };
 
-const findBottommostLeaf = (node: LayoutNode | null): LeafNode | null => {
+const findBottommostLeaf = (node: Nullable<LayoutNode>): Nullable<LeafNode> => {
     if (!node) return null;
     return node.type === 'leaf' ? node : findBottommostLeaf(node.childB);
 };
 
 export const useTerminal = () => {
     const nextId = useRef(1);
-    const getInitialLayout = (): LayoutNode => ({ type: 'leaf', id: 0 });
+    const getInitialLayout = useCallback((): LayoutNode => ({ type: 'leaf', id: 0 }), []);
 
-    const [layoutTree, setLayoutTree] = useState<LayoutNode | null>(getInitialLayout());
-    const [activeId, setActiveId] = useState<number | null>(0);
+    const [layoutTree, setLayoutTree] = useState<Nullable<LayoutNode>>(getInitialLayout());
+    const [activeId, setActiveId] = useState<Nullable<number>>(0);
 
-    const resizeInfo = useRef<{
-        startPos: { x: number; y: number };
-        verticalResize: {
-            parent: ContainerNode;
-            initialRatio: number;
-            containerRect: DOMRect | null;
-        } | null;
-        horizontalResize: {
-            parent: ContainerNode;
-            initialRatio: number;
-            containerRect: DOMRect | null;
-        } | null;
-    } | null>(null);
+    const [inputValues, setInputValues] = useState<Record<number, string>>({});
+    const onInput = useCallback((id: number, value: string) => {
+        setInputValues((prev) => ({ ...prev, [id]: value }));
+    }, []);
+
+    const resizeInfo = useRef<Nullable<ResizeInfo>>(null);
     const mousePosition = useRef({ x: 0, y: 0 });
 
     const resetTerminals = useCallback(() => {
         setLayoutTree(getInitialLayout());
         setActiveId(0);
         nextId.current = 1;
-    }, []);
+    }, [getInitialLayout]);
 
     const splitTerminal = useCallback(() => {
         setLayoutTree((prevTree) => {
@@ -167,7 +166,7 @@ export const useTerminal = () => {
             setActiveId(newLeafId);
             return findAndReplaceInTree(prevTree, oldLeafId, newContainer);
         });
-    }, [activeId]);
+    }, [activeId, getInitialLayout]);
 
     const closeTerminal = useCallback(() => {
         if (layoutTree?.type === 'leaf') {
@@ -189,6 +188,12 @@ export const useTerminal = () => {
             const newActiveLeafId = sibling.type === 'leaf' ? sibling.id : findLeftmostLeaf(sibling)!.id;
             setActiveId(newActiveLeafId);
 
+            setInputValues((prev) => {
+                const newValues = { ...prev };
+                delete newValues[activeId];
+                return newValues;
+            });
+
             return findAndReplaceInTree(prevTree, parent.id, sibling);
         });
     }, [activeId, layoutTree]);
@@ -197,7 +202,6 @@ export const useTerminal = () => {
         (direction: 'arrowup' | 'arrowdown' | 'arrowleft' | 'arrowright') => {
             if (activeId === null || !layoutTree || layoutTree.type === 'leaf') return;
 
-            // --- The rest of the navigation logic is unchanged ---
             const nodeMap = new Map<number, { parent: ContainerNode | null; node: LayoutNode }>();
             const buildMap = (node: LayoutNode, parent: ContainerNode | null) => {
                 nodeMap.set(node.id, { parent, node });
@@ -397,5 +401,7 @@ export const useTerminal = () => {
         closeTerminal,
         navigate,
         resetTerminals,
+        onInput,
+        inputValues,
     };
 };
