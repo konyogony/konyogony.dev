@@ -48,6 +48,7 @@ export const executeCommand = (
                             })
                             .map((v, i) => {
                                 const fileInfo = getFileInfo(v);
+                                console.log(convertBytes(v.size ?? 0));
                                 return (
                                     <div className='break-inside-avoid' key={i}>
                                         <span className={cn('flex flex-row items-center gap-1', fileInfo.color)}>

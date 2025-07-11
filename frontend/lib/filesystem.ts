@@ -5,7 +5,7 @@ export const filesystem: FsNode = {
     type: 'directory',
     ownership: 'root/root',
     permissions: '0755/drwxr-xr-x',
-    size: '4096',
+    size: 4096,
     timestamp: {
         shortHand: 'Jul 7 14:30',
         access: '2025-07-11 16:10:01.435201480 +0700',
@@ -19,7 +19,7 @@ export const filesystem: FsNode = {
             type: 'file',
             ownership: 'root/root',
             permissions: 'lrwxrwxrwx',
-            size: '7',
+            size: 7,
             timestamp: {
                 shortHand: 'May 4 02:26',
             },
@@ -29,7 +29,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Jan 1 1970',
             },
@@ -39,7 +39,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4460',
+            size: 4460,
             timestamp: {
                 shortHand: 'Jul 11 2025',
             },
@@ -49,7 +49,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Jul 11 12:57',
             },
@@ -59,7 +59,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: '0755/drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Sep 5 2024',
                 access: '2025-07-11 13:01:19.014682183 +0700',
@@ -73,7 +73,7 @@ export const filesystem: FsNode = {
                     type: 'directory',
                     ownership: 'kony/kony',
                     permissions: '0700/drwx------',
-                    size: '4096',
+                    size: 4096,
                     timestamp: {
                         shortHand: 'Jul 11 17:09',
                         access: '2025-07-11 17:09:44.154695929 +0700',
@@ -87,7 +87,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '0',
+                            size: 0,
                             timestamp: {
                                 shortHand: 'May 29 17:40',
                                 access: '2025-05-29 17:40:23.361952608 +0700',
@@ -101,7 +101,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 10 2024',
                             },
@@ -111,7 +111,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jul 8 17:05',
                             },
@@ -121,7 +121,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jul 10 14:50',
                             },
@@ -131,7 +131,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jun 9 20:18',
                             },
@@ -141,7 +141,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Dec 20 2024',
                                 access: '2025-07-11 17:09:44.188697376 +0700',
@@ -155,7 +155,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '441411',
+                                    size: 441411,
                                     timestamp: {
                                         shortHand: 'Dec 20 2024',
                                     },
@@ -167,7 +167,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '9607',
+                            size: 9607,
                             timestamp: {
                                 shortHand: 'Jul 11 17:09',
                                 access: '2025-07-11 17:09:44.134695077 +0700',
@@ -181,7 +181,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0755/-rwxr-xr-x',
-                            size: '1650',
+                            size: 1650,
                             timestamp: {
                                 shortHand: 'Apr 18 21:00',
                                 access: '2025-07-10 15:30:03.700975919 +0700',
@@ -195,7 +195,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jun 13 19:25',
                             },
@@ -205,7 +205,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'May 28 22:26',
                                 access: '2025-07-11 13:01:19.014682183 +0700',
@@ -219,7 +219,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Jun 26 15:53',
                                     },
@@ -231,7 +231,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'May 30 14:18',
                             },
@@ -241,7 +241,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jul 11 15:07',
                                 access: '2025-07-11 17:09:44.215698526 +0700',
@@ -255,7 +255,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '128073',
+                                    size: 128073,
                                     timestamp: {
                                         shortHand: 'Feb 3 20:20',
                                     },
@@ -265,7 +265,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '12914',
+                                    size: 12914,
                                     timestamp: {
                                         shortHand: 'Feb 3 20:20',
                                     },
@@ -275,7 +275,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '114648',
+                                    size: 114648,
                                     timestamp: {
                                         shortHand: 'Jun 3 00:18',
                                     },
@@ -285,7 +285,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '122262',
+                                    size: 122262,
                                     timestamp: {
                                         shortHand: 'Jun 25 20:28',
                                     },
@@ -295,7 +295,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1072',
+                                    size: 1072,
                                     timestamp: {
                                         shortHand: 'Jan 25 18:29',
                                     },
@@ -305,7 +305,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '123060',
+                                    size: 123060,
                                     timestamp: {
                                         shortHand: 'Jun 25 20:28',
                                     },
@@ -315,7 +315,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '2713',
+                                    size: 2713,
                                     timestamp: {
                                         shortHand: 'Jan 23 20:33',
                                     },
@@ -325,7 +325,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '511',
+                                    size: 511,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:38',
                                     },
@@ -335,7 +335,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '460931',
+                                    size: 460931,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -345,7 +345,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '451909',
+                                    size: 451909,
                                     timestamp: {
                                         shortHand: 'Nov 18 2024',
                                     },
@@ -355,7 +355,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '50612',
+                                    size: 50612,
                                     timestamp: {
                                         shortHand: 'Nov 18 2024',
                                     },
@@ -365,7 +365,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '347669',
+                                    size: 347669,
                                     timestamp: {
                                         shortHand: 'Nov 18 2024',
                                     },
@@ -375,7 +375,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1260624',
+                                    size: 1260624,
                                     timestamp: {
                                         shortHand: 'Nov 18 2024',
                                     },
@@ -385,7 +385,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '6332742',
+                                    size: 6332742,
                                     timestamp: {
                                         shortHand: 'Feb 20 16:13',
                                     },
@@ -395,7 +395,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Jun 29 16:22',
                                     },
@@ -405,7 +405,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '38291778',
+                                    size: 38291778,
                                     timestamp: {
                                         shortHand: 'Jul 11 15:07',
                                     },
@@ -415,7 +415,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '31169289',
+                                    size: 31169289,
                                     timestamp: {
                                         shortHand: 'Jan 19 18:40',
                                     },
@@ -425,7 +425,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '40643894',
+                                    size: 40643894,
                                     timestamp: {
                                         shortHand: 'Mar 28 17:20',
                                     },
@@ -435,7 +435,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '4529096',
+                                    size: 4529096,
                                     timestamp: {
                                         shortHand: 'Feb 20 16:39',
                                     },
@@ -445,7 +445,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '308316913',
+                                    size: 308316913,
                                     timestamp: {
                                         shortHand: 'Jun 30 18:29',
                                     },
@@ -455,7 +455,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '121144901',
+                                    size: 121144901,
                                     timestamp: {
                                         shortHand: 'Dec 30 2024',
                                     },
@@ -465,7 +465,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1491',
+                                    size: 1491,
                                     timestamp: {
                                         shortHand: 'Jan 21 22:04',
                                     },
@@ -475,7 +475,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '10364',
+                                    size: 10364,
                                     timestamp: {
                                         shortHand: 'Apr 1 22:44',
                                     },
@@ -485,7 +485,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Oct 24 2024',
                                     },
@@ -495,7 +495,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '101606',
+                                    size: 101606,
                                     timestamp: {
                                         shortHand: 'Oct 24 2024',
                                     },
@@ -505,7 +505,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1071',
+                                    size: 1071,
                                     timestamp: {
                                         shortHand: 'Dec 28 2024',
                                     },
@@ -515,7 +515,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1071',
+                                    size: 1071,
                                     timestamp: {
                                         shortHand: 'Dec 28 2024',
                                     },
@@ -525,7 +525,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1179',
+                                    size: 1179,
                                     timestamp: {
                                         shortHand: 'Dec 28 2024',
                                     },
@@ -535,7 +535,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '4286',
+                                    size: 4286,
                                     timestamp: {
                                         shortHand: 'Feb 20 15:38',
                                     },
@@ -545,7 +545,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1598',
+                                    size: 1598,
                                     timestamp: {
                                         shortHand: 'Dec 28 2024',
                                     },
@@ -555,7 +555,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '41986',
+                                    size: 41986,
                                     timestamp: {
                                         shortHand: 'Sep 11 2024',
                                     },
@@ -565,7 +565,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1006',
+                                    size: 1006,
                                     timestamp: {
                                         shortHand: 'Jan 23 20:31',
                                     },
@@ -575,7 +575,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1785118',
+                                    size: 1785118,
                                     timestamp: {
                                         shortHand: 'Mar 30 00:49',
                                     },
@@ -585,7 +585,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '2342',
+                                    size: 2342,
                                     timestamp: {
                                         shortHand: 'Jan 23 20:21',
                                     },
@@ -595,7 +595,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '21043578',
+                                    size: 21043578,
                                     timestamp: {
                                         shortHand: 'Apr 1 22:41',
                                     },
@@ -605,7 +605,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '6948752',
+                                    size: 6948752,
                                     timestamp: {
                                         shortHand: 'Sep 15 2024',
                                     },
@@ -615,7 +615,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '652938',
+                                    size: 652938,
                                     timestamp: {
                                         shortHand: 'Oct 9 2024',
                                     },
@@ -625,7 +625,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Dec 28 2024',
                                     },
@@ -635,7 +635,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '3524',
+                                    size: 3524,
                                     timestamp: {
                                         shortHand: 'Dec 28 2024',
                                     },
@@ -645,7 +645,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '49980',
+                                    size: 49980,
                                     timestamp: {
                                         shortHand: 'Nov 24 2024',
                                     },
@@ -655,7 +655,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '9612170',
+                                    size: 9612170,
                                     timestamp: {
                                         shortHand: 'Jan 27 18:36',
                                     },
@@ -665,7 +665,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '551',
+                                    size: 551,
                                     timestamp: {
                                         shortHand: 'Jan 19 20:41',
                                     },
@@ -675,7 +675,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1590',
+                                    size: 1590,
                                     timestamp: {
                                         shortHand: 'Jan 26 17:15',
                                     },
@@ -685,7 +685,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rwxr-xr-x',
-                                    size: '1896',
+                                    size: 1896,
                                     timestamp: {
                                         shortHand: 'Mar 13 09:52',
                                     },
@@ -695,7 +695,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rwxr-xr-x',
-                                    size: '1878',
+                                    size: 1878,
                                     timestamp: {
                                         shortHand: 'Mar 13 09:52',
                                     },
@@ -705,7 +705,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '2265256',
+                                    size: 2265256,
                                     timestamp: {
                                         shortHand: 'Nov 23 2024',
                                     },
@@ -715,7 +715,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '115892',
+                                    size: 115892,
                                     timestamp: {
                                         shortHand: 'Dec 17 2024',
                                     },
@@ -725,7 +725,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '2656',
+                                    size: 2656,
                                     timestamp: {
                                         shortHand: 'Sep 14 2024',
                                     },
@@ -735,7 +735,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '10137',
+                                    size: 10137,
                                     timestamp: {
                                         shortHand: 'Mar 4 18:47',
                                     },
@@ -745,7 +745,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwx------',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Mar 13 16:57',
                                     },
@@ -755,7 +755,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1554',
+                                    size: 1554,
                                     timestamp: {
                                         shortHand: 'Jan 25 18:40',
                                     },
@@ -765,7 +765,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '60901787',
+                                    size: 60901787,
                                     timestamp: {
                                         shortHand: 'Mar 24 21:24',
                                     },
@@ -775,7 +775,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '104704',
+                                    size: 104704,
                                     timestamp: {
                                         shortHand: 'Jan 19 20:00',
                                     },
@@ -785,7 +785,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '2147',
+                                    size: 2147,
                                     timestamp: {
                                         shortHand: 'Jan 19 20:40',
                                     },
@@ -795,7 +795,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '7655728',
+                                    size: 7655728,
                                     timestamp: {
                                         shortHand: 'Jan 15 22:37',
                                     },
@@ -805,7 +805,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '77013076',
+                                    size: 77013076,
                                     timestamp: {
                                         shortHand: 'Nov 25 2024',
                                     },
@@ -817,7 +817,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '1627',
+                            size: 1627,
                             timestamp: {
                                 shortHand: 'Sep 24 2024',
                                 access: '2025-04-17 01:42:06.141333681 +0700',
@@ -831,7 +831,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0755/-rwxr-xr-x',
-                            size: '531',
+                            size: 531,
                             timestamp: {
                                 shortHand: 'Jul 11 17:09',
                                 access: '2025-07-11 17:09:44.133695034 +0700',
@@ -845,7 +845,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '367',
+                            size: 367,
                             timestamp: {
                                 shortHand: 'Mar 28 23:31',
                             },
@@ -855,7 +855,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-------',
-                            size: '123',
+                            size: 123,
                             timestamp: {
                                 shortHand: 'Jul 11 15:05',
                             },
@@ -865,7 +865,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0755/-rwxr-xr-x',
-                            size: '1185',
+                            size: 1185,
                             timestamp: {
                                 shortHand: 'Nov 23 2024',
                                 access: '2025-07-07 14:30:33.320696141 +0700',
@@ -879,7 +879,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 6 2024',
                             },
@@ -889,7 +889,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwx------',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'May 28 22:16',
                             },
@@ -899,7 +899,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Mar 27 19:02',
                                 access: '2025-07-11 13:33:26.002524519 +0700',
@@ -914,7 +914,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jul 8 19:11',
                             },
@@ -924,7 +924,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwx------',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                             },
@@ -934,7 +934,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Dec 3 2024',
                                 access: '2025-07-11 17:09:44.269700825 +0700',
@@ -948,7 +948,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -958,7 +958,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -968,7 +968,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -978,7 +978,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '35149',
+                                    size: 35149,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -988,7 +988,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1506',
+                                    size: 1506,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -998,7 +998,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '4586',
+                                    size: 4586,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -1008,7 +1008,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -1018,7 +1018,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1742',
+                                    size: 1742,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -1028,7 +1028,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Dec 3 2024',
                                     },
@@ -1040,7 +1040,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Apr 17 13:42',
                                 access: '2025-07-11 17:09:44.273700996 +0700',
@@ -1055,7 +1055,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '7047',
+                            size: 7047,
                             timestamp: {
                                 shortHand: 'Jan 25 21:53',
                                 access: '2025-03-28 19:44:32.236258130 +0700',
@@ -1069,7 +1069,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Dec 17 2024',
                             },
@@ -1079,7 +1079,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-------',
-                            size: '74',
+                            size: 74,
                             timestamp: {
                                 shortHand: 'Dec 28 2024',
                             },
@@ -1089,7 +1089,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwx------',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                             },
@@ -1099,7 +1099,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Oct 21 2024',
                             },
@@ -1109,7 +1109,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jun 20 23:50',
                             },
@@ -1119,7 +1119,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 15 2024',
                             },
@@ -1129,7 +1129,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '105408000',
+                            size: 105408000,
                             timestamp: {
                                 shortHand: 'Apr 9 18:59',
                                 access: '2025-04-09 18:59:17.753061327 +0700',
@@ -1143,7 +1143,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '32571655',
+                            size: 32571655,
                             timestamp: {
                                 shortHand: 'Apr 14 15:30',
                                 access: '2025-04-14 15:30:18.902237733 +0700',
@@ -1157,7 +1157,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Oct 12 2024',
                                 access: '2025-07-11 17:09:44.296701975 +0700',
@@ -1171,7 +1171,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -1181,7 +1181,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '8257932',
+                                    size: 8257932,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -1191,7 +1191,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'd--x--x--x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -1201,7 +1201,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1679',
+                                    size: 1679,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -1211,7 +1211,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -1221,7 +1221,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '651',
+                                    size: 651,
                                     timestamp: {
                                         shortHand: 'Oct 12 2024',
                                     },
@@ -1233,7 +1233,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Apr 17 01:36',
                                 access: '2025-07-11 17:09:44.305702358 +0700',
@@ -1247,7 +1247,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '65536',
+                                    size: 65536,
                                     timestamp: {
                                         shortHand: 'Jul 11 15:07',
                                     },
@@ -1259,7 +1259,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '21',
+                            size: 21,
                             timestamp: {
                                 shortHand: 'Sep 7 2024',
                             },
@@ -1269,7 +1269,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                                 access: '2025-07-11 13:33:26.002524519 +0700',
@@ -1284,7 +1284,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Mar 26 20:33',
                             },
@@ -1294,7 +1294,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '0',
+                            size: 0,
                             timestamp: {
                                 shortHand: 'Jun 13 19:19',
                             },
@@ -1304,7 +1304,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '489',
+                            size: 489,
                             timestamp: {
                                 shortHand: 'Apr 17 03:22',
                                 access: '2025-04-17 03:23:33.012916946 +0700',
@@ -1318,7 +1318,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '8176621',
+                            size: 8176621,
                             timestamp: {
                                 shortHand: 'Apr 14 15:21',
                                 access: '2025-04-15 23:07:45.637250420 +0700',
@@ -1332,7 +1332,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 7 2024',
                             },
@@ -1342,7 +1342,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '1293305',
+                            size: 1293305,
                             timestamp: {
                                 shortHand: 'Apr 9 18:57',
                                 access: '2025-05-29 19:00:09.805198858 +0700',
@@ -1356,7 +1356,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '41759',
+                            size: 41759,
                             timestamp: {
                                 shortHand: 'Apr 14 17:02',
                                 access: '2025-05-29 19:00:04.250407433 +0700',
@@ -1370,7 +1370,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'May 20 19:42',
                             },
@@ -1380,7 +1380,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwx------',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jun 24 20:00',
                             },
@@ -1390,7 +1390,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 7 2024',
                             },
@@ -1400,7 +1400,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                                 access: '2025-07-11 13:33:26.003524562 +0700',
@@ -1415,7 +1415,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '272',
+                            size: 272,
                             timestamp: {
                                 shortHand: 'May 29 19:35',
                             },
@@ -1425,7 +1425,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '29',
+                            size: 29,
                             timestamp: {
                                 shortHand: 'Jul 2 02:23',
                                 access: '2025-07-02 02:23:12.796910499 +0700',
@@ -1439,7 +1439,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                             },
@@ -1449,7 +1449,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Sep 6 2024',
                             },
@@ -1459,7 +1459,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0755/-rwxr-xr-x',
-                            size: '6692864',
+                            size: 6692864,
                             timestamp: {
                                 shortHand: 'Jul 11 12:57',
                                 access: '2025-07-11 12:57:59.618510013 +0700',
@@ -1473,7 +1473,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: '0755/drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Apr 17 01:46',
                                 access: '2025-07-11 17:09:44.346704104 +0700',
@@ -1487,7 +1487,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '19873952',
+                                    size: 19873952,
                                     timestamp: {
                                         shortHand: 'Mar 30 14:51',
                                     },
@@ -1497,7 +1497,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '19252148',
+                                    size: 19252148,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:40',
                                     },
@@ -1507,7 +1507,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '21629036',
+                                    size: 21629036,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:42',
                                     },
@@ -1517,7 +1517,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1667868',
+                                    size: 1667868,
                                     timestamp: {
                                         shortHand: 'Apr 9 15:29',
                                     },
@@ -1527,7 +1527,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '12445298',
+                                    size: 12445298,
                                     timestamp: {
                                         shortHand: 'Apr 13 18:02',
                                     },
@@ -1537,7 +1537,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '16002375',
+                                    size: 16002375,
                                     timestamp: {
                                         shortHand: 'Apr 13 18:04',
                                     },
@@ -1547,7 +1547,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '46955742',
+                                    size: 46955742,
                                     timestamp: {
                                         shortHand: 'Apr 13 18:16',
                                     },
@@ -1557,7 +1557,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '771661',
+                                    size: 771661,
                                     timestamp: {
                                         shortHand: 'Apr 14 15:09',
                                     },
@@ -1567,7 +1567,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '5737471',
+                                    size: 5737471,
                                     timestamp: {
                                         shortHand: 'Mar 30 14:56',
                                     },
@@ -1577,7 +1577,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '5763991',
+                                    size: 5763991,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:26',
                                     },
@@ -1587,7 +1587,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '2719921',
+                                    size: 2719921,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:27',
                                     },
@@ -1597,7 +1597,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '15505257',
+                                    size: 15505257,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:43',
                                     },
@@ -1607,7 +1607,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '12748349',
+                                    size: 12748349,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:44',
                                     },
@@ -1617,7 +1617,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '6950571',
+                                    size: 6950571,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:31',
                                     },
@@ -1627,7 +1627,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '8069918',
+                                    size: 8069918,
                                     timestamp: {
                                         shortHand: 'Mar 30 14:53',
                                     },
@@ -1637,7 +1637,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '12926142',
+                                    size: 12926142,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:06',
                                     },
@@ -1647,7 +1647,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '9855419',
+                                    size: 9855419,
                                     timestamp: {
                                         shortHand: 'Mar 30 15:22',
                                     },
@@ -1657,7 +1657,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '1859230',
+                                    size: 1859230,
                                     timestamp: {
                                         shortHand: 'Apr 9 15:30',
                                     },
@@ -1667,7 +1667,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '54760737',
+                                    size: 54760737,
                                     timestamp: {
                                         shortHand: 'Apr 9 15:34',
                                     },
@@ -1677,7 +1677,7 @@ export const filesystem: FsNode = {
                                     type: 'file',
                                     ownership: 'kony/kony',
                                     permissions: '-rw-r--r--',
-                                    size: '943610',
+                                    size: 943610,
                                     timestamp: {
                                         shortHand: 'Apr 10 19:56',
                                     },
@@ -1687,7 +1687,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Mar 30 14:15',
                                     },
@@ -1697,7 +1697,7 @@ export const filesystem: FsNode = {
                                     type: 'directory',
                                     ownership: 'kony/kony',
                                     permissions: 'drwxr-xr-x',
-                                    size: '4096',
+                                    size: 4096,
                                     timestamp: {
                                         shortHand: 'Apr 8 22:11',
                                     },
@@ -1709,7 +1709,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-------',
-                            size: '1668',
+                            size: 1668,
                             timestamp: {
                                 shortHand: 'Sep 28 2024',
                             },
@@ -1719,7 +1719,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jul 4 18:29',
                             },
@@ -1729,7 +1729,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '101',
+                            size: 101,
                             timestamp: {
                                 shortHand: 'Apr 10 14:52',
                             },
@@ -1739,7 +1739,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '13024949',
+                            size: 13024949,
                             timestamp: {
                                 shortHand: 'Apr 1 15:41',
                                 access: '2025-04-15 23:07:45.798257234 +0700',
@@ -1753,7 +1753,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '0644/-rw-r--r--',
-                            size: '8937',
+                            size: 8937,
                             timestamp: {
                                 shortHand: 'Apr 1 20:28',
                                 access: '2025-04-01 20:29:08.773392958 +0700',
@@ -1767,7 +1767,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'root/root',
                             permissions: '0755/-rwxr-xr-x',
-                            size: '44',
+                            size: 44,
                             timestamp: {
                                 shortHand: 'Sep 15 2024',
                                 access: '2025-07-10 19:32:34.464501062 +0700',
@@ -1781,7 +1781,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwxr-xr-x',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Dec 29 2024',
                             },
@@ -1791,7 +1791,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '116',
+                            size: 116,
                             timestamp: {
                                 shortHand: 'Dec 29 2024',
                             },
@@ -1801,7 +1801,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '50364',
+                            size: 50364,
                             timestamp: {
                                 shortHand: 'Apr 17 03:15',
                             },
@@ -1811,7 +1811,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '50717',
+                            size: 50717,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                             },
@@ -1821,7 +1821,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-r--r--r--',
-                            size: '118616',
+                            size: 118616,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                             },
@@ -1831,7 +1831,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '51172',
+                            size: 51172,
                             timestamp: {
                                 shortHand: 'Jun 27 15:16',
                             },
@@ -1841,7 +1841,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-r--r--r--',
-                            size: '119832',
+                            size: 119832,
                             timestamp: {
                                 shortHand: 'Jun 27 15:16',
                             },
@@ -1851,7 +1851,7 @@ export const filesystem: FsNode = {
                             type: 'directory',
                             ownership: 'kony/kony',
                             permissions: 'drwx------',
-                            size: '4096',
+                            size: 4096,
                             timestamp: {
                                 shortHand: 'Jul 11 16:09',
                             },
@@ -1861,7 +1861,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '165',
+                            size: 165,
                             timestamp: {
                                 shortHand: 'May 28 22:18',
                             },
@@ -1871,7 +1871,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '21',
+                            size: 21,
                             timestamp: {
                                 shortHand: 'Sep 7 2024',
                             },
@@ -1881,7 +1881,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-------',
-                            size: '395360',
+                            size: 395360,
                             timestamp: {
                                 shortHand: 'Jul 11 17:09',
                             },
@@ -1891,7 +1891,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '1956',
+                            size: 1956,
                             timestamp: {
                                 shortHand: 'May 29 19:59',
                             },
@@ -1901,7 +1901,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '3996',
+                            size: 3996,
                             timestamp: {
                                 shortHand: 'Sep 5 2024',
                             },
@@ -1911,7 +1911,7 @@ export const filesystem: FsNode = {
                             type: 'file',
                             ownership: 'kony/kony',
                             permissions: '-rw-r--r--',
-                            size: '883',
+                            size: 883,
                             timestamp: {
                                 shortHand: 'Sep 9 2024',
                             },
@@ -1925,7 +1925,7 @@ export const filesystem: FsNode = {
             type: 'file',
             ownership: 'root/root',
             permissions: 'lrwxrwxrwx',
-            size: '7',
+            size: 7,
             timestamp: {
                 shortHand: 'May 4 02:26',
             },
@@ -1935,7 +1935,7 @@ export const filesystem: FsNode = {
             type: 'file',
             ownership: 'root/root',
             permissions: 'lrwxrwxrwx',
-            size: '7',
+            size: 7,
             timestamp: {
                 shortHand: 'May 4 02:26',
             },
@@ -1945,7 +1945,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwx------',
-            size: '16384',
+            size: 16384,
             timestamp: {
                 shortHand: 'Sep 5 2024',
             },
@@ -1955,7 +1955,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Apr 8 2024',
             },
@@ -1965,7 +1965,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Jul 8 18:01',
             },
@@ -1975,7 +1975,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'dr-xr-xr-x',
-            size: '0',
+            size: 0,
             timestamp: {
                 shortHand: 'Jul 11 2025',
             },
@@ -1985,7 +1985,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwx------',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Jul 8 18:02',
             },
@@ -1995,7 +1995,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '700',
+            size: 700,
             timestamp: {
                 shortHand: 'Jul 11 2025',
             },
@@ -2005,7 +2005,7 @@ export const filesystem: FsNode = {
             type: 'file',
             ownership: 'root/root',
             permissions: 'lrwxrwxrwx',
-            size: '7',
+            size: 7,
             timestamp: {
                 shortHand: 'May 4 02:26',
             },
@@ -2015,7 +2015,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Sep 5 2024',
             },
@@ -2025,7 +2025,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'dr-xr-xr-x',
-            size: '0',
+            size: 0,
             timestamp: {
                 shortHand: 'Jul 11 16:57',
             },
@@ -2035,7 +2035,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxrwxrwt',
-            size: '760',
+            size: 760,
             timestamp: {
                 shortHand: 'Jul 11 17:09',
             },
@@ -2045,7 +2045,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Jul 11 12:57',
             },
@@ -2055,7 +2055,7 @@ export const filesystem: FsNode = {
             type: 'directory',
             ownership: 'root/root',
             permissions: 'drwxr-xr-x',
-            size: '4096',
+            size: 4096,
             timestamp: {
                 shortHand: 'Jul 10 19:55',
             },

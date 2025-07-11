@@ -71,7 +71,7 @@ export interface FsNode {
     type: 'directory' | 'file';
     ownership?: string;
     permissions?: string;
-    size?: string;
+    size?: number;
     timestamp?: {
         shortHand?: string;
         access?: string;
