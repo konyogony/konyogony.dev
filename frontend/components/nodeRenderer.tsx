@@ -1,5 +1,6 @@
 import { KittyTerminalComponent } from '@/components/kittyTerminal';
-import { LayoutNode } from '@/lib/types';
+import { LayoutNode, Command } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 export const NodeRenderer = ({
     node,
@@ -11,8 +12,8 @@ export const NodeRenderer = ({
     node: LayoutNode;
     activeId: number | null;
     setActiveId: (id: number) => void;
-    onInput: (id: number, value: string) => void;
-    inputValues: Record<number, string>;
+    onInput: (id: number, value: Command[]) => void;
+    inputValues: Record<number, Command[]>;
 }) => {
     if (node.type === 'leaf') {
         return (
@@ -33,9 +34,10 @@ export const NodeRenderer = ({
 
     const styleA = { [isVertical ? 'width' : 'height']: `${splitRatio * 100}%` };
     const styleB = { [isVertical ? 'width' : 'height']: `${(1 - splitRatio) * 100}%` };
+    const id = `container-${node.id}`;
 
     return (
-        <div id={`container-${node.id}`} className={`flex h-full w-full ${isVertical ? 'flex-row' : 'flex-col'}`}>
+        <div id={id} className={cn('flex h-full w-full', isVertical ? 'flex-row' : 'flex-col')}>
             <div style={styleA} className='relative h-full w-full'>
                 <NodeRenderer
                     node={childA}

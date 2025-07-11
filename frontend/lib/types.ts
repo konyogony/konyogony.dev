@@ -28,3 +28,37 @@ export interface ContainerNode extends Node {
 export type LayoutNode = LeafNode | ContainerNode;
 
 export type Nullable<T> = T | null;
+
+export interface Layout {
+    node: LayoutNode;
+    size: {
+        width: number;
+        height: number;
+    };
+}
+
+export interface ResizeInfo {
+    startPos: { x: number; y: number };
+    verticalResize: Nullable<{
+        parent: ContainerNode;
+        initialRatio: number;
+        containerRect: Nullable<DOMRect>;
+    }>;
+    horizontalResize: Nullable<{
+        parent: ContainerNode;
+        initialRatio: number;
+        containerRect: Nullable<DOMRect>;
+    }>;
+}
+
+export interface NodeMapT {
+    parent: Nullable<ContainerNode>;
+    node: LayoutNode;
+}
+export interface Command {
+    id: number;
+    inputValue: string;
+    returnCode?: number;
+    returnValue?: string;
+    returned?: boolean;
+}

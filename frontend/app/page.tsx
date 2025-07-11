@@ -10,12 +10,11 @@ const Home = () => {
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
-            const ctrl = e.ctrlKey || e.metaKey;
-            if (!ctrl) return;
-
-            if (e.key.toLowerCase() === 'z') return;
+            const alt = e.altKey;
+            if (!alt) return;
 
             e.preventDefault();
+            e.stopPropagation();
 
             if (e.key.toLowerCase() === 't') {
                 splitTerminal();

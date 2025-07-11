@@ -1,30 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { LayoutNode, ContainerNode, LeafNode, Nullable } from '@/lib/types';
+import { LayoutNode, ContainerNode, LeafNode, Nullable, Layout, NodeMapT, ResizeInfo, Command } from '@/lib/types';
 
 const MIN_RELATIVE_WIDTH = 1 / 8;
 const MIN_RELATIVE_HEIGHT = 1 / 4;
-
-export interface Layout {
-    node: LayoutNode;
-    size: {
-        width: number;
-        height: number;
-    };
-}
-
-export interface ResizeInfo {
-    startPos: { x: number; y: number };
-    verticalResize: Nullable<{
-        parent: ContainerNode;
-        initialRatio: number;
-        containerRect: Nullable<DOMRect>;
-    }>;
-    horizontalResize: Nullable<{
-        parent: ContainerNode;
-        initialRatio: number;
-        containerRect: Nullable<DOMRect>;
-    }>;
-}
 
 const findAndReplaceInTree = (
     root: Nullable<LayoutNode>,
@@ -113,9 +91,14 @@ export const useTerminal = () => {
     const [layoutTree, setLayoutTree] = useState<Nullable<LayoutNode>>(getInitialLayout());
     const [activeId, setActiveId] = useState<Nullable<number>>(0);
 
-    const [inputValues, setInputValues] = useState<Record<number, string>>({});
-    const onInput = useCallback((id: number, value: string) => {
-        setInputValues((prev) => ({ ...prev, [id]: value }));
+    const [inputValues, setInputValues] = useState<Record<number, Command[]>>({});
+    const onInput = useCallback((id: number, value: Command[] | ((prev: Command[]) => Command[])) => {
+        setInputValues((prev) => {
+            const newValues = { ...prev };
+            const oldCommands = newValues[id] ?? [];
+            newValues[id] = typeof value === 'function' ? value(oldCommands) : value;
+            return newValues;
+        });
     }, []);
 
     const resizeInfo = useRef<Nullable<ResizeInfo>>(null);
@@ -202,8 +185,8 @@ export const useTerminal = () => {
         (direction: 'arrowup' | 'arrowdown' | 'arrowleft' | 'arrowright') => {
             if (activeId === null || !layoutTree || layoutTree.type === 'leaf') return;
 
-            const nodeMap = new Map<number, { parent: ContainerNode | null; node: LayoutNode }>();
-            const buildMap = (node: LayoutNode, parent: ContainerNode | null) => {
+            const nodeMap = new Map<number, NodeMapT>();
+            const buildMap = (node: LayoutNode, parent: Nullable<ContainerNode>) => {
                 nodeMap.set(node.id, { parent, node });
                 if (node.type === 'container') {
                     buildMap(node.childA, node);
@@ -261,14 +244,14 @@ export const useTerminal = () => {
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.ctrlKey && e.key.toLowerCase() === 'z' && activeId !== null && !resizeInfo.current) {
+            if (e.altKey && e.key.toLowerCase() === 'z' && activeId !== null && !resizeInfo.current) {
                 e.preventDefault();
 
                 const findNearestAncestor = (
                     startNodeId: number,
                     direction: 'vertical' | 'horizontal',
-                ): ContainerNode | null => {
-                    let currentId: number | null = startNodeId;
+                ): Nullable<ContainerNode> => {
+                    let currentId: Nullable<number> = startNodeId;
                     while (currentId !== null) {
                         const parent = findParent(layoutTree, currentId);
                         if (!parent) return null;
@@ -321,7 +304,7 @@ export const useTerminal = () => {
 
             const { startPos, verticalResize, horizontalResize } = resizeInfo.current;
 
-            let newVerticalRatio: number | null = null;
+            let newVerticalRatio: Nullable<number> = null;
             if (verticalResize && verticalResize.containerRect) {
                 const deltaX = e.clientX - startPos.x;
                 const totalWidth = verticalResize.containerRect.width;
@@ -331,7 +314,7 @@ export const useTerminal = () => {
                 }
             }
 
-            let newHorizontalRatio: number | null = null;
+            let newHorizontalRatio: Nullable<number> = null;
             if (horizontalResize && horizontalResize.containerRect) {
                 const deltaY = e.clientY - startPos.y;
                 const totalHeight = horizontalResize.containerRect.height;
