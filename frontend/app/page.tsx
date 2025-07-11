@@ -5,8 +5,18 @@ import { useTerminal } from '@/hooks/useTerminal';
 import { NodeRenderer } from '@/components/nodeRenderer';
 
 const Home = () => {
-    const { layoutTree, activeId, setActiveId, splitTerminal, closeTerminal, navigate, onInput, inputValues } =
-        useTerminal();
+    const {
+        layoutTree,
+        activeId,
+        setActiveId,
+        splitTerminal,
+        closeTerminal,
+        navigate,
+        onInput,
+        inputValues,
+        commandHistory,
+        addCommandToHistory,
+    } = useTerminal();
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
@@ -46,6 +56,8 @@ const Home = () => {
                         setActiveId={setActiveId}
                         inputValues={inputValues}
                         onInput={onInput}
+                        commandHistory={commandHistory}
+                        addCommandToHistory={addCommandToHistory}
                     />
                 ) : null}
             </div>

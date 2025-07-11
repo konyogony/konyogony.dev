@@ -16,9 +16,19 @@ interface KittyTerminalProps {
     onHover(id: number): void;
     inputValues: Record<number, Command[]>;
     onInput(id: number, value: Command[] | ((prev: Command[]) => Command[])): void;
+    commandHistory: string[];
+    addCommandToHistory(command: string): void;
 }
 
-export const KittyTerminalComponent = ({ id, isActive, onHover, inputValues, onInput }: KittyTerminalProps) => {
+export const KittyTerminalComponent = ({
+    id,
+    isActive,
+    onHover,
+    inputValues,
+    onInput,
+    addCommandToHistory,
+    commandHistory,
+}: KittyTerminalProps) => {
     const commandIndex = useMemo(() => {
         const commands = inputValues[id];
         if (!commands || commands.length === 0) {
@@ -70,6 +80,8 @@ export const KittyTerminalComponent = ({ id, isActive, onHover, inputValues, onI
                     onEnter={handleEnter}
                     currentCommandIndex={commandIndex}
                     isActive={index === commandIndex && isActive}
+                    addCommandToHistory={addCommandToHistory}
+                    commandHistory={commandHistory}
                 />
             ))}
         </section>

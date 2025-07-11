@@ -2,19 +2,25 @@ import { KittyTerminalComponent } from '@/components/kittyTerminal';
 import { LayoutNode, Command } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
-export const NodeRenderer = ({
-    node,
-    activeId,
-    setActiveId,
-    inputValues,
-    onInput,
-}: {
+interface NodeRendererProps {
     node: LayoutNode;
     activeId: number | null;
     setActiveId: (id: number) => void;
     onInput: (id: number, value: Command[]) => void;
     inputValues: Record<number, Command[]>;
-}) => {
+    commandHistory: string[];
+    addCommandToHistory: (command: string) => void;
+}
+
+export const NodeRenderer = ({
+    node,
+    activeId,
+    setActiveId,
+    inputValues,
+    commandHistory,
+    addCommandToHistory,
+    onInput,
+}: NodeRendererProps) => {
     if (node.type === 'leaf') {
         return (
             <div className='h-full w-full p-1'>
@@ -24,6 +30,8 @@ export const NodeRenderer = ({
                     onHover={setActiveId}
                     inputValues={inputValues}
                     onInput={onInput}
+                    addCommandToHistory={addCommandToHistory}
+                    commandHistory={commandHistory}
                 />
             </div>
         );
@@ -45,6 +53,8 @@ export const NodeRenderer = ({
                     setActiveId={setActiveId}
                     inputValues={inputValues}
                     onInput={onInput}
+                    addCommandToHistory={addCommandToHistory}
+                    commandHistory={commandHistory}
                 />
             </div>
             <div style={styleB} className='relative h-full w-full'>
@@ -54,6 +64,8 @@ export const NodeRenderer = ({
                     setActiveId={setActiveId}
                     inputValues={inputValues}
                     onInput={onInput}
+                    addCommandToHistory={addCommandToHistory}
+                    commandHistory={commandHistory}
                 />
             </div>
         </div>

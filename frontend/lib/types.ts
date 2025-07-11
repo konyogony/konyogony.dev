@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type ToasterPosition =
     | 'top-left'
     | 'top-center'
@@ -55,10 +57,27 @@ export interface NodeMapT {
     parent: Nullable<ContainerNode>;
     node: LayoutNode;
 }
+
 export interface Command {
     id: number;
     inputValue: string;
     returnCode?: number;
-    returnValue?: string;
+    returnValue?: ReactNode;
     returned?: boolean;
+}
+
+export interface FsNode {
+    name: string;
+    type: 'directory' | 'file';
+    ownership?: string;
+    permissions?: string;
+    size?: string;
+    timestamp?: {
+        shortHand?: string;
+        access?: string;
+        modify?: string;
+        change?: string;
+        birth?: string;
+    };
+    children?: FsNode[];
 }

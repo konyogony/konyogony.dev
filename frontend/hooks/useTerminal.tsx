@@ -101,6 +101,17 @@ export const useTerminal = () => {
         });
     }, []);
 
+    const [commandHistory, setCommandHistory] = useState<string[]>([]);
+    const addCommandToHistory = useCallback((command: string) => {
+        if (!command.trim()) return;
+        setCommandHistory((prev) => {
+            if (prev.length > 0 && prev[prev.length - 1] === command) {
+                return prev;
+            }
+            return [...prev, command];
+        });
+    }, []);
+
     const resizeInfo = useRef<Nullable<ResizeInfo>>(null);
     const mousePosition = useRef({ x: 0, y: 0 });
 
@@ -386,5 +397,7 @@ export const useTerminal = () => {
         resetTerminals,
         onInput,
         inputValues,
+        commandHistory,
+        addCommandToHistory,
     };
 };

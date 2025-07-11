@@ -5,7 +5,7 @@ import '@/app/globals.css';
 
 export const metadata: Metadata = {
     title: 'konyogony.dev',
-    description: 'Personal Portfolio',
+    description: 'My hyprland Desktop re-creation',
 };
 
 const inter = Inter({ subsets: ['latin'] });

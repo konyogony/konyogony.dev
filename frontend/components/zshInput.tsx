@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Command } from '@/lib/types';
+import { executeCommand } from '@/lib/commands';
 
 interface zshInputProps {
     terminalId: number;
@@ -11,6 +12,8 @@ interface zshInputProps {
     inputValues: Command[];
     onInput(id: number, value: Command[] | ((prev: Command[]) => Command[])): void;
     onEnter(): void;
+    commandHistory: string[];
+    addCommandToHistory(command: string): void;
 }
 
 export const ZshInput = ({
@@ -21,7 +24,11 @@ export const ZshInput = ({
     onEnter,
     isActive,
     currentCommandIndex,
+    commandHistory,
+    addCommandToHistory,
 }: zshInputProps) => {
+    const [currentDir] = useState<string>('/home/kony/');
+    const [historyIndex, setHistoryIndex] = useState(commandHistory.length);
     const currentValue = inputValues[index];
     const prevValue = inputValues[index - 1];
     const localRef = useRef<HTMLTextAreaElement>(null);
@@ -48,17 +55,14 @@ export const ZshInput = ({
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            addCommandToHistory(currentValue?.inputValue);
             onInput(terminalId, (prevCommands) => {
                 const newCommands = [...prevCommands];
-                newCommands[index] = {
-                    ...newCommands[index],
-                    returned: true,
-                    returnCode: 127,
-                    returnValue: `zsh: command not found: ${newCommands[index].inputValue}`,
-                };
+                newCommands[index] = executeCommand(newCommands[index], currentDir, terminalId, onInput);
                 return newCommands;
             });
             onEnter();
+            return;
         }
 
         if (e.ctrlKey && e.key === 'c') {
@@ -73,6 +77,31 @@ export const ZshInput = ({
                 return newCommands;
             });
             onEnter();
+            return;
+        }
+
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            const commandAtCurrentIndex = commandHistory[historyIndex] ?? '';
+            if (currentValue.inputValue === commandAtCurrentIndex) {
+                e.preventDefault();
+
+                let newIndex;
+                if (e.key === 'ArrowUp') {
+                    newIndex = Math.max(0, historyIndex - 1);
+                } else {
+                    newIndex = Math.min(commandHistory.length, historyIndex + 1);
+                }
+
+                setHistoryIndex(newIndex);
+
+                const historyCommand = commandHistory[newIndex] ?? '';
+
+                onInput(terminalId, (prevCommands) => {
+                    const newCommands = [...prevCommands];
+                    newCommands[index] = { ...newCommands[index], inputValue: historyCommand };
+                    return newCommands;
+                });
+            }
         }
     };
 
@@ -81,7 +110,7 @@ export const ZshInput = ({
             <div className='mb-0 inline-flex text-green-500'>
                 <span className='text-white'>╭─</span>
                 kony@ogony
-                <span className='ml-2 text-blue-500'>~</span>
+                <span className='ml-2 text-blue-500'>{currentDir === '/home/kony/' ? '~' : currentDir}</span>
             </div>
             <div className='flex w-full items-start'>
                 <span>╰─$&nbsp;</span>
@@ -89,12 +118,15 @@ export const ZshInput = ({
                     ref={localRef}
                     className='m-0 flex-grow resize-none bg-transparent p-0 break-words whitespace-pre-wrap !ring-0 !outline-none'
                     rows={1}
+                    spellCheck={false}
+                    autoCorrect='off'
+                    autoCapitalize='off'
                     disabled={index !== currentCommandIndex}
                     value={currentValue?.inputValue ?? ''}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                 />
-                {prevValue?.returned && prevValue.returnCode !== undefined && (
+                {prevValue?.returned && prevValue.returnCode !== undefined && prevValue.returnCode !== 0 && (
                     <span
                         className='ml-2 whitespace-nowrap text-red-500 select-none'
                         style={{ alignSelf: 'flex-start', paddingTop: '2px' }}
