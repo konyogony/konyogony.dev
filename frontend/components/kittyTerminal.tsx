@@ -5,8 +5,7 @@ import { cn } from '@/lib/utils';
 import { useEffect, useMemo } from 'react';
 import { ZshInput } from '@/components/zshInput';
 
-const KITTY_FONT_FAMILY = `'Fira Code SemiBold', monospace`;
-const KITTY_FONT_SIZE = '14px';
+const KITTY_FONT_SIZE = '16px';
 const KITTY_LINE_HEIGHT = '1.2';
 const KITTY_WINDOW_PADDING = '1rem';
 
@@ -57,7 +56,7 @@ export const KittyTerminalComponent = ({
     return (
         <section
             className={cn(
-                'flex h-full w-full flex-col overflow-y-scroll rounded-xl bg-black/60 !font-semibold text-white brightness-75 backdrop-blur-md transition-all duration-100 ease-in-out outline-none hover:brightness-100',
+                'flex h-full w-full flex-col overflow-y-scroll rounded-xl bg-black/60 !font-semibold font-black text-white brightness-75 backdrop-blur-md transition-all duration-100 ease-in-out outline-none hover:brightness-100',
                 isActive && 'ring-2 ring-sky-600 brightness-100',
             )}
             data-id={id}
@@ -66,7 +65,6 @@ export const KittyTerminalComponent = ({
             onFocus={() => onHover(id)}
             id={id.toString()}
             style={{
-                fontFamily: KITTY_FONT_FAMILY,
                 fontSize: KITTY_FONT_SIZE,
                 padding: KITTY_WINDOW_PADDING,
                 lineHeight: KITTY_LINE_HEIGHT,

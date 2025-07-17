@@ -1,8 +1,26 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import { JSX } from 'react';
 import { Command } from '@/lib/types';
-import { executeCommand } from '@/lib/commands';
+import { commands, executeCommand } from '@/lib/commands';
+
+const highlightInput = (input: string): JSX.Element => {
+    const [first, ...rest] = input.trim().split(' ');
+    const isValid = commands.map((c) => c.name).includes(first);
+
+    return (
+        <>
+            <span className={isValid ? 'text-green-500' : 'text-red-500'}>{first}</span>
+            {rest.length > 0 && (
+                <>
+                    {' '}
+                    <span className='text-white'>{rest.join(' ')}</span>
+                </>
+            )}
+        </>
+    );
+};
 
 interface zshInputProps {
     terminalId: number;
@@ -109,39 +127,75 @@ export const ZshInput = ({
                 return newCommands;
             });
         }
+
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const input = currentValue?.inputValue ?? '';
+            const parts = input.trim().split(' ');
+            const isFirstWord = parts.length === 1;
+            const partial = parts[parts.length - 1];
+
+            const cmdNames = commands.map((c) => c.name);
+            const suggestions = cmdNames.filter((cmd) => cmd.startsWith(partial));
+
+            if (suggestions.length === 1) {
+                const completed = suggestions[0];
+
+                const newInput = isFirstWord ? completed + '' : [...parts.slice(0, -1), completed].join(' ');
+
+                onInput(terminalId, (prevCommands) => {
+                    const newCommands = [...prevCommands];
+                    newCommands[index] = { ...newCommands[index], inputValue: newInput };
+                    return newCommands;
+                });
+            }
+
+            return;
+        }
     };
 
     return (
-        <pre className='break-words whitespace-pre-wrap'>
-            <div className='mb-0 inline-flex text-green-500'>
+        <pre className='overflow-x-clip font-black break-words whitespace-pre-wrap'>
+            <div className='mb-0 inline-flex translate-y-[1.5px] text-green-500'>
                 <span className='text-white'>╭─</span>
                 kony@ogony
                 <span className='ml-2 text-blue-500'>{promptDir}</span>
             </div>
             <div className='flex w-full items-start'>
-                <span>╰─$&nbsp;</span>
-                <textarea
-                    ref={localRef}
-                    className='m-0 flex-grow resize-none bg-transparent p-0 break-words whitespace-pre-wrap !ring-0 !outline-none'
-                    rows={1}
-                    spellCheck={false}
-                    autoCorrect='off'
-                    autoCapitalize='off'
-                    disabled={index !== currentCommandIndex}
-                    value={currentValue?.inputValue ?? ''}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                />
-                {prevValue?.returned && prevValue.returnCode !== undefined && prevValue.returnCode !== 0 && (
-                    <span
-                        className='ml-2 whitespace-nowrap text-red-500 select-none'
-                        style={{ alignSelf: 'flex-start', paddingTop: '2px' }}
+                <span className='pt-[0.5px] text-white'>╰─$</span>
+
+                <div className='relative ml-2 flex-1'>
+                    <div
+                        aria-hidden='true'
+                        className='pointer-events-none absolute inset-0 text-left break-words whitespace-pre-wrap text-transparent'
                     >
+                        <span className='text-white'>{highlightInput(currentValue?.inputValue ?? '')}</span>
+                    </div>
+
+                    <textarea
+                        ref={localRef}
+                        className='relative z-10 w-full resize-none bg-transparent text-transparent caret-white outline-none'
+                        rows={1}
+                        spellCheck={false}
+                        autoCorrect='off'
+                        autoCapitalize='off'
+                        disabled={index !== currentCommandIndex}
+                        value={currentValue?.inputValue ?? ''}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            overflowWrap: 'break-word',
+                        }}
+                    />
+                </div>
+
+                {prevValue?.returned && prevValue.returnCode !== undefined && prevValue.returnCode !== 0 && (
+                    <span className='ml-2 pt-[2px] whitespace-nowrap text-red-500 select-none'>
                         {prevValue.returnCode} ↵
                     </span>
                 )}
             </div>
-
             {currentValue?.returned && currentValue.returnValue && (
                 <span className='whitespace-pre-wrap'>{currentValue.returnValue}</span>
             )}

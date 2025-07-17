@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cn } from '@/lib/utils';
-import { Inter } from 'next/font/google';
+import { Fira_Code } from 'next/font/google';
 import '@/app/globals.css';
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: 'My hyprland Desktop re-creation',
 };
 
-const inter = Inter({ subsets: ['latin'] });
+const firaCode = Fira_Code({ subsets: ['latin'], weight: '700' });
 
 const RootLayout = ({
     children,
@@ -16,7 +16,7 @@ const RootLayout = ({
     children: React.ReactNode;
 }>) => {
     return (
-        <html lang='en' className={cn('antialiased', inter.className)} suppressHydrationWarning>
+        <html lang='en' className={cn('antialiased', firaCode.className)} suppressHydrationWarning>
             <body className='relative min-h-screen'>
                 <main className='flex flex-col'>{children}</main>
             </body>
