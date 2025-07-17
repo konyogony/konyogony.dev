@@ -17,48 +17,73 @@ export const isCommandError = (obj: unknown): obj is CommandError => {
     );
 };
 
-export const getNodeByPath = (path: string, currentDir: string): FsNode | CommandError => {
-    if (path && path.startsWith('~')) {
-        path = path.replace('~', '/home/kony');
+export const resolvePath = (path: string, currentDir: string): string => {
+    let effectivePath = path;
+    if (effectivePath && effectivePath.startsWith('~')) {
+        effectivePath = effectivePath.replace('~', '/home/kony');
     }
 
-    let fullPath = path;
-
-    if (!path || path === '.') {
+    let fullPath = effectivePath;
+    if (!effectivePath || effectivePath === '.') {
         fullPath = currentDir;
-    } else if (!path.startsWith('/')) {
-        fullPath = currentDir.endsWith('/') ? currentDir + path : currentDir + '/' + path;
+    } else if (!effectivePath.startsWith('/')) {
+        fullPath = currentDir.endsWith('/') ? currentDir + effectivePath : `${currentDir}/${effectivePath}`;
     }
 
-    if (fullPath.length > 1 && fullPath.endsWith('/')) {
-        fullPath = fullPath.slice(0, -1);
-    }
+    const resolvedParts: string[] = [];
+    const parts = fullPath.split('/');
 
-    if (fullPath === '/') return filesystem;
+    parts.forEach((part) => {
+        if (part === '..') {
+            if (resolvedParts.length > 0) {
+                resolvedParts.pop();
+            }
+        } else if (part && part !== '.') {
+            resolvedParts.push(part);
+        }
+    });
 
-    const parts = fullPath.startsWith('/') ? fullPath.slice(1).split('/') : fullPath.split('/');
+    if (resolvedParts.length === 0) return '/';
+    return `/${resolvedParts.join('/')}`;
+};
 
+const fetchNodeByPath = (resolvedPath: string, originalPath: string): FsNode | CommandError => {
+    if (resolvedPath === '/') return filesystem;
+
+    const traversalParts = resolvedPath.slice(1).split('/');
     let currentNode: FsNode = filesystem;
+    let error: CommandError | null = null;
 
-    for (const part of parts) {
+    traversalParts.forEach((part) => {
+        if (error) return;
+
         if (currentNode.type !== 'directory' || !Array.isArray(currentNode.children)) {
-            return {
-                returnValue: `${path}: No such file or directory (os error 2)`,
+            error = {
+                returnValue: `${originalPath}: No such file or directory (os error 2)`,
                 returnCode: 2,
             };
+            return;
         }
 
         const nextNode = currentNode.children.find((child) => child.name === part);
 
         if (!nextNode) {
-            return {
-                returnValue: `${path}: No such file or directory (os error 2)`,
+            error = {
+                returnValue: `${originalPath}: No such file or directory (os error 2)`,
                 returnCode: 2,
             };
+            return;
         }
 
         currentNode = nextNode;
-    }
+    });
+
+    if (error) return error;
 
     return currentNode;
+};
+
+export const getNodeByPath = (path: string, currentDir: string): FsNode | CommandError => {
+    const resolvedPath = resolvePath(path, currentDir);
+    return fetchNodeByPath(resolvedPath, path);
 };

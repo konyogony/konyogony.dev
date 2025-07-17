@@ -60,6 +60,7 @@ export interface NodeMapT {
 
 export interface Command {
     id: number;
+    dir: string;
     inputValue: string;
     returnCode?: number;
     returnValue?: ReactNode;

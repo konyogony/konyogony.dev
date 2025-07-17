@@ -27,11 +27,13 @@ export const ZshInput = ({
     commandHistory,
     addCommandToHistory,
 }: zshInputProps) => {
-    const [currentDir] = useState<string>('/home/kony/');
     const [historyIndex, setHistoryIndex] = useState(commandHistory.length);
     const currentValue = inputValues[index];
     const prevValue = inputValues[index - 1];
     const localRef = useRef<HTMLTextAreaElement>(null);
+
+    const displayDir = prevValue ? prevValue.dir : currentValue.dir;
+    const promptDir = displayDir.replace(/^\/home\/kony$/, '~').replace('/home/kony', '~');
 
     useEffect(() => {
         if (localRef.current) {
@@ -55,10 +57,12 @@ export const ZshInput = ({
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            addCommandToHistory(currentValue?.inputValue);
+            if (currentValue?.inputValue) {
+                addCommandToHistory(currentValue.inputValue);
+            }
             onInput(terminalId, (prevCommands) => {
                 const newCommands = [...prevCommands];
-                newCommands[index] = executeCommand(newCommands[index], currentDir, terminalId, onInput);
+                newCommands[index] = executeCommand(newCommands[index], currentValue.dir, terminalId, onInput);
                 return newCommands;
             });
             onEnter();
@@ -82,26 +86,28 @@ export const ZshInput = ({
 
         if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             const commandAtCurrentIndex = commandHistory[historyIndex] ?? '';
-            if (currentValue.inputValue === commandAtCurrentIndex) {
-                e.preventDefault();
-
-                let newIndex;
-                if (e.key === 'ArrowUp') {
-                    newIndex = Math.max(0, historyIndex - 1);
-                } else {
-                    newIndex = Math.min(commandHistory.length, historyIndex + 1);
-                }
-
-                setHistoryIndex(newIndex);
-
-                const historyCommand = commandHistory[newIndex] ?? '';
-
-                onInput(terminalId, (prevCommands) => {
-                    const newCommands = [...prevCommands];
-                    newCommands[index] = { ...newCommands[index], inputValue: historyCommand };
-                    return newCommands;
-                });
+            if (currentValue.inputValue !== commandAtCurrentIndex && historyIndex < commandHistory.length) {
+                return;
             }
+
+            e.preventDefault();
+
+            let newIndex;
+            if (e.key === 'ArrowUp') {
+                newIndex = Math.max(0, historyIndex - 1);
+            } else {
+                newIndex = Math.min(commandHistory.length, historyIndex + 1);
+            }
+
+            setHistoryIndex(newIndex);
+
+            const historyCommand = commandHistory[newIndex] ?? '';
+
+            onInput(terminalId, (prevCommands) => {
+                const newCommands = [...prevCommands];
+                newCommands[index] = { ...newCommands[index], inputValue: historyCommand };
+                return newCommands;
+            });
         }
     };
 
@@ -110,7 +116,7 @@ export const ZshInput = ({
             <div className='mb-0 inline-flex text-green-500'>
                 <span className='text-white'>╭─</span>
                 kony@ogony
-                <span className='ml-2 text-blue-500'>{currentDir === '/home/kony/' ? '~' : currentDir}</span>
+                <span className='ml-2 text-blue-500'>{promptDir}</span>
             </div>
             <div className='flex w-full items-start'>
                 <span>╰─$&nbsp;</span>

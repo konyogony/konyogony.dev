@@ -39,16 +39,18 @@ export const KittyTerminalComponent = ({
 
     useEffect(() => {
         if (!inputValues[id] || inputValues[id].length === 0) {
-            onInput(id, [{ id: 0, inputValue: '' }]);
+            onInput(id, [{ id: 0, inputValue: '', dir: '/home/kony' }]);
         }
     }, [id, inputValues, onInput]);
 
     const handleEnter = () => {
         onInput(id, (prevCommands) => {
-            const newCommands = [...(prevCommands ?? [])];
-            const nextId = newCommands.length;
-            newCommands.push({ id: nextId, inputValue: '' });
-            return newCommands;
+            const commands = prevCommands ?? [];
+            const lastCommand = commands[commands.length - 1];
+            const newDir = lastCommand ? lastCommand.dir : '/home/kony';
+            const nextId = commands.length;
+
+            return [...commands, { id: nextId, inputValue: '', dir: newDir }];
         });
     };
 

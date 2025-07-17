@@ -1,7 +1,8 @@
 import { Command } from '@/lib/types';
+import { Fragment } from 'react';
 import { cn } from '@/lib/utils';
 import { getFileInfo } from '@/lib/getFileInfo';
-import { getNodeByPath, isCommandError } from '@/lib/getNodeByPath';
+import { getNodeByPath, isCommandError, resolvePath } from '@/lib/getNodeByPath';
 
 const convertBytes = (bytes: number): string => {
     if (bytes === 0) return '0B';
@@ -11,6 +12,12 @@ const convertBytes = (bytes: number): string => {
     const num = bytes / Math.pow(k, i);
     return `${num.toFixed(2)} ${sizes[i]}`;
 };
+
+const commands = [
+    { name: 'ls', description: 'List all the items in current directory' },
+    { name: 'help', description: 'Show this help menu' },
+    { name: 'clear', description: 'Clear the terminal screen' },
+];
 
 export const executeCommand = (
     command: Command,
@@ -23,7 +30,7 @@ export const executeCommand = (
 
     switch (commandName) {
         case 'ls': {
-            const dir = args[1];
+            const dir = args[1] || '.';
             const result = getNodeByPath(dir, currentDir);
             if (isCommandError(result)) {
                 return {
@@ -62,6 +69,43 @@ export const executeCommand = (
                 ),
             };
         }
+        case 'cd': {
+            const dir = args[1];
+            if (!dir) {
+                return {
+                    ...command,
+                    returned: true,
+                    returnCode: 0,
+                };
+            }
+            const resultNode = getNodeByPath(dir, currentDir);
+            if (isCommandError(resultNode)) {
+                return {
+                    ...command,
+                    returned: true,
+                    returnCode: resultNode.returnCode,
+                    returnValue: resultNode.returnValue,
+                };
+            }
+
+            if (resultNode.type !== 'directory') {
+                return {
+                    ...command,
+                    returned: true,
+                    returnCode: 1,
+                    returnValue: `cd: not a directory: ${dir}`,
+                };
+            }
+
+            const newDirPath = resolvePath(dir, currentDir);
+
+            return {
+                ...command,
+                returned: true,
+                returnCode: 0,
+                dir: newDirPath,
+            };
+        }
         case 'clear': {
             onInput(terminalId, []);
             return {
@@ -70,11 +114,28 @@ export const executeCommand = (
                 returnCode: 0,
             };
         }
+        case 'help': {
+            return {
+                ...command,
+                returned: true,
+                returnCode: 0,
+                returnValue: (
+                    <div className='grid grid-cols-[max-content_1fr] space-x-4'>
+                        {commands.map((v, i) => (
+                            <Fragment key={i}>
+                                <span>{v.name}</span>
+                                <span>- {v.description}</span>
+                            </Fragment>
+                        ))}
+                    </div>
+                ),
+            };
+        }
         case '': {
             return {
                 ...command,
                 returned: true,
-                returnCode: 130,
+                returnCode: 0,
             };
         }
         default: {
