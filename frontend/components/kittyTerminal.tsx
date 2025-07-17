@@ -2,7 +2,7 @@
 
 import { Command } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { ZshInput } from '@/components/zshInput';
 
 const KITTY_FONT_SIZE = '16px';
@@ -52,15 +52,21 @@ export const KittyTerminalComponent = ({
             return [...commands, { id: nextId, inputValue: '', dir: newDir }];
         });
     };
+    const terminalRef = useRef<HTMLDivElement>(null);
 
+    const focusActiveTextarea = () => {
+        const textarea = terminalRef.current?.querySelector('textarea:not([disabled])');
+        if (textarea) (textarea as HTMLTextAreaElement).focus();
+    };
     return (
         <section
             className={cn(
-                'flex h-full w-full flex-col overflow-y-scroll rounded-xl bg-black/60 !font-semibold font-black text-white brightness-75 backdrop-blur-md transition-all duration-100 ease-in-out outline-none hover:brightness-100',
+                'flex h-full w-full flex-col overflow-y-scroll rounded-xl bg-black/60 !font-black text-white brightness-75 backdrop-blur-md transition-all duration-100 ease-in-out outline-none hover:brightness-100',
                 isActive && 'ring-2 ring-sky-600 brightness-100',
             )}
             data-id={id}
             tabIndex={0}
+            onClick={focusActiveTextarea} // 🔥 this is the key line
             onMouseOver={() => onHover(id)}
             onFocus={() => onHover(id)}
             id={id.toString()}

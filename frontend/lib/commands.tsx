@@ -14,10 +14,10 @@ const convertBytes = (bytes: number): string => {
 };
 
 export const commands = [
-    { name: 'ls', description: 'List all the items in a certain path' },
+    { name: 'ls', description: 'list directory contents' },
     { name: 'help', description: 'Show this help menu' },
     { name: 'clear', description: 'Clear the terminal screen' },
-    { name: 'cd', description: 'Change the directory to a certain path' },
+    { name: 'cd', description: 'Change working directory' },
     { name: 'neofetch', description: 'A fast, highly customizable system info script' },
 ];
 
@@ -47,8 +47,9 @@ export const executeCommand = (
                 returned: true,
                 returnCode: 0,
                 // TODO: THIS COLUMN SOLUTION WONT LAST LONG
+                // edit: we gotta measure width of parent and edit columns
                 returnValue: (
-                    <div className='w-full columns-3 gap-x-2 xl:columns-6'>
+                    <div className='w-full columns-2 gap-x-2 xl:columns-4 2xl:columns-6'>
                         {result.children
                             ?.sort((a, b) => {
                                 if (a.name.startsWith('.') && !b.name.startsWith('.')) return -1;
@@ -61,7 +62,7 @@ export const executeCommand = (
                                 return (
                                     <div className='break-inside-avoid' key={i}>
                                         <span className={cn('flex flex-row items-center gap-1', fileInfo.color)}>
-                                            <fileInfo.Icon />
+                                            <fileInfo.Icon className='shrink-0' />
                                             {v.name}
                                         </span>
                                     </div>
@@ -122,15 +123,23 @@ export const executeCommand = (
                 returned: true,
                 returnCode: 0,
                 returnValue: (
-                    <div className='grid grid-cols-[max-content_1fr] space-x-4'>
-                        {commands
-                            .sort((a, b) => a.name.localeCompare(b.name))
-                            .map((v, i) => (
-                                <Fragment key={i}>
-                                    <span>{v.name}</span>
-                                    <span>- {v.description}</span>
-                                </Fragment>
-                            ))}
+                    <div className='flex flex-col gap-0.5'>
+                        <div className='grid grid-cols-[max-content_1fr] space-x-4'>
+                            {commands
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((v, i) => (
+                                    <Fragment key={i}>
+                                        <span>{v.name}</span>
+                                        <span>- {v.description}</span>
+                                    </Fragment>
+                                ))}
+                        </div>
+                        <span className='mt-2'>ALT + T, Creates new terminal</span>
+                        <span>ALT + W, Closes the active terminal</span>
+                        <span>ALT + Z + MOUSEMOUSE, Resizes the terminal according to mouse position</span>
+                        <span>ALT + ARROWS, Focus on different terminals</span>
+                        <span>ARROW UP / ARROW DOWN, Go through history of commands</span>
+                        <span>TAB, Autocomplete the command</span>
                     </div>
                 ),
             };
