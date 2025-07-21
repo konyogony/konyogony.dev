@@ -4,8 +4,9 @@ import { Command } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useEffect, useMemo, useRef } from 'react';
 import { ZshInput } from '@/components/zshInput';
+import { Neofetch } from './neofetch';
 
-const KITTY_FONT_SIZE = '16px';
+const KITTY_FONT_SIZE = '15px';
 const KITTY_LINE_HEIGHT = '1.2';
 const KITTY_WINDOW_PADDING = '1rem';
 
@@ -61,12 +62,12 @@ export const KittyTerminalComponent = ({
     return (
         <section
             className={cn(
-                'flex h-full w-full flex-col overflow-y-scroll rounded-xl bg-black/60 !font-black text-white brightness-75 backdrop-blur-md transition-all duration-100 ease-in-out outline-none hover:brightness-100',
+                'flex h-full w-full flex-col overflow-y-scroll rounded-xl bg-black/60 text-white brightness-75 backdrop-blur-md transition-all duration-100 ease-in-out outline-none hover:brightness-100',
                 isActive && 'ring-2 ring-sky-600 brightness-100',
             )}
             data-id={id}
             tabIndex={0}
-            onClick={focusActiveTextarea} // 🔥 this is the key line
+            onClick={focusActiveTextarea}
             onMouseOver={() => onHover(id)}
             onFocus={() => onHover(id)}
             id={id.toString()}
@@ -76,6 +77,7 @@ export const KittyTerminalComponent = ({
                 lineHeight: KITTY_LINE_HEIGHT,
             }}
         >
+            <Neofetch />
             {inputValues[id]?.map((_, index) => (
                 <ZshInput
                     key={index}

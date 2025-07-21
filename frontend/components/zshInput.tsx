@@ -155,7 +155,7 @@ export const ZshInput = ({
     };
 
     return (
-        <pre className='overflow-x-clip font-black break-words whitespace-pre-wrap'>
+        <pre className='overflow-x-clip break-words whitespace-pre-wrap'>
             <div className='mb-0 inline-flex translate-y-[1.5px] text-green-500'>
                 <span className='text-white'>╭─</span>
                 kony@ogony

@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { cn } from '@/lib/utils';
 import { getFileInfo } from '@/lib/getFileInfo';
 import { getNodeByPath, isCommandError, resolvePath } from '@/lib/getNodeByPath';
+import { Neofetch } from '@/components/neofetch';
 
 const convertBytes = (bytes: number): string => {
     if (bytes === 0) return '0B';
@@ -19,6 +20,8 @@ export const commands = [
     { name: 'clear', description: 'Clear the terminal screen' },
     { name: 'cd', description: 'Change working directory' },
     { name: 'neofetch', description: 'A fast, highly customizable system info script' },
+    { name: 'whoami', description: 'Print effective user name (modified)' },
+    { name: 'code', description: 'VSCode - integrated development environment' },
 ];
 
 export const executeCommand = (
@@ -144,36 +147,35 @@ export const executeCommand = (
                 ),
             };
         }
-        case 'neofetch': {
+        case 'whoami': {
             return {
                 ...command,
                 returned: true,
                 returnCode: 0,
                 returnValue: (
-                    <pre className='text-sm leading-tight whitespace-pre'>
-                        {`
-                   -\`                     kony@ogony
-                  .o+\`                   ┌───────────────────────────────┐
-                 \`ooo/                    Operating System
-                \`+oooo:                    > Arch Linux
-               \`+oooooo:                   > kitty
-               -+oooooo+:                  > zsh
-             \`/:-:++oooo+:                 > 6.14.7-arch2-1
-            \`/++++/+++++++:                > 1169 (pacman)
-           \`/++++++++++++++:              Hardware
-          \`/+++ooooooooooooo/\`            󰍛 > 12th Gen i5-12600KF [37.0°on]
-         ./ooosssso++osssssso+\`            > GeForce RTX 3060 Lite Hash Rate
-        .oossssso-\`\`\`\`/ossssss+\`          󰑭 > 10.19GiB / 31.17GiB (32%)
-       -osssssso.      :ssssssso.         󰍹 > 2560x1440
-      :osssssss/        osssso+++.        ETC
-     /ossssssss/        +ssssooo/-        󰝚 > Vacations - Young
-   \`/ossssso+/:-        -:/+osssso+-      󰋊 > (/) 139G / 191G (77%)
-  \`+sso+:-\`                 \`.-/+oso:    └───────────────────────────────┘
- \`++:.                           \`-/+/
- .\`                                 \`/
-`}
-                    </pre>
+                    <>
+                        konyogony - An intermediate dev doing random funsies! Checkout my GitHub{' '}
+                        <a href='https://github.com/konyogony' target='_blank' rel='noopenner norefferer'>
+                            https://github.com/konyogony
+                        </a>
+                    </>
                 ),
+            };
+        }
+        case 'neofetch': {
+            return {
+                ...command,
+                returned: true,
+                returnCode: 0,
+                returnValue: <Neofetch />,
+            };
+        }
+        case 'code': {
+            return {
+                ...command,
+                returned: true,
+                returnCode: 69,
+                returnValue: 'use neovim instead pls',
             };
         }
         case '': {
