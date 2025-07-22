@@ -92,7 +92,7 @@ export interface Stats {
         use_percentage: string; // df | grep '/dev/nvme0n1p6' | awk '{print $5}'
     };
     uptime: {
-        currentTime: string; // uptime | sed 's/up.*//'
+        current_time: string; // uptime | sed 's/up.*//'
         uptime: string; // uptime -p
     };
     ram: {

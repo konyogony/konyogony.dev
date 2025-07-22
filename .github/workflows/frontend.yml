@@ -1,4 +1,4 @@
-name: Deploy
+name: Frontend
 
 on:
     push:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
     build:
-        if: contains(github.event.head_commit.message, '[DEPLOY]')
+        if: contains(github.event.head_commit.message, '[FRONTEND]')
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -48,7 +48,7 @@ jobs:
                   path: ./frontend/out
 
     deploy:
-        if: contains(github.event.head_commit.message, '[DEPLOY]')
+        if: contains(github.event.head_commit.message, '[FRONTEND]')
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}

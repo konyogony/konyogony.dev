@@ -1,0 +1,38 @@
+name: Update Backend
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        if: contains(github.event.head_commit.message, '[BACKEND]')
+        runs-on: ubuntu-latest
+        environment: production
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up SSH key
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+            - name: Add server to known_hosts
+              run: |
+                  mkdir -p ~/.ssh
+                  ssh-keyscan oracle.padow.ru >> ~/.ssh/known_hosts
+                  chmod 600 ~/.ssh/known_hosts
+
+            - name: Upload backend dir to server
+              run: |
+                  rsync -avz --exclude='.env' ./backend/ root@oracle.padow.ru:/opt/konyogony.dev/backend/
+
+            - name: Restart docker backend
+              run: |
+                  ssh root@oracle.padow.ru << 'EOF'
+                    cd /opt/konyogony.dev
+                    docker compose up --build -d
+                  EOF
