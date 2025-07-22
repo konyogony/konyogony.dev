@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: Dockerfile
         ports:
-            - "8115:8080"
+            - " 10.0.0.19:8115:8115"
         environment:
             - API_KEY=$API_KEY
         volumes:

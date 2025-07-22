@@ -33,6 +33,6 @@ jobs:
             - name: Restart docker backend
               run: |
                   ssh root@oracle.padow.ru << 'EOF'
-                    cd /opt/konyogony.dev
+                    cd /opt/konyogony.dev/backend
                     docker compose up --build -d
                   EOF
