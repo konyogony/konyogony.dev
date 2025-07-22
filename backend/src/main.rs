@@ -102,7 +102,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_stats)
             .service(put_stats)
     })
-    .bind(("127.0.0.1", 8115))?
+    .bind(("0.0.0.0", 8115))?
     .run()
     .await
 }
