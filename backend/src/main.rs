@@ -59,7 +59,7 @@ async fn put_stats(req: HttpRequest, stats: web::Json<Stats>) -> impl Responder 
         }
     };
 
-    let mut file = match File::create("stats.json") {
+    let mut file = match File::create("data/stats.json") {
         Ok(f) => f,
         Err(e) => {
             return HttpResponse::InternalServerError()
@@ -77,7 +77,7 @@ async fn put_stats(req: HttpRequest, stats: web::Json<Stats>) -> impl Responder 
 
 #[get("/get-stats")]
 async fn get_stats() -> impl Responder {
-    match std::fs::read_to_string("stats.json") {
+    match std::fs::read_to_string("data/stats.json") {
         Ok(json_str) => HttpResponse::Ok()
             .content_type("application/json")
             .body(json_str),

@@ -10,4 +10,5 @@ services:
             - API_KEY=$API_KEY
         volumes:
             - .:/usr/src/app
+            - ./data:/usr/src/app/data
         command: cargo run --release
