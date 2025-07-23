@@ -18,6 +18,11 @@ const Home = () => {
         addCommandToHistory,
     } = useTerminal();
 
+    // For neofetch
+    useEffect(() => {
+        localStorage.clear();
+    }, []);
+
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
             const alt = e.altKey;

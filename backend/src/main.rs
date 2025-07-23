@@ -92,8 +92,8 @@ async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
 
     let governor_conf = GovernorConfigBuilder::default()
-        .requests_per_second(1)
-        .burst_size(2)
+        .requests_per_second(4)
+        .burst_size(4)
         .finish()
         .unwrap();
 

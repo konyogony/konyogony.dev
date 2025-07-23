@@ -77,7 +77,7 @@ export const KittyTerminalComponent = ({
                 lineHeight: KITTY_LINE_HEIGHT,
             }}
         >
-            <Neofetch />
+            {/*<Neofetch id={-1} />*/}
             {inputValues[id]?.map((_, index) => (
                 <ZshInput
                     key={index}

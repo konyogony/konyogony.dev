@@ -1,4 +1,5 @@
-import { Command } from '@/lib/types';
+import { Command, Stats } from '@/lib/types';
+import axios from 'axios';
 import { Fragment } from 'react';
 import { cn } from '@/lib/utils';
 import { getFileInfo } from '@/lib/getFileInfo';
@@ -167,7 +168,7 @@ export const executeCommand = (
                 ...command,
                 returned: true,
                 returnCode: 0,
-                returnValue: <Neofetch />,
+                returnValue: <Neofetch id={command.id} terminalId={terminalId} />,
             };
         }
         case 'code': {
