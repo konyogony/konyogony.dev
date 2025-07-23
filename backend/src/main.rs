@@ -1,3 +1,4 @@
+use actix_cors::Cors;
 use actix_governor::{Governor, GovernorConfigBuilder};
 use actix_web::{App, HttpRequest, HttpResponse, HttpServer, Responder, get, main, post, web};
 use serde::{Deserialize, Serialize};
@@ -99,6 +100,13 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(Governor::new(&governor_conf))
+            .wrap(
+                Cors::default()
+                    .allowed_origin("http://localhost:3000")
+                    .allowed_methods(vec!["GET", "POST", "OPTIONS"])
+                    .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
+                    .max_age(3600),
+            )
             .service(get_stats)
             .service(put_stats)
     })

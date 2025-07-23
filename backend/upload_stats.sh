@@ -6,7 +6,7 @@ set +a
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 
 DISK_PATH="/dev/nvme0n1p6"
-URL="http://api.konyogony.dev/put-stats"
+URL="https://api.konyogony.dev/put-stats"
 
 disk_name=$(df | grep "$DISK_PATH" | awk '{print $1}')
 disk_used=$(df | grep "$DISK_PATH" | awk '{print $3}')

@@ -1,13 +1,27 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Stats } from '@/lib/types';
 
 // @format
 // prettier-ignore
 export const Neofetch = () => {
     const [data, setData] = useState<Stats>()
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get('https://api.konyogony.dev/get-stats')
+            if (response.status !== 200) {
+                throw new Error('Failed to fetch current stats')
+            }
+            setData(response.data)
+        }
+        fetchData()
+    }, [])
+
     return (
         <pre className='leading-tight whitespace-pre overflow-visible'>
+            {data?.spotify?.title}
             <span className='text-cyan-400'>                   -`                     ​​ ​ ​ ​ ​ ​ ​​ kony</span>
             <span className='text-white'>@</span>
             <span className='text-cyan-400'>ogony</span>{'\n'}
