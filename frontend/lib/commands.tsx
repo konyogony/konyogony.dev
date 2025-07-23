@@ -1,5 +1,4 @@
-import { Command, Stats } from '@/lib/types';
-import axios from 'axios';
+import { Command } from '@/lib/types';
 import { Fragment } from 'react';
 import { cn } from '@/lib/utils';
 import { getFileInfo } from '@/lib/getFileInfo';

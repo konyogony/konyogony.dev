@@ -4,7 +4,6 @@ import { Command } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useEffect, useMemo, useRef } from 'react';
 import { ZshInput } from '@/components/zshInput';
-import { Neofetch } from './neofetch';
 
 const KITTY_FONT_SIZE = '15px';
 const KITTY_LINE_HEIGHT = '1.2';
