@@ -91,6 +91,8 @@ async fn get_stats() -> impl Responder {
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
 
+    let dev = std::env::var("DEV").unwrap_or_default() == "1";
+
     let governor_conf = GovernorConfigBuilder::default()
         .requests_per_second(4)
         .burst_size(4)
@@ -98,15 +100,19 @@ async fn main() -> std::io::Result<()> {
         .unwrap();
 
     HttpServer::new(move || {
+        let cors = if dev {
+            Cors::permissive()
+        } else {
+            Cors::default()
+                .allowed_origin("https://hypr.konyogony.dev")
+                .allowed_methods(vec!["GET", "POST", "OPTIONS"])
+                .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
+                .max_age(3600)
+        };
+
         App::new()
             .wrap(Governor::new(&governor_conf))
-            .wrap(
-                Cors::default()
-                    .allowed_origin("https://hypr.konyogony.dev")
-                    .allowed_methods(vec!["GET", "POST", "OPTIONS"])
-                    .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
-                    .max_age(3600),
-            )
+            .wrap(cors)
             .service(get_stats)
             .service(put_stats)
     })
