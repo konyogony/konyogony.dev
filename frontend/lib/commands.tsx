@@ -1,4 +1,4 @@
-import { Command } from '@/lib/types';
+import { Command, Nullable } from '@/lib/types';
 import { Fragment } from 'react';
 import { cn } from '@/lib/utils';
 import { getFileInfo } from '@/lib/getFileInfo';
@@ -14,14 +14,25 @@ const convertBytes = (bytes: number): string => {
     return `${num.toFixed(2)} ${sizes[i]}`;
 };
 
-export const commands = [
-    { name: 'ls', description: 'list directory contents' },
-    { name: 'help', description: 'Show this help menu' },
-    { name: 'clear', description: 'Clear the terminal screen' },
-    { name: 'cd', description: 'Change working directory' },
-    { name: 'neofetch', description: 'A fast, highly customizable system info script' },
-    { name: 'whoami', description: 'Print effective user name (modified)' },
-    { name: 'code', description: 'VSCode - integrated development environment' },
+type CommandInfo = {
+    name: string;
+    description: string;
+    args: Nullable<'fs'>;
+};
+
+export const commands: CommandInfo[] = [
+    { name: 'ls', description: 'list directory contents', args: 'fs' },
+    { name: 'help', description: 'Show this help menu', args: null },
+    { name: 'clear', description: 'Clear the terminal screen', args: null },
+    { name: 'cd', description: 'Change working directory', args: 'fs' },
+    { name: 'neofetch', description: 'A fast, highly customizable system info script', args: null },
+    { name: 'whoami', description: 'Print effective user name (modified)', args: null },
+    { name: 'code', description: 'VSCode - integrated development environment. (modified)', args: null },
+    {
+        name: 'cat',
+        description: 'Concatenate files and print on the standard output. (Works only on some files)',
+        args: 'fs',
+    },
 ];
 
 export const executeCommand = (
@@ -53,24 +64,37 @@ export const executeCommand = (
                 // edit: we gotta measure width of parent and edit columns
                 returnValue: (
                     <div className='w-full columns-2 gap-x-2 xl:columns-4 2xl:columns-6'>
-                        {result.children
-                            ?.sort((a, b) => {
-                                if (a.name.startsWith('.') && !b.name.startsWith('.')) return -1;
-                                if (!a.name.startsWith('.') && b.name.startsWith('.')) return 1;
-                                return a.name.localeCompare(b.name);
-                            })
-                            .map((v, i) => {
-                                const fileInfo = getFileInfo(v);
-                                console.log(convertBytes(v.size ?? 0));
-                                return (
-                                    <div className='break-inside-avoid' key={i}>
-                                        <span className={cn('flex flex-row items-center gap-1', fileInfo.color)}>
-                                            <fileInfo.Icon className='shrink-0' />
-                                            {v.name}
-                                        </span>
-                                    </div>
-                                );
-                            })}
+                        {result.type === 'directory'
+                            ? result.children
+                                  ?.sort((a, b) => {
+                                      if (a.name.startsWith('.') && !b.name.startsWith('.')) return -1;
+                                      if (!a.name.startsWith('.') && b.name.startsWith('.')) return 1;
+                                      return a.name.localeCompare(b.name);
+                                  })
+                                  .map((v, i) => {
+                                      const fileInfo = getFileInfo(v);
+                                      console.log(convertBytes(v.size ?? 0));
+                                      return (
+                                          <div className='break-inside-avoid' key={i}>
+                                              <span className={cn('flex flex-row items-center gap-1', fileInfo.color)}>
+                                                  <fileInfo.Icon className='shrink-0' />
+                                                  {v.name}
+                                              </span>
+                                          </div>
+                                      );
+                                  })
+                            : (() => {
+                                  const fileInfo = getFileInfo(result);
+                                  console.log(convertBytes(result.size ?? 0));
+                                  return (
+                                      <div className='break-inside-avoid'>
+                                          <span className={cn('flex flex-row items-center gap-1', fileInfo.color)}>
+                                              <fileInfo.Icon className='shrink-0' />
+                                              {result.name}
+                                          </span>
+                                      </div>
+                                  );
+                              })()}
                     </div>
                 ),
             };
@@ -176,6 +200,44 @@ export const executeCommand = (
                 returned: true,
                 returnCode: 69,
                 returnValue: 'use neovim instead pls',
+            };
+        }
+        case 'cat': {
+            const files = args.slice(1);
+            const contents: string[] = [];
+            for (const filePath of files) {
+                const result = getNodeByPath(filePath, currentDir);
+
+                if (isCommandError(result)) {
+                    return {
+                        ...command,
+                        returned: true,
+                        returnCode: result.returnCode,
+                        returnValue: `cat: ${result.returnValue}`,
+                    };
+                } else if (result.type === 'directory') {
+                    return {
+                        ...command,
+                        returned: true,
+                        returnCode: 130,
+                        returnValue: `cat: ${result.name}: is a directory`,
+                    };
+                } else if (!result.content) {
+                    return {
+                        ...command,
+                        returned: true,
+                        returnCode: 130,
+                        returnValue: `The file ${result.name} has no contents (There are a few which do)`,
+                    };
+                } else {
+                    contents.push(result.content);
+                }
+            }
+            return {
+                ...command,
+                returned: true,
+                returnCode: 0,
+                returnValue: contents.join('\n'),
             };
         }
         case '': {

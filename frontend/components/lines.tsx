@@ -157,7 +157,7 @@ export const Lines = ({
 
         const timer = setTimeout(() => {
             setVisibleLines(visibleLines + 1);
-        }, 12);
+        }, 20);
 
         return () => clearTimeout(timer);
     }, [visibleLines, lines.length, animationEnabled]);
