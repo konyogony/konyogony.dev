@@ -135,6 +135,7 @@ export const filesystem: FsNode = {
                             timestamp: {
                                 shortHand: 'Jun 9 20:18',
                             },
+                            children: [],
                         },
                         {
                             name: 'Desktop',

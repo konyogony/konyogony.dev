@@ -23,23 +23,31 @@ export const getSuggestions = (inputValue: string, currentDir: string): Suggesti
     }
 
     const commandInfo = commands.find((c) => c.name === parts[0]);
-    if (commandInfo?.args !== 'fs') {
-        return { suggestions: [], base: '' };
+    if (!commandInfo) return { suggestions: [], base: '' };
+
+    if (commandInfo.args === 'fs') {
+        const pathPrefix = partial.includes('/') ? partial.substring(0, partial.lastIndexOf('/') + 1) : '';
+        const searchPrefix = partial.substring(partial.lastIndexOf('/') + 1);
+
+        const dirPathToSearch = resolvePath(pathPrefix || '.', currentDir);
+        const dirNode = getNodeByPath(dirPathToSearch, currentDir);
+
+        if (isCommandError(dirNode) || dirNode.type !== 'directory' || !dirNode.children) {
+            return { suggestions: [], base: '' };
+        }
+
+        const possibleCompletions = dirNode.children
+            .map((c) => c.name + (c.type === 'directory' ? '/' : ''))
+            .filter((name) => name.toLowerCase().startsWith(searchPrefix.toLowerCase()));
+
+        return { suggestions: possibleCompletions, base };
     }
 
-    const pathPrefix = partial.includes('/') ? partial.substring(0, partial.lastIndexOf('/') + 1) : '';
-    const searchPrefix = partial.substring(partial.lastIndexOf('/') + 1);
-
-    const dirPathToSearch = resolvePath(pathPrefix || '.', currentDir);
-    const dirNode = getNodeByPath(dirPathToSearch, currentDir);
-
-    if (isCommandError(dirNode) || dirNode.type !== 'directory' || !dirNode.children) {
-        return { suggestions: [], base: '' };
+    if (commandInfo.args === 'command') {
+        const cmdNames = commands.map((c) => c.name);
+        const possibleCompletions = cmdNames.filter((cmd) => cmd.toLowerCase().startsWith(partial.toLowerCase()));
+        return { suggestions: possibleCompletions, base };
     }
 
-    const possibleCompletions = dirNode.children
-        .map((c) => c.name + (c.type === 'directory' ? '/' : ''))
-        .filter((name) => name.toLowerCase().startsWith(searchPrefix.toLowerCase()));
-
-    return { suggestions: possibleCompletions, base };
+    return { suggestions: [], base: '' };
 };

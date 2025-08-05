@@ -17,22 +17,33 @@ const convertBytes = (bytes: number): string => {
 type CommandInfo = {
     name: string;
     description: string;
-    args: Nullable<'fs'>;
+    args: Nullable<'fs' | 'command'>;
+    modified: boolean;
 };
 
 export const commands: CommandInfo[] = [
-    { name: 'ls', description: 'list directory contents', args: 'fs' },
-    { name: 'help', description: 'Show this help menu', args: null },
-    { name: 'clear', description: 'Clear the terminal screen', args: null },
-    { name: 'cd', description: 'Change working directory', args: 'fs' },
-    { name: 'neofetch', description: 'A fast, highly customizable system info script', args: null },
-    { name: 'whoami', description: 'Print effective user name (modified)', args: null },
-    { name: 'code', description: 'VSCode - integrated development environment. (modified)', args: null },
+    { name: 'ls', description: 'list directory contents', args: 'fs', modified: false },
+    { name: 'help', description: 'show this help menu', args: null, modified: false },
+    // BTW: Have to make on option for Command to be hidden, so that instead of deleting all of them, they just hide (for neofetch and etc..)
+    { name: 'clear', description: 'clear the terminal screen', args: null, modified: false },
+    { name: 'cd', description: 'change working directory', args: 'fs', modified: false },
+    { name: 'neofetch', description: 'a fast, highly customizable system info script', args: null, modified: false },
+    { name: 'whoami', description: 'print effective user name', args: null, modified: true },
+    { name: 'code', description: 'VSCode - integrated development environment.', args: null, modified: true },
     {
         name: 'cat',
-        description: 'Concatenate files and print on the standard output. (Works only on some files)',
+        description: 'concatenate files and print on the standard output. (Works only on some files)',
         args: 'fs',
+        modified: true,
     },
+    {
+        name: 'zsh',
+        description: 'the Z shell',
+        modified: false,
+        args: null,
+    },
+    { name: 'man', description: 'an interface to the system reference manuals', args: 'command', modified: true },
+    { name: 'echo', description: 'display a line of text', args: null, modified: true },
 ];
 
 export const executeCommand = (
@@ -209,26 +220,11 @@ export const executeCommand = (
                 const result = getNodeByPath(filePath, currentDir);
 
                 if (isCommandError(result)) {
-                    return {
-                        ...command,
-                        returned: true,
-                        returnCode: result.returnCode,
-                        returnValue: `cat: ${result.returnValue}`,
-                    };
+                    contents.push(`cat: ${result.returnValue}`);
                 } else if (result.type === 'directory') {
-                    return {
-                        ...command,
-                        returned: true,
-                        returnCode: 130,
-                        returnValue: `cat: ${result.name}: is a directory`,
-                    };
+                    contents.push(`cat: ${result.name}: is a directory`);
                 } else if (!result.content) {
-                    return {
-                        ...command,
-                        returned: true,
-                        returnCode: 130,
-                        returnValue: `The file ${result.name} has no contents (There are a few which do)`,
-                    };
+                    contents.push(`The file ${result.name} has no contents (There are a few which do)`);
                 } else {
                     contents.push(result.content);
                 }
@@ -240,11 +236,70 @@ export const executeCommand = (
                 returnValue: contents.join('\n'),
             };
         }
+        case 'zsh':
         case '': {
             return {
                 ...command,
                 returned: true,
                 returnCode: 0,
+            };
+        }
+        case 'man': {
+            const commandName = args[1];
+            const cmd = commands.find((c) => c.name === commandName);
+            const modified = cmd?.modified;
+
+            return {
+                ...command,
+                returned: true,
+                returnCode: 0,
+                returnValue: (
+                    <>
+                        {cmd ? (
+                            <>
+                                {cmd.name}
+                                {' - '}
+                                {cmd.description}
+                                {modified && (
+                                    <span className='text-sm text-zinc-500'>
+                                        {'\n'}
+                                        This command has been modified, meaning its not an exact replica / is working
+                                        differently
+                                    </span>
+                                )}
+                            </>
+                        ) : (
+                            <span>No manual entry for {commandName}</span>
+                        )}
+                    </>
+                ),
+            };
+        }
+        case 'echo': {
+            const text = args.slice(1).join(' ');
+
+            const ESCAPE_SEQUENCES: Record<string, string> = {
+                '\\n': '\n',
+                '\\t': '\t',
+                '\\r': '\r',
+                '\\b': '\b',
+                '\\a': '\x07',
+                '\\v': '\v',
+                '\\f': '\f',
+                '\\\\': '\\',
+                "\\'": "'",
+                '\\"': '"',
+                '\\e': '\x1b',
+                '\\0': '\0',
+            };
+
+            const escapedText = text.replace(/\\[ntrabvf\\"'e0]/g, (match) => ESCAPE_SEQUENCES[match] ?? match);
+
+            return {
+                ...command,
+                returned: true,
+                returnCode: 0,
+                returnValue: escapedText,
             };
         }
         default: {

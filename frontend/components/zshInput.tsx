@@ -57,7 +57,7 @@ export const ZshInput = ({
     const prevValue = inputValues[index - 1];
     const localRef = useRef<HTMLTextAreaElement>(null);
 
-    const displayDir = prevValue ? prevValue.dir : currentValue.dir;
+    const displayDir = prevValue ? prevValue.dir : '~';
     const promptDir = displayDir.replace(/^\/home\/kony$/, '~').replace('/home/kony', '~');
 
     const resetSuggestions = () => {
@@ -98,7 +98,7 @@ export const ZshInput = ({
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (suggestions.length > 0) {
+        if (suggestions.length > 0 && !e.altKey) {
             if (e.key === 'Tab' || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
                 e.preventDefault();
                 let newIndex;
@@ -149,7 +149,7 @@ export const ZshInput = ({
             return;
         }
 
-        if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && suggestions.length === 0) {
+        if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && suggestions.length === 0 && !e.altKey) {
             e.preventDefault();
             const newHistoryIndex =
                 e.key === 'ArrowUp' ? Math.max(0, historyIndex - 1) : Math.min(commandHistory.length, historyIndex + 1);
@@ -211,9 +211,11 @@ export const ZshInput = ({
                     <div className='relative ml-2 flex-1'>
                         <div
                             aria-hidden='true'
-                            className='pointer-events-none absolute inset-0 text-left break-words whitespace-pre-wrap text-transparent'
+                            className='pointer-events-none absolute inset-0 text-left break-words whitespace-pre-wrap text-transparent select-none'
                         >
-                            <span className='text-white'>{highlightInput(currentValue?.inputValue ?? '')}</span>
+                            <span className='pointer-events-none text-white select-none'>
+                                {highlightInput(currentValue?.inputValue ?? '')}
+                            </span>
                         </div>
                         <textarea
                             ref={localRef}
