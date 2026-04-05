@@ -2,7 +2,6 @@
 import { Logo } from '@/components/logo';
 import { Stats } from '@/lib/types';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Lines } from '@/components/lines';
 
 export const Neofetch = ({ id, terminalId }: { id: number; terminalId: number }) => {
@@ -10,23 +9,27 @@ export const Neofetch = ({ id, terminalId }: { id: number; terminalId: number })
     const [animationEnabled, setAnimationEnabled] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const cached = localStorage.getItem(`${terminalId.toString()}-${id.toString()}`);
-            if (cached) {
-                setData(JSON.parse(cached));
-                setAnimationEnabled(false);
-                return;
-            }
-            console.log(id, 'fetched for stats');
-            const response = await axios.get('https://api.konyogony.dev/get-stats');
-            if (response.status !== 200) {
-                throw new Error('Failed to fetch current stats');
-            } else {
-                localStorage.setItem(`${terminalId.toString()}-${id.toString()}`, JSON.stringify(response.data));
-                setData(response.data);
-            }
+        const cached = localStorage.getItem(`${terminalId.toString()}-${id.toString()}`);
+        if (cached) {
+            setData(JSON.parse(cached));
+            setAnimationEnabled(false);
+        }
+
+        const eventSource = new EventSource('https://api.konyogony.dev/stream-stats');
+
+        eventSource.onmessage = (event) => {
+            setData(JSON.parse(event.data));
+            localStorage.setItem(`${terminalId.toString()}-${id.toString()}`, JSON.stringify(JSON.parse(event.data)));
         };
-        fetchData();
+
+        eventSource.onerror = (error) => {
+            console.error('SSE Error:', error);
+            eventSource.close();
+        };
+
+        return () => {
+            eventSource.close();
+        };
     }, [id, terminalId]);
 
     return (
