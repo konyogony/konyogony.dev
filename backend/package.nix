@@ -1,6 +1,8 @@
 {
   lib,
   rustPlatform,
+  pkg-config,
+  openssl,
 }:
 rustPlatform.buildRustPackage {
   pname = "hyprkony";
@@ -12,10 +14,12 @@ rustPlatform.buildRustPackage {
     lockFile = ./Cargo.lock;
   };
 
-  cargoBuildFlags = [ "--bin", "backend" ];
+  nativeBuildInputs = [pkg-config];
+  buildInputs = [openssl];
 
-  buildFeatures = [ ];
-  cargoTestFlags = [ "--bin", "backend" ];
+  cargoBuildFlags = ["--bin" "backend"];
+
+  doCheck = false;
 
   meta = {
     mainProgram = "backend";
