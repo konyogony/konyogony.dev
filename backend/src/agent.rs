@@ -1,5 +1,6 @@
 use backend::{Disk, Ram, Spotify, Stats, Uptime};
 use dotenv::dotenv;
+#[cfg(feature = "agent")]
 use mpris::PlayerFinder;
 use reqwest::blocking::Client;
 use std::env;

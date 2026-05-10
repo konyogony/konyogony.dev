@@ -19,4 +19,8 @@ futures-util = "0.3.30"
 actix-web-lab = "0.20.2"
 sysinfo = "0.30.5"
 reqwest = { version = "0.11.23", features = ["json", "blocking"] }
-mpris = "2.0.1"
+mpris = { version = "2.0.1", optional = true }
+
+# To build agent we now gotta do `cargo build --bin agent --features agent`
+[features]
+agent = ["dep:mpris"]
