@@ -2,7 +2,7 @@ use dotenv::dotenv;
 use mpris::PlayerFinder;
 use reqwest::blocking::Client;
 use serde::Serialize;
-use std::{env, thread, time::Duration};
+use std::env;
 use sysinfo::{Components, Disks, System};
 
 #[derive(Serialize)]
