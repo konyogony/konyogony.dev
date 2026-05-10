@@ -1,6 +1,8 @@
 {
   lib,
   rustPlatform,
+  pkg-config,
+  dbus,
 }:
 rustPlatform.buildRustPackage {
   pname = "hyprkony";
@@ -11,6 +13,14 @@ rustPlatform.buildRustPackage {
   cargoLock = {
     lockFile = ./Cargo.lock;
   };
+
+  nativeBuildInputs = [
+    pkg-config
+  ];
+
+  buildInputs = [
+    dbus
+  ];
 
   meta = {
     mainProgram = "backend";
