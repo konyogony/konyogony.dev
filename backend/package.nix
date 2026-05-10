@@ -4,7 +4,7 @@
 }:
 rustPlatform.buildRustPackage {
   pname = "hyprkony";
-  version = "unstable-2026-04-02";
+  version = "unstable-2026-05-10";
 
   src = lib.cleanSource ./.;
 
