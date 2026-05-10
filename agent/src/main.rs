@@ -124,73 +124,69 @@ fn main() {
     let mut disks = Disks::new_with_refreshed_list();
     let mut components = Components::new_with_refreshed_list();
 
-    loop {
-        sys.refresh_all();
-        disks.refresh_list();
-        disks.refresh();
-        components.refresh_list();
-        components.refresh();
+    sys.refresh_all();
+    disks.refresh_list();
+    disks.refresh();
+    components.refresh_list();
+    components.refresh();
 
-        let mut disk_used = 0;
-        let mut disk_available = 0;
-        let mut disk_use_percentage = "0%".to_string();
-        let mut disk_name = target_disk.clone();
+    let mut disk_used = 0;
+    let mut disk_available = 0;
+    let mut disk_use_percentage = "0%".to_string();
+    let mut disk_name = target_disk.clone();
 
-        for disk in &disks {
-            let name = disk.name().to_string_lossy().into_owned();
-            if name == target_disk || disk.mount_point().to_string_lossy() == "/" {
-                disk_name = target_disk.clone();
-                let total = disk.total_space();
-                disk_available = disk.available_space();
-                disk_used = total.saturating_sub(disk_available);
-                if total > 0 {
-                    disk_use_percentage =
-                        format!("{}%", (disk_used as f64 / total as f64 * 100.0).round());
-                }
-                break;
+    for disk in &disks {
+        let name = disk.name().to_string_lossy().into_owned();
+        if name == target_disk || disk.mount_point().to_string_lossy() == "/" {
+            disk_name = target_disk.clone();
+            let total = disk.total_space();
+            disk_available = disk.available_space();
+            disk_used = total.saturating_sub(disk_available);
+            if total > 0 {
+                disk_use_percentage =
+                    format!("{}%", (disk_used as f64 / total as f64 * 100.0).round());
             }
+            break;
         }
+    }
 
-        let ram_max = sys.total_memory();
-        let ram_current = sys.used_memory();
-        let ram_percentage = if ram_max > 0 {
-            format!("{:.2}%", (ram_current as f64 / ram_max as f64) * 100.0)
-        } else {
-            "0%".to_string()
-        };
+    let ram_max = sys.total_memory();
+    let ram_current = sys.used_memory();
+    let ram_percentage = if ram_max > 0 {
+        format!("{:.2}%", (ram_current as f64 / ram_max as f64) * 100.0)
+    } else {
+        "0%".to_string()
+    };
 
-        let stats = Stats {
-            disk: Disk {
-                name: disk_name,
-                used: disk_used,
-                available: disk_available,
-                use_percentage: disk_use_percentage,
-            },
-            uptime: Uptime {
-                current_time: format_current_time(),
-                uptime: format_duration(System::uptime()),
-            },
-            ram: Ram {
-                current: ram_current,
-                max: ram_max,
-                use_percentage: ram_percentage,
-            },
-            uname: get_uname(),
-            package_num: get_packages(),
-            cpu_temp: get_cpu_temp(&components),
-            spotify: get_spotify_info(),
-        };
+    let stats = Stats {
+        disk: Disk {
+            name: disk_name,
+            used: disk_used,
+            available: disk_available,
+            use_percentage: disk_use_percentage,
+        },
+        uptime: Uptime {
+            current_time: format_current_time(),
+            uptime: format_duration(System::uptime()),
+        },
+        ram: Ram {
+            current: ram_current,
+            max: ram_max,
+            use_percentage: ram_percentage,
+        },
+        uname: get_uname(),
+        package_num: get_packages(),
+        cpu_temp: get_cpu_temp(&components),
+        spotify: get_spotify_info(),
+    };
 
-        match client
-            .post(&url)
-            .header("x-api-key", &api_key)
-            .json(&stats)
-            .send()
-        {
-            Ok(resp) => println!("Pushed stats, status: {}", resp.status()),
-            Err(e) => eprintln!("Failed to push stats: {}", e),
-        }
-
-        thread::sleep(Duration::from_secs(5));
+    match client
+        .post(&url)
+        .header("x-api-key", &api_key)
+        .json(&stats)
+        .send()
+    {
+        Ok(resp) => println!("Pushed stats, status: {}", resp.status()),
+        Err(e) => eprintln!("Failed to push stats: {}", e),
     }
 }
