@@ -9,27 +9,30 @@ export const Neofetch = ({ id, terminalId }: { id: number; terminalId: number })
     const [animationEnabled, setAnimationEnabled] = useState(true);
 
     useEffect(() => {
-        const cached = localStorage.getItem(`${terminalId.toString()}-${id.toString()}`);
-        if (cached) {
-            setData(JSON.parse(cached));
-            setAnimationEnabled(false);
-        }
+        const fetchData = async () => {
+            const cacheKey = `${terminalId}-${id}`;
+            const cached = localStorage.getItem(cacheKey);
 
-        const eventSource = new EventSource('https://api.konyogony.dev/stream-stats');
+            if (cached) {
+                setData(JSON.parse(cached));
+                setAnimationEnabled(false);
+                return;
+            }
 
-        eventSource.onmessage = (event) => {
-            setData(JSON.parse(event.data));
-            localStorage.setItem(`${terminalId.toString()}-${id.toString()}`, JSON.stringify(JSON.parse(event.data)));
+            try {
+                const response = await fetch('https://api.konyogony.dev/get-stats');
+                if (!response.ok) throw new Error('Failed to fetch stats');
+
+                const result = await response.json();
+
+                setData(result);
+                localStorage.setItem(cacheKey, JSON.stringify(result));
+            } catch (error) {
+                console.error('Fetch Error:', error);
+            }
         };
 
-        eventSource.onerror = (error) => {
-            console.error('SSE Error:', error);
-            eventSource.close();
-        };
-
-        return () => {
-            eventSource.close();
-        };
+        fetchData();
     }, [id, terminalId]);
 
     return (

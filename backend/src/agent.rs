@@ -1,47 +1,9 @@
+use backend::{Disk, Ram, Spotify, Stats, Uptime};
 use dotenv::dotenv;
 use mpris::PlayerFinder;
 use reqwest::blocking::Client;
-use serde::Serialize;
 use std::env;
 use sysinfo::{Components, Disks, System};
-
-#[derive(Serialize)]
-struct Disk {
-    name: String,
-    used: u64,
-    available: u64,
-    use_percentage: String,
-}
-
-#[derive(Serialize)]
-struct Uptime {
-    current_time: String,
-    uptime: String,
-}
-
-#[derive(Serialize)]
-struct Ram {
-    current: u64,
-    max: u64,
-    use_percentage: String,
-}
-
-#[derive(Serialize)]
-struct Spotify {
-    title: String,
-    artist: String,
-}
-
-#[derive(Serialize)]
-struct Stats {
-    disk: Disk,
-    uptime: Uptime,
-    ram: Ram,
-    uname: String,
-    package_num: String,
-    cpu_temp: String,
-    spotify: Spotify,
-}
 
 fn format_duration(secs: u64) -> String {
     let days = secs / 86400;
@@ -96,19 +58,24 @@ fn get_uname() -> String {
 
 fn get_spotify_info() -> Spotify {
     let finder = PlayerFinder::new();
-    if let Ok(finder) = finder {
-        if let Ok(player) = finder.find_by_name("spotify") {
-            if let Ok(metadata) = player.get_metadata() {
-                let title = metadata.title().unwrap_or("").to_string();
-                let artist = metadata.artists().map(|v| v.join(", ")).unwrap_or_default();
-                return Spotify { title, artist };
-            }
-        }
+    if let Ok(finder) = finder
+        && let Ok(player) = finder.find_by_name("spotify")
+        && let Ok(metadata) = player.get_metadata()
+    {
+        let title = metadata.title().unwrap_or("").to_string();
+        let artist = metadata.artists().map(|v| v.join(", ")).unwrap_or_default();
+        let art_url = metadata.art_url().unwrap_or("").to_string();
+        return Spotify {
+            title,
+            artist,
+            art_url,
+        };
     }
 
     Spotify {
         title: String::new(),
         artist: String::new(),
+        art_url: String::new(),
     }
 }
 
