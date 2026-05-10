@@ -11,4 +11,8 @@ rustPlatform.buildRustPackage {
   cargoLock = {
     lockFile = ./Cargo.lock;
   };
+
+  meta = {
+    mainProgram = "backend";
+  };
 }
