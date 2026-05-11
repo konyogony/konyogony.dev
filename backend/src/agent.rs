@@ -3,7 +3,7 @@ use dotenv::dotenv;
 #[cfg(feature = "agent")]
 use mpris::PlayerFinder;
 use reqwest::blocking::Client;
-use std::env;
+use std::{env, time::Instant};
 use sysinfo::{Components, Disks, System};
 
 fn format_duration(secs: u64) -> String {
@@ -127,6 +127,7 @@ fn main() {
     };
 
     let stats = Stats {
+        timestamp_ms: Instant::now().elapsed().as_millis(),
         disk: Disk {
             name: disk_name,
             used: disk_used,

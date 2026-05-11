@@ -86,6 +86,7 @@ export interface FsNode {
 
 // Maybe add fs here later instead of hardcoding...
 export interface Stats {
+    timestamp_ms: number;
     disk: {
         name: string; // df | grep '/dev/nvme0n1p6' | awk '{print $1}'
         used: number; // df | grep '/dev/nvme0n1p6' | awk '{print $3}'
@@ -107,5 +108,6 @@ export interface Stats {
     spotify: {
         title: string; // playerctl metadata --player=spotify xesam:title
         artist: string; // playerctl metadata --player=spotify xesam:artist
+        art_url: string;
     };
 }
