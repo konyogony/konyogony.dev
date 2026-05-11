@@ -1,4 +1,5 @@
 use backend::{Disk, Ram, Spotify, Stats, Uptime};
+use chrono::Utc;
 use dotenv::dotenv;
 #[cfg(feature = "agent")]
 use mpris::PlayerFinder;
@@ -127,7 +128,7 @@ fn main() {
     };
 
     let stats = Stats {
-        timestamp_ms: Instant::now().elapsed().as_millis(),
+        timestamp_ms: Utc::now().timestamp_millis(),
         disk: Disk {
             name: disk_name,
             used: disk_used,
